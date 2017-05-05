@@ -4,7 +4,7 @@ import { selectReddit, fetchPostsIfNeeded, invalidateReddit } from '../actions'
 import Picker from '../components/Picker'
 import Posts from '../components/Posts'
 
-class App extends Component {
+class HomePage extends Component {
   static propTypes = {
     selectedReddit: PropTypes.string.isRequired,
     posts: PropTypes.array.isRequired,
@@ -90,4 +90,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(HomePage)
