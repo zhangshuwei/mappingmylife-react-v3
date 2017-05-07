@@ -1,65 +1,13 @@
 import { combineReducers } from 'redux'
-import {
-  SELECT_REDDIT, INVALIDATE_REDDIT,
-  REQUEST_POSTS, RECEIVE_POSTS
-} from '../actions'
 
-const selectedReddit = (state = 'reactjs', action) => {
-  switch (action.type) {
-    case SELECT_REDDIT:
-      return action.reddit
-    default:
-      return state
-  }
-}
+import geolocations from './geolocations'
+import mango from './mango'
 
-const posts = (state = {
-  isFetching: false,
-  didInvalidate: false,
-  items: []
-}, action) => {
-  switch (action.type) {
-    case INVALIDATE_REDDIT:
-      return {
-        ...state,
-        didInvalidate: true
-      }
-    case REQUEST_POSTS:
-      return {
-        ...state,
-        isFetching: true,
-        didInvalidate: false
-      }
-    case RECEIVE_POSTS:
-      return {
-        ...state,
-        isFetching: false,
-        didInvalidate: false,
-        items: action.posts,
-        lastUpdated: action.receivedAt
-      }
-    default:
-      return state
-  }
-}
-
-const postsByReddit = (state = { }, action) => {
-  switch (action.type) {
-    case INVALIDATE_REDDIT:
-    case RECEIVE_POSTS:
-    case REQUEST_POSTS:
-      return {
-        ...state,
-        [action.reddit]: posts(state[action.reddit], action)
-      }
-    default:
-      return state
-  }
-}
-
-const rootReducer = combineReducers({
-  postsByReddit,
-  selectedReddit
+const MappingMylifeApp = combineReducers({
+  geolocations,
+  mango
 })
 
-export default rootReducer
+// export const mustShowSelectionBar = state => state.ui.showSelectionBar || state.ui.selected.length !== 0
+
+export default MappingMylifeApp

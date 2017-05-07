@@ -4,6 +4,8 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const pkg = require(path.resolve(__dirname, '../package.json'))
 const { extractor } = require('./webpack.vars')
+const webpack = require('webpack')
+
 module.exports = {
   entry: path.resolve(__dirname, '../src/main'),
   output: {
@@ -13,7 +15,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json'],
     alias: {
-      'leaflet-css': path.join(__dirname, '../node_modules/leaflet/dist/leaflet.css')
+      'leaflet-css': path.join(__dirname, '../node_modules/leaflet/dist/leaflet.css'),
+      'bootstrap-css': path.join(__dirname, '../node_modules/bootstrap/dist/css/bootstrap.min.css'),
+      'bootstrap-theme-css': path.join(__dirname, '../node_modules/bootstrap/dist/css/bootstrap-theme.min.css')
      }
   },
   devtool: '#source-map',
@@ -48,8 +52,14 @@ module.exports = {
   plugins: [
     extractor,
     new HtmlWebpackPlugin({
-      template: 'src/index.ejs',
+      template: "src/index.ejs",
       title: pkg.name
+    }),
+    new webpack.ProvidePlugin({
+      "cozy.client": "cozy-client-js/dist/cozy-client.js",
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery"
     })
   ]
 }
