@@ -5,7 +5,7 @@ import NavItem from 'react-bootstrap/lib/NavItem'
 
 import { LinkContainer } from 'react-router-bootstrap'
 export const AppNav = () =>(
-  <Navbar inverse collapseOnSelect>
+  <Navbar>
     <Navbar.Header>
       <Navbar.Brand>
         <a href="#">Mapping My Life</a>

@@ -5,8 +5,8 @@ import rootReducer from './reducers'
 import { createStore, applyMiddleware} from 'redux'
 import { render } from 'react-dom'
 import AppRoute from './components/AppRoute'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/css/bootstrap-theme.css'
+import 'bootstrap-css'
+import 'bootstrap-theme-css'
 const middleware = [ thunk ]
 if (process.env.NODE_ENV !== 'production') {
   middleware.push(createLogger())
@@ -16,6 +16,16 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(...middleware)
 )
-render((
-  <AppRoute store={store}/>
-), document.getElementById('root') )
+
+document.addEventListener('DOMContentLoaded', () => {
+  const applicationElement = document.querySelector('[role=application]')
+  const cozyOptions = {
+    cozyURL: `//${applicationElement.dataset.cozyDomain}`,
+    token: applicationElement.dataset.cozyToken
+  }
+  cozy.client.init(cozyOptions)
+  console.log(cozyOptions)
+  render((
+    <AppRoute store={store}/>
+  ),applicationElement)
+})
