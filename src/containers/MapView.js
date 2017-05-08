@@ -5,7 +5,6 @@ import { indexGeolocationsByDate } from '../actions/mango'
 import MyMap from '../components/MyMap'
 import Button from 'react-bootstrap/lib/Button'
 
-
 class MapView extends Component {
   // componentDidMount () {
   //   const { dispatch } = this.props
@@ -22,13 +21,13 @@ class MapView extends Component {
   // }
 
   render () {
-     const {geolocations} = this.props
-    // console.log(cozy.client)
+    const {geolocations} = this.props
+
     return (
       <div>
         <h1>HomePage</h1>
-        <Button bsStyle="info">Button<i className="fa fa-address-book"></i></Button>
-        <MyMap geolocations={geolocations}/>
+        <Button bsStyle='info'>Button<i className='fa fa-address-book' /></Button>
+        <MyMap geolocations={geolocations} />
       </div>
     )
   }

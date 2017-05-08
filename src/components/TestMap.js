@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Map, Marker, TileLayer } from 'react-leaflet'
-import L from 'leaflet'
-import {MAPBOXURL} from '../constants/config'
-import { geoIcon } from './Icons'
+import { MAPBOXURL } from '../constants/config'
 import 'leaflet-css'
 import './Style.css'
+import L from 'leaflet'
+import { geoIcon } from './Icons'
 
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
@@ -13,33 +13,20 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 })
 
-function renderMarkers (geolocations) {
-  if (geolocations.length > 0) {
-    return geolocations.map((item) => (
-      <Marker key={item._id} position={[item.latitude, item.longitude]} icon={geoIcon} />
-    ))
-  } else {
-    return <p>error</p>
-  }
-}
-
-class MyMap extends Component {
+class TestMap extends Component {
   render () {
-    const geolocations = this.props
-    const markers = renderMarkers(geolocations.geolocations)
-
     return (
       <div>
-        <Map center={[48.866667, 2.333333]} zoom={13} maxZoom={18}>
+        <Map center={[48.866667, 2.333333]} zoom={13} maxZoom={19}>
           <TileLayer
             url={MAPBOXURL}
-            maxZoom={18}
+            maxZoom={19}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-          {markers}
+          <Marker position={[48.866667, 2.333333]} icon={geoIcon} />
         </Map>
       </div>)
   }
 }
 
-export default MyMap
+export default TestMap

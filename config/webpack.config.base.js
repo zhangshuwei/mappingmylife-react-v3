@@ -19,7 +19,7 @@ module.exports = {
       'bootstrap-css': path.join(__dirname, '../node_modules/bootstrap/dist/css/bootstrap.min.css'),
       'bootstrap-theme-css': path.join(__dirname, '../node_modules/bootstrap/dist/css/bootstrap-theme.min.css'),
       'font-awesome-css': path.join(__dirname, '../node_modules/font-awesome/css/font-awesome.min.css'),
-      'ionicons-css': path.join(__dirname, '../node_modules/ionicons/dist/css/ionicons.min.css') 
+      'ionicons-css': path.join(__dirname, '../node_modules/ionicons/dist/css/ionicons.min.css')
     }
   },
   devtool: '#source-map',
