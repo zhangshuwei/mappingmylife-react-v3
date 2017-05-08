@@ -1,4 +1,4 @@
-/* global cozy*/
+/* global cozy */
 
 import {
   RECEIVE_GEOLOCATIONS,
@@ -26,7 +26,7 @@ export const fetchGeolocations = (mangoIndexByDate) => {
       'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
       'descending': true
     }
-    return await cozy.client.data.query(mangoIndexByDate, options)
+    return cozy.client.data.query(mangoIndexByDate, options)
     .then((geolocations) => {
       dispatch(receiveGeolocations(geolocations))
       return geolocations

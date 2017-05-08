@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js --bail",
+    "watch": "NODE_ENV=development webpack --config webpack.config.js --watch --display-modules --display-chunks",
     "watch:standalone": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js --port 8084  --profile  --inline --hot",
     "lint": "standard 'src/**/*.js' 'src/**/*.jsx'",
     "clean": "rm -rf build",
@@ -36,6 +37,8 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "ionicons": "^3.0.0",
     "jquery": "^3.2.1",
     "leaflet": "^1.0.3",
     "prop-types": "^15.5.8",

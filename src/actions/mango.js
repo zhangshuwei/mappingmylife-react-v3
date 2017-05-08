@@ -1,4 +1,4 @@
-/* global cozy*/
+/* global cozy */
 /**
   Mango index related features (cozy-stack)
 **/
@@ -17,7 +17,7 @@ export const indexGeolocationsByDate = () => {
   return async dispatch => {
     dispatch({ type: INDEX_GEOLOCATIONS_BY_DATE })
     const fields = [ 'docType', 'timestamp' ]
-    return await cozy.client.data.defineIndex(GEOLOCATION_DOCTYPE, fields)
+    return cozy.client.data.defineIndex(GEOLOCATION_DOCTYPE, fields)
       .then((mangoIndexByDate) => {
         dispatch({
           type: INDEX_GEOLOCATIONS_BY_DATE_SUCCESS,

@@ -4,19 +4,19 @@ import Nav from 'react-bootstrap/lib/Nav'
 import NavItem from 'react-bootstrap/lib/NavItem'
 
 import { LinkContainer } from 'react-router-bootstrap'
-export const AppNav = () =>(
+export const AppNav = () => (
   <Navbar>
     <Navbar.Header>
       <Navbar.Brand>
-        <a href="#">Mapping My Life</a>
+        <a href='#'>Mapping My Life</a>
       </Navbar.Brand>
     </Navbar.Header>
     <Nav>
-      <LinkContainer exact={true} to="/">
-      <NavItem eventKey={1} href="/">Home</NavItem>
+      <LinkContainer exact to='/'>
+        <NavItem eventKey={1} href='/'>Home</NavItem>
       </LinkContainer>
-      <LinkContainer to="/map">
-      <NavItem eventKey={2} href="/map">Map</NavItem>
+      <LinkContainer to='/map'>
+        <NavItem eventKey={2} href='/map'>Map</NavItem>
       </LinkContainer>
     </Nav>
   </Navbar>
