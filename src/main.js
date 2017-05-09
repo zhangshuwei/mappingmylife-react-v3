@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     token: applicationElement.dataset.cozyToken
   }
   cozy.client.init(cozyOptions)
-  console.log(cozyOptions)
   render((
     <AppRoute store={store} />
   ), applicationElement)

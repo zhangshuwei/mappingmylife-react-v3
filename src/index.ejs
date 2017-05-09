@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{.Locale}}">
+<html>
 <meta charset="utf-8">
 <title><%= htmlWebpackPlugin.options.title %></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,7 @@
 <% _.forEach(htmlWebpackPlugin.files.js, function(file) { %>
   <script src="<%- file %>" defer></script>
 <% }); %>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"  type="text/javascript"></script>
+<script type="text/javascript" src='./node_modules/moment/min/moment-with-locales.min.js'></script>
 </head>
 <div
   role="application"

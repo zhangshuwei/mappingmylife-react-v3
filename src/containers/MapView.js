@@ -4,10 +4,10 @@ import { fetchGeolocations } from '../actions/geolocations'
 import { indexGeolocationsByDate } from '../actions/mango'
 import MyMap from '../components/MyMap'
 import MyTimeLine from '../components/MyTimeLine'
-import Button from 'react-bootstrap/lib/Button'
-
+import { Grid, Row, Col } from 'react-bootstrap'
+import '../../node_modules/moment/min/moment-with-locales'
+import '../styles/rowContent.css'
 class MapView extends Component {
-
   componentDidMount () {
     const { dispatch } = this.props
     dispatch(indexGeolocationsByDate())
@@ -22,10 +22,22 @@ class MapView extends Component {
     const {geolocations} = this.props
 
     return (
-      <div>
-        <MyMap geolocations={geolocations} />
-        <MyTimeLine />
-      </div>
+      <Grid fluid>
+        <Row>
+          <Col sm={12}>
+            <div className='rowContent'>
+              <MyMap geolocations={geolocations} />
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <div className='rowContent'>
+              <MyTimeLine />
+            </div>
+          </Col>
+        </Row>
+      </Grid>
     )
   }
 }

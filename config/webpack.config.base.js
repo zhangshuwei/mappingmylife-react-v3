@@ -32,7 +32,7 @@ module.exports = {
       },
       {
         test: /\.json$/,
-        use: 'json'
+        use: 'json-loader'
       },
       {
         test: /\.css$/,
@@ -62,7 +62,6 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    }),
-    new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|zh-cn)$/)
+    })
   ]
 }
