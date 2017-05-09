@@ -3,13 +3,11 @@ import { connect } from 'react-redux'
 import { fetchGeolocations } from '../actions/geolocations'
 import { indexGeolocationsByDate } from '../actions/mango'
 import MyMap from '../components/MyMap'
+import MyTimeLine from '../components/MyTimeLine'
 import Button from 'react-bootstrap/lib/Button'
 
 class MapView extends Component {
-  // componentDidMount () {
-  //   const { dispatch } = this.props
-  //   dispatch(fetchGeolocations())
-  // }
+
   componentDidMount () {
     const { dispatch } = this.props
     dispatch(indexGeolocationsByDate())
@@ -25,9 +23,8 @@ class MapView extends Component {
 
     return (
       <div>
-        <h1>HomePage</h1>
-        <Button bsStyle='info'>Button<i className='fa fa-address-book' /></Button>
         <MyMap geolocations={geolocations} />
+        <MyTimeLine />
       </div>
     )
   }
