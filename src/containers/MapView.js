@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { fetchGeolocations } from '../actions/geolocations'
 import { indexGeolocationsByDate } from '../actions/mango'
 import MyMap from '../components/MyMap'
-import MyTimeLine from '../components/MyTimeLine'
+import TimeLineView from '../components/TimeLineView'
 import { Grid, Row, Col } from 'react-bootstrap'
 import '../../node_modules/moment/min/moment-with-locales'
 import '../styles/rowContent.css'
@@ -33,7 +33,7 @@ class MapView extends Component {
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <MyTimeLine />
+              <TimeLineView />
             </div>
           </Col>
         </Row>

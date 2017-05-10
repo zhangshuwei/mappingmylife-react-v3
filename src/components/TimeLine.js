@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import Timeline from 'react-visjs-timeline'
-import '../styles/timeLine.css'
+import vis from 'vis/dist/vis.min'
 import { GEOITEM, PHONEITEM } from '../constants/config'
+import { Row, Col, Button, ButtonGroup } from 'react-bootstrap'
+import '../../node_modules/vis/dist/vis.min.css'
+import '../styles/timeLine.css'
 const timelineOptions = {
   clickToUse: true,
   type: 'point',
@@ -17,6 +19,11 @@ const timelineOptions = {
     overflowMethod: 'cap'
   }}
 let items = []
+let timeline
+const groups = [
+  {id: 0, content: 'GeoLocation', value: 1, order: 1, className: GEOITEM},
+  {id: 1, content: 'PhoneCommunication', value: 2, order: 2, className: 'phonecall'}
+]
 const itemsG = [
     {id: 1, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2014-04-20', group: 0, className: GEOITEM},
     {id: 2, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2014-04-14', group: 0, className: GEOITEM},
@@ -27,10 +34,6 @@ const itemsP = [
   {id: 4, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2014-04-16', group: 0, className: PHONEITEM, partner: '3358469874', typeMessage: 'SMS'},
   {id: 5, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2014-04-25', group: 0, className: PHONEITEM, partner: '3358469874', typeMessage: 'SMS'},
   {id: 6, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2014-04-27', group: 0, className: PHONEITEM, partner: '3358469874', typeMessage: 'SMS'}
-]
-const groups = [
-  {id: 0, content: 'GeoLocation', value: 1, order: 1, className: GEOITEM},
-  {id: 1, content: 'PhoneCommunication', value: 2, order: 2, className: 'phonecall'}
 ]
 function renderGeoItems (items) {
   let data = []
@@ -64,17 +67,25 @@ function renderPhoneItems (items) {
   }
   return data
 }
+function initTimeline() {
+  let container = document.getElementById('mytimeline')
+  timeline = new vis.Timeline(container, items, groups, timelineOptions)
+  console.log(timeline.getWindow())
+}
 
-class MyTimeLine extends Component {
+class TimeLine extends Component {
+  componentDidMount () {
+    return initTimeline();
+  }
   render () {
     let geoItems = renderGeoItems(itemsG)
     let phoneItems = renderPhoneItems(itemsP)
     items = [...geoItems, ...phoneItems]
     return (
       <div>
-        <Timeline options={timelineOptions} groups={groups} items={items} />
+          <div id="mytimeline"></div>
       </div>
     )
   }
 }
-export default MyTimeLine
+export default TimeLine
