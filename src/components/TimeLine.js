@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import vis from 'vis/dist/vis.min'
 import { GEOITEM, PHONEITEM } from '../constants/config'
-import { Row, Col, Button, ButtonGroup } from 'react-bootstrap'
 import '../../node_modules/vis/dist/vis.min.css'
 import '../styles/timeLine.css'
 const timelineOptions = {
@@ -67,15 +66,15 @@ function renderPhoneItems (items) {
   }
   return data
 }
-function initTimeline() {
+function initTimeline () {
   let container = document.getElementById('mytimeline')
   timeline = new vis.Timeline(container, items, groups, timelineOptions)
-  console.log(timeline.getWindow())
+  // console.log(timeline.getWindow())
 }
 
 class TimeLine extends Component {
   componentDidMount () {
-    return initTimeline();
+    return initTimeline()
   }
   render () {
     let geoItems = renderGeoItems(itemsG)
@@ -83,7 +82,7 @@ class TimeLine extends Component {
     items = [...geoItems, ...phoneItems]
     return (
       <div>
-          <div id="mytimeline"></div>
+        <div id='mytimeline' />
       </div>
     )
   }

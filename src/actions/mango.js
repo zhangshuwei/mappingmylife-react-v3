@@ -12,7 +12,7 @@ import {
   GEOLOCATION_DOCTYPE
 } from '../constants/config'
 
-// Mango: Index files by date (create if not existing) and get its informations
+// Mango: Index data by date (create if not existing) and get its informations
 export const indexGeolocationsByDate = () => {
   return async dispatch => {
     dispatch({ type: INDEX_GEOLOCATIONS_BY_DATE })

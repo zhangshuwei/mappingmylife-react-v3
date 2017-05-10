@@ -10,21 +10,23 @@ export const receiveGeolocations = (geolocations) => ({
   type: RECEIVE_GEOLOCATIONS,
   geolocations
 })
-// fetch geolocations using the index created by the app
-// export const fetchGeolocations = () => dispatch => {
-//   return fetch('https://www.reddit.com/r/reactjs.json')
-//   .then(response => response.json())
-//   .then(json => dispatch(receivePosts(json)))
-// }
 
 export const fetchGeolocations = (mangoIndexByDate) => {
   return async dispatch => {
     const options = {
       'selector': {
-        'docType': GEOLOCATION_DOCTYPE
-      },
+        'docType': GEOLOCATION_DOCTYPE,
+        "$and": [
+          {
+            'timestamp': {'$gt': '2016-11-18'}
+          },
+          {
+            'timestamp': {'$lt': '2016-11-19'}
+          }
+        ]},
       'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
-      'descending': true
+      'descending': true,
+      'limit': 10000
     }
     return cozy.client.data.query(mangoIndexByDate, options)
     .then((geolocations) => {

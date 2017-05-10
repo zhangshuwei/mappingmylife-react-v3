@@ -1,18 +1,17 @@
 import {
-  RECEIVE_GEOLOCATIONS,
   FETCH_GEO_LAST_DAY
 } from '../constants/actionTypes'
 
 // reducer for geopoints
-const geolocations = (state = { geolocations:[]}, action) => {
+const date = (state = {}, action) => {
   switch (action.type) {
-    case RECEIVE_GEOLOCATIONS:
+    case FETCH_GEO_LAST_DAY:
       return {
         ...state,
-        geolocations: action.geolocations
+        start: action.date
       }
     default:
       return state
   }
 }
-export default geolocations
+export default date
