@@ -34,7 +34,7 @@ const itemsP = [
   {id: 5, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2014-04-25', group: 0, className: PHONEITEM, partner: '3358469874', typeMessage: 'SMS'},
   {id: 6, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2014-04-27', group: 0, className: PHONEITEM, partner: '3358469874', typeMessage: 'SMS'}
 ]
-function renderGeoItems (items) {
+const renderGeoItems = (items) => {
   let data = []
   if (items.length > 0) {
     items.map((item) => (
@@ -50,7 +50,7 @@ function renderGeoItems (items) {
   }
   return data
 }
-function renderPhoneItems (items) {
+const renderPhoneItems = (items) => {
   let data = []
   if (items.length > 0) {
     items.map((item) => (
@@ -66,20 +66,42 @@ function renderPhoneItems (items) {
   }
   return data
 }
-function initTimeline () {
+const formatDate = (date) => {
+  let year = date.getFullYear() + ''
+  let month = (date.getMonth() + 1) + ''
+  let day = date.getDate() + ''
+  if (month.length === 1) { month = '0' + month }
+  return year + '-' + month + '-' + day
+}
+const initTimeline = () => {
   let container = document.getElementById('mytimeline')
   timeline = new vis.Timeline(container, items, groups, timelineOptions)
+
+  timeline.addEventListener('rangechanged', function (properties) {
+    if (properties.byUser) {
+      let start = formatDate(timeline.getWindow().start)
+      let end = formatDate(timeline.getWindow().end)
+      console.log(start)
+      console.log(end)
+    }
+  })
   // console.log(timeline.getWindow())
 }
 
 class TimeLine extends Component {
+  // constructor (props) {
+  //   super(props)
+  //
+  // }
   componentDidMount () {
     return initTimeline()
   }
+
   render () {
     let geoItems = renderGeoItems(itemsG)
     let phoneItems = renderPhoneItems(itemsP)
     items = [...geoItems, ...phoneItems]
+
     return (
       <div>
         <div id='mytimeline' />

@@ -1,14 +1,22 @@
 import React, { Component } from 'react'
-import Timeline from './TimeLine'
+import Timeline from '../components/TimeLine'
 import { Row, Col, Button, ButtonGroup } from 'react-bootstrap'
 
 class TimeLineView extends Component {
+  constructor (props) {
+    super(props)
+    this.handleChange = this.handleChange.bind(this)
+  }
+  handleChange () {
+    console.log('changed')
+  }
   render () {
+    const start = this.props
     return (
       <div>
         <Row>
           <Col sm={4}>
-            <h5>Date de début: <span id='start' /><Button bsStyle='success' bsSize='xsmall'><i className='fa fa-play' aria-hidden='true' /></Button>
+            <h5>Date de début:<span>{start.start}</span> <Button bsStyle='success' bsSize='xsmall'><i className='fa fa-play' aria-hidden='true' /></Button>
             </h5>
           </Col>
           <Col sm={4}>
@@ -26,7 +34,7 @@ class TimeLineView extends Component {
         </Row>
         <Row>
           <Col sm={12}>
-            <Timeline />
+            <Timeline onRangeChanged={this.handleChange} />
           </Col>
         </Row>
       </div>

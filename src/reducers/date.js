@@ -8,7 +8,8 @@ const date = (state = {}, action) => {
     case FETCH_GEO_LAST_DAY:
       return {
         ...state,
-        start: action.date
+        start: action.date,
+        end: action.date
       }
     default:
       return state

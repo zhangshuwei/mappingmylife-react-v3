@@ -4,7 +4,7 @@ import geolocations from './geolocations'
 import mango from './mango'
 import date from './date'
 
-const MappingMylifeApp = combineReducers({
+const rootReducer = combineReducers({
   geolocations,
   mango,
   date
@@ -12,4 +12,4 @@ const MappingMylifeApp = combineReducers({
 
 // export const mustShowSelectionBar = state => state.ui.showSelectionBar || state.ui.selected.length !== 0
 
-export default MappingMylifeApp
+export default rootReducer

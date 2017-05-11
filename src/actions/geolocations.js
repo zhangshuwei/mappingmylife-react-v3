@@ -16,7 +16,7 @@ export const fetchGeolocations = (mangoIndexByDate) => {
     const options = {
       'selector': {
         'docType': GEOLOCATION_DOCTYPE,
-        "$and": [
+        '$and': [
           {
             'timestamp': {'$gt': '2016-11-18'}
           },
