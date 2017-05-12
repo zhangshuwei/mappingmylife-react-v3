@@ -11,8 +11,6 @@ import '../styles/rowContent.css'
 class HomePage extends Component {
   componentWillMount () {
     const { dispatch } = this.props
-    const { start } = this.props
-    console.log(start)
     let mangoIndex = dispatch(indexGeolocationsByDate())
     // .then(mangoIndexByDate => dispatch(fetchGeolocations(mangoIndexByDate)))
     mangoIndex.then((mangoIndexByDate) => dispatch(fetchGeoLastDay(mangoIndexByDate)))
@@ -21,8 +19,6 @@ class HomePage extends Component {
 
   render () {
     const { geolocations } = this.props
-    const { start } = this.props
-    console.log(start)
     return (
       <Grid fluid>
         <Row>
@@ -35,7 +31,7 @@ class HomePage extends Component {
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <TimeLineView start={start} />
+              <TimeLineView geolocations={geolocations}/>
             </div>
           </Col>
         </Row>
@@ -46,8 +42,7 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    geolocations: state.geolocations.geolocations,
-    start: state.date.start
+    geolocations: state.geolocations.geolocations
   }
 }
 

@@ -2,7 +2,8 @@
 
 import {
   FETCH_GEO_LAST_DAY,
-  FETCH_GEOLOCATIONS_FAILURE
+  FETCH_GEOLOCATIONS_FAILURE,
+  SELECT_DATE
 } from '../constants/actionTypes'
 import { GEOLOCATION_DOCTYPE } from '../constants/config'
 
@@ -32,3 +33,11 @@ export const fetchGeoLastDay = (mangoIndexByDate) => {
     })
   }
 }
+
+export const selectDate = (start, end) => ({
+  type: 'SELECT_DATE',
+  date: {
+    start: start,
+    end: end
+  }
+})
