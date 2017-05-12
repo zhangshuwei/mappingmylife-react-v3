@@ -84,9 +84,11 @@ class TimeLine extends Component {
   render () {
     const { geolocations } = this.props
     let geoItems = renderGeoItems(geolocations)
-    let phoneItems = renderPhoneItems(itemsP)
-    items = [...geoItems, ...phoneItems]
+    //let phoneItems = renderPhoneItems(itemsP)
+    items = [...geoItems]
     console.log(geoItems)
+    
+    //timeline.setItems(items)
     return (
       <div>
         <div id='mytimeline' />

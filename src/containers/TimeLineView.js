@@ -49,6 +49,7 @@ class TimeLineView extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    geolocations: state.geolocations.geolocations,
     date: state.date
   }
 }

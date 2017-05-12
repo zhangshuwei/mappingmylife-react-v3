@@ -8,13 +8,14 @@ import TimeLineView from '../containers/TimeLineView'
 import { Grid, Row, Col } from 'react-bootstrap'
 import '../../node_modules/moment/min/moment-with-locales'
 import '../styles/rowContent.css'
+
 class HomePage extends Component {
   componentWillMount () {
     const { dispatch } = this.props
     let mangoIndex = dispatch(indexGeolocationsByDate())
     // .then(mangoIndexByDate => dispatch(fetchGeolocations(mangoIndexByDate)))
     mangoIndex.then((mangoIndexByDate) => dispatch(fetchGeoLastDay(mangoIndexByDate)))
-    mangoIndex.then((mangoIndexByDate) => dispatch(fetchGeolocations(mangoIndexByDate)))
+    //mangoIndex.then((mangoIndexByDate) => dispatch(fetchGeolocations(mangoIndexByDate)))
   }
 
   render () {
@@ -31,7 +32,7 @@ class HomePage extends Component {
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <TimeLineView geolocations={geolocations}/>
+              <TimeLineView />
             </div>
           </Col>
         </Row>
