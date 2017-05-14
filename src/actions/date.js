@@ -6,6 +6,7 @@ import {
   SELECT_DATE
 } from '../constants/actionTypes'
 import { GEOLOCATION_DOCTYPE } from '../constants/config'
+import { fetchGeolocations } from './geolocations'
 
 export const fetchGeoLastDay = (mangoIndexByDate) => {
   return async dispatch => {
@@ -21,9 +22,11 @@ export const fetchGeoLastDay = (mangoIndexByDate) => {
     .then((date) => {
       dispatch({
         type: FETCH_GEO_LAST_DAY,
-        date: date[0].timestamp
+        date: date[0].timestamp.slice(0,10)
       })
-      return date[0].timestamp
+      
+      dispatch(fetchGeolocations(mangoIndexByDate, date[0].timestamp.slice(0,10), date[0].timestamp.slice(0,10)))
+      // return date[0].timestamp.slice(0,10)
     })
     .catch((error) => {
       dispatch({
@@ -34,10 +37,15 @@ export const fetchGeoLastDay = (mangoIndexByDate) => {
   }
 }
 
-export const selectDate = (start, end) => ({
-  type: 'SELECT_DATE',
-  date: {
-    start: start,
-    end: end
+export const selectDate = (start, end, mangoIndexByDate) => {
+  return async dispatch => {
+    dispatch({
+      type: 'SELECT_DATE',
+      date: {
+        start: start,
+        end: end
+      }
+    })
+    dispatch(fetchGeolocations(mangoIndexByDate, start, end))
   }
-})
+}

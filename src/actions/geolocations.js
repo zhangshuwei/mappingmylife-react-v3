@@ -11,17 +11,17 @@ export const receiveGeolocations = (geolocations) => ({
   geolocations
 })
 
-export const fetchGeolocations = (mangoIndexByDate) => {
+export const fetchGeolocations = (mangoIndexByDate, start, end) => {
   return async dispatch => {
     const options = {
       'selector': {
         'docType': GEOLOCATION_DOCTYPE,
         '$and': [
           {
-            'timestamp': {'$gt': '2016-11-18'}
+            'timestamp': {'$gt': start}
           },
           {
-            'timestamp': {'$lt': '2016-11-19'}
+            'timestamp': {'$lte': end + 'T23:59:59Z'}
           }
         ]},
       'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],

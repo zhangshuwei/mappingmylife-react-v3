@@ -6,7 +6,6 @@ import '../styles/timeLine.css'
 
 let items = []
 let timeline
-
 const itemsP = [
   {id: 4, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2016-04-16', group: 0, className: PHONEITEM, partner: '3358469874', typeMessage: 'SMS'},
   {id: 5, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2016-04-25', group: 0, className: PHONEITEM, partner: '3358469874', typeMessage: 'SMS'},
@@ -18,11 +17,11 @@ const renderGeoItems = (items) => {
     items.map((item) => (
       data.push({
         id: item.id,
-        start: item.timestamp,
+        start: item.timestamp.replace(/T|Z/g, " "),
         group: 0,
         className: GEOITEM,
         title: '<div classNme="data-tooltip"><p>Position: (' + item.latitude + ', ' +
-              item.longitude + ')</p><p>Timestamp: ' + item.timestamp + '</div>'
+              item.longitude + ')</p><p>Timestamp: ' + item.timestamp.replace(/T|Z/g, " ") + '</div>'
       })
     ))
   }
@@ -34,7 +33,7 @@ const renderPhoneItems = (items) => {
     items.map((item) => (
       data.push({
         id: item.id,
-        start: item.timestamp,
+        start: item.timestamp.replace(/T|Z/g, " "),
         group: 1,
         className: PHONEITEM,
         title: '<div classNme="data-tooltip"><p>Numéro de contact: ' +
@@ -52,7 +51,14 @@ const formatDate = (date) => {
   if (day.length === 1) { day = '0' + day }
   return year + '-' + month + '-' + day
 }
-
+const move = (percentage) => {
+  var range = timeline.getWindow()
+  var interval = range.end - range.start
+  timeline.setWindow({
+      start: range.start.valueOf() - interval * percentage,
+      end:   range.end.valueOf()   - interval * percentage
+  })
+  }
 class TimeLine extends Component {
   constructor (props) {
     super(props)
@@ -62,12 +68,12 @@ class TimeLine extends Component {
     if (properties.byUser) {
       let start = formatDate(timeline.getWindow().start)
       let end = formatDate(timeline.getWindow().end)
-      this.props.selectDate(start, end)
+      let mangoIndexByDate = this.props.mango.geolocationsIndexByDate
+      this.props.selectDate(start, end, mangoIndexByDate)
     }
   }
 
   initTimeline = () => {
-    const { selectDate } = this.props
     let container = document.getElementById('mytimeline')
     timeline = new vis.Timeline(container, items, TIMELINEGROUPS, TIMELINEOPTIONS)
     timeline.addEventListener('rangechanged', this.onSelectDate)
@@ -83,12 +89,16 @@ class TimeLine extends Component {
 
   render () {
     const { geolocations } = this.props
+
     let geoItems = renderGeoItems(geolocations)
     //let phoneItems = renderPhoneItems(itemsP)
     items = [...geoItems]
-    console.log(geoItems)
-    
-    //timeline.setItems(items)
+    if(items.length != 0) {
+      timeline.setItems(items)
+      if(formatDate(timeline.getWindow().start) != this.props.date.start) {
+          timeline.setWindow(this.props.date.start + ' ' + '00:00:00', this.props.date.end + ' ' + '23:59:59')
+      }
+    }
     return (
       <div>
         <div id='mytimeline' />
@@ -97,3 +107,18 @@ class TimeLine extends Component {
   }
 }
 export default TimeLine
+
+export const zoomInTimeLine = () => {
+  timeline.zoomIn(0.2)
+}
+
+export const zoomOutTimeLine = () => {
+  timeline.zoomOut(0.2)
+}
+
+export const moveLeftTimeLine = () => {
+  move(0.2)
+}
+export const moveRightTimeLine = () => {
+  move(-0.2)
+}
