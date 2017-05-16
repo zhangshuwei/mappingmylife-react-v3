@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Map, Marker, TileLayer,Popup } from 'react-leaflet'
+import { Map, Marker, TileLayer, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import {MAPBOXURL} from '../constants/config'
 import { geoIcon } from './Icons'
-import { reduce } from 'lodash'
+import _ from 'lodash'
+import reduce from 'lodash/fp'
 import { Button } from 'react-bootstrap'
 import '../styles/map.css'
 import 'leaflet-css'
@@ -16,31 +17,33 @@ L.Icon.Default.mergeOptions({
 })
 
 class MyMap extends Component {
-  constructor(props) {
-    super (props)
+  constructor (props) {
+    super(props)
     this.state = {
-      showPopup: false
+      showPopup: false,
+      center: [48.866667, 2.333333]
     }
     this.showInfo = this.showInfo.bind(this)
+    this.renderMarkers = this.renderMarkers.bind(this)
   }
-  showInfo = () => {
-   this.setState({
-     showPopup: !this.state.showPopup
-   })
+  showInfo () {
+    this.setState({
+      showPopup: !this.state.showPopup
+    })
   }
-  renderMarkers = (geolocations) => {
-    let result = _.reduce(geolocations, function(result, value) {
-        ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
-          {
-          start: value.timestamp.replace(/T|Z/g, " "),
+  renderMarkers (geolocations) {
+    let result = _.reduce(geolocations, function (result, value) {
+      ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
+        {
+          start: value.timestamp.replace(/T|Z/g, ' '),
           msisdn: value.msisdn,
           _id: value._id
         })
-        return result
-      }, [])
+      return result
+    }, [])
     let geoLog = []
-    for( let key in result) {
-      if(result.hasOwnProperty(key)) {
+    for (let key in result) {
+      if (result.hasOwnProperty(key)) {
         let item = {}
         item.latitude = Number(key.split(',')[0])
         item.longitude = Number(key.split(',')[1])
@@ -48,25 +51,21 @@ class MyMap extends Component {
         geoLog.push(item)
       }
     }
-
     if (geoLog.length > 0) {
       return geoLog.map((item, i) =>
         <Marker key={i} position={[item.latitude, item.longitude]} icon={geoIcon}>
           <Popup>
-           <div>
-             <h4>Nombre de geolocation = {item.geoInfo.length}</h4>
-             <div id="#info" style={{display: this.state.showPopup ? 'block' : 'none' }}>
-             {
-              item.geoInfo.map((item, i) =>
-                <p key={i}>Timestamp: {item.start}</p>
-              )
-            }
+            <div>
+              <h4>Nombre de geolocation = {item.geoInfo.length}</h4>
+              <div style={{ display: this.state.showPopup ? 'block' : 'none' }}>
+                {item.geoInfo.map((item, i) =>
+                  <p key={i} className='popupContent'>Timestamp: {item.start}</p>
+              )}
+              </div>
+              <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
             </div>
-            <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache': 'Afficher'}</Button>
-           </div>
-         </Popup>
+          </Popup>
         </Marker>
-
     )
     } else {
       return <p>error</p>
@@ -75,17 +74,17 @@ class MyMap extends Component {
 
   render () {
     const geolocations = this.props
-    const markers = this.renderMarkers(geolocations.geolocations)
+    const geomarkers = this.renderMarkers(geolocations.geolocations)
 
     return (
       <div>
-        <Map center={[48.866667, 2.333333]} zoom={13} maxZoom={18}>
+        <Map center={this.state.center} zoom={13} maxZoom={18}>
           <TileLayer
             url={MAPBOXURL}
             maxZoom={18}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-          {markers}
+          {geomarkers}
         </Map>
 
       </div>)

@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Timeline from '../components/TimeLine'
 import { Row, Col, Button, ButtonGroup } from 'react-bootstrap'
 import * as ActionCreators from '../actions'
-import { zoomInTimeLine, zoomOutTimeLIne, moveLeftTimeLine, moveRightTimeLine } from '../components/TimeLine'
-class TimeLineView extends Component {
-  constructor (props) {
-    super(props)
-  }
+import TimeLine, { zoomInTimeLine, zoomOutTimeLine, moveLeftTimeLine, moveRightTimeLine } from '../components/TimeLine'
 
+class TimeLineView extends Component {
   render () {
     const { date } = this.props
     const { actions } = this.props
@@ -29,7 +25,7 @@ class TimeLineView extends Component {
           <Col sm={4}>
             <ButtonGroup bsSize='small' className='pull-right'>
               <Button bsStyle='success' onClick={zoomInTimeLine}><i className='fa fa-plus' aria-hidden='true' /></Button>
-              <Button bsStyle='success' onClick={zoomInTimeLine}><i className='fa fa-minus' aria-hidden='true' /></Button>
+              <Button bsStyle='success' onClick={zoomOutTimeLine}><i className='fa fa-minus' aria-hidden='true' /></Button>
               <Button bsStyle='success' onClick={moveLeftTimeLine}><i className='fa fa-chevron-left' aria-hidden='true' /></Button>
               <Button bsStyle='success' onClick={moveRightTimeLine}><i className='fa fa-chevron-right' aria-hidden='true' /></Button>
             </ButtonGroup>
@@ -37,7 +33,7 @@ class TimeLineView extends Component {
         </Row>
         <Row>
           <Col sm={12}>
-            <Timeline geolocations={geolocations} date={date} selectDate={actions.selectDate} mango={mango} />
+            <TimeLine geolocations={geolocations} date={date} selectDate={actions.selectDate} mango={mango} />
           </Col>
         </Row>
       </div>

@@ -2,8 +2,7 @@
 
 import {
   FETCH_GEO_LAST_DAY,
-  FETCH_GEOLOCATIONS_FAILURE,
-  SELECT_DATE
+  FETCH_GEOLOCATIONS_FAILURE
 } from '../constants/actionTypes'
 import { GEOLOCATION_DOCTYPE } from '../constants/config'
 import { fetchGeolocations } from './geolocations'

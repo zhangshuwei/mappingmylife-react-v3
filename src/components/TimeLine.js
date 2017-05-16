@@ -17,11 +17,11 @@ const renderGeoItems = (items) => {
     items.map((item) => (
       data.push({
         id: item._id,
-        start: item.timestamp.replace(/T|Z/g, " "),
+        start: item.timestamp.replace(/T|Z/g, ' '),
         group: 0,
         className: GEOITEM,
         title: '<div classNme="data-tooltip"><p>Position: (' + item.latitude + ', ' +
-              item.longitude + ')</p><p>Timestamp: ' + item.timestamp.replace(/T|Z/g, " ") + '</div>'
+              item.longitude + ')</p><p>Timestamp: ' + item.timestamp.replace(/T|Z/g, ' ') + '</div>'
       })
     ))
   }
@@ -33,7 +33,7 @@ const renderPhoneItems = (items) => {
     items.map((item) => (
       data.push({
         id: item._id,
-        start: item.timestamp.replace(/T|Z/g, " "),
+        start: item.timestamp.replace(/T|Z/g, ' '),
         group: 1,
         className: PHONEITEM,
         title: '<div classNme="data-tooltip"><p>Numéro de contact: ' +
@@ -55,16 +55,18 @@ const move = (percentage) => {
   var range = timeline.getWindow()
   var interval = range.end - range.start
   timeline.setWindow({
-      start: range.start.valueOf() - interval * percentage,
-      end:   range.end.valueOf()   - interval * percentage
+    start: range.start.valueOf() - interval * percentage,
+    end: range.end.valueOf() - interval * percentage
   })
-  }
+}
 class TimeLine extends Component {
   constructor (props) {
     super(props)
+    this.onSelectDate = this.onSelectDate.bind(this)
+    this.initTimeline = this.initTimeline.bind(this)
   }
 
-  onSelectDate = (properties) => {
+  onSelectDate (properties) {
     if (properties.byUser) {
       let start = formatDate(timeline.getWindow().start)
       let end = formatDate(timeline.getWindow().end)
@@ -73,7 +75,7 @@ class TimeLine extends Component {
     }
   }
 
-  initTimeline = () => {
+  initTimeline () {
     let container = document.getElementById('mytimeline')
     timeline = new vis.Timeline(container, items, TIMELINEGROUPS, TIMELINEOPTIONS)
     timeline.addEventListener('rangechanged', this.onSelectDate)
@@ -84,7 +86,7 @@ class TimeLine extends Component {
     this.initTimeline()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     timeline.off('rangechanged', this.onSelectDate)
   }
 
@@ -93,10 +95,11 @@ class TimeLine extends Component {
     let geoItems = renderGeoItems(geolocations)
     //let phoneItems = renderPhoneItems(itemsP)
     items = [...geoItems]
-    if(items.length != 0) {
+    if (items.length !== 0) {
+      
       timeline.setItems(items)
-      if(formatDate(timeline.getWindow().start) != this.props.date.start) {
-          timeline.setWindow(this.props.date.start + ' ' + '00:00:00', this.props.date.end + ' ' + '23:59:59')
+      if (formatDate(timeline.getWindow().start) !== this.props.date.start) {
+        timeline.setWindow(this.props.date.start + ' ' + '00:00:00', this.props.date.end + ' ' + '23:59:59')
       }
     }
     return (

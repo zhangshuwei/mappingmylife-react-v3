@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchGeolocations } from '../actions/geolocations'
 import { fetchGeoLastDay } from '../actions/date'
 import { indexGeolocationsByDate } from '../actions/mango'
 import MyMap from '../components/MyMap'

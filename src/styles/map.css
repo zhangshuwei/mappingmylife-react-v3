@@ -2,3 +2,6 @@
     height: 600px;
     width: 100%;
 }
+p.popupContent {
+  font-size: 14px
+}
