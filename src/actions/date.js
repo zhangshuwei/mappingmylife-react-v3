@@ -22,10 +22,9 @@ export const fetchGeoLastDay = (mangoIndexByDate) => {
     .then((date) => {
       dispatch({
         type: FETCH_GEO_LAST_DAY,
-        date: date[0].timestamp.slice(0,10)
+        date: date[0].timestamp.slice(0, 10)
       })
-      
-      dispatch(fetchGeolocations(mangoIndexByDate, date[0].timestamp.slice(0,10), date[0].timestamp.slice(0,10)))
+      dispatch(fetchGeolocations(mangoIndexByDate, date[0].timestamp.slice(0, 10), date[0].timestamp.slice(0, 10)))
       // return date[0].timestamp.slice(0,10)
     })
     .catch((error) => {

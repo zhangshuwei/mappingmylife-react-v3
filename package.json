@@ -44,6 +44,7 @@
     "ionicons": "^3.0.0",
     "jquery": "^3.2.1",
     "leaflet": "^1.0.3",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "prop-types": "^15.5.8",
     "react": "^15.4.0",

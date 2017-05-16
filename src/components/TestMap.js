@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Map, Marker, TileLayer } from 'react-leaflet'
 import { MAPBOXURL } from '../constants/config'
 import 'leaflet-css'
-import './Style.css'
+import '../styles/map.css'
 import L from 'leaflet'
 import { geoIcon } from './Icons'
 

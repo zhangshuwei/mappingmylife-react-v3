@@ -16,7 +16,7 @@ const renderGeoItems = (items) => {
   if (items.length > 0) {
     items.map((item) => (
       data.push({
-        id: item.id,
+        id: item._id,
         start: item.timestamp.replace(/T|Z/g, " "),
         group: 0,
         className: GEOITEM,
@@ -32,7 +32,7 @@ const renderPhoneItems = (items) => {
   if (items.length > 0) {
     items.map((item) => (
       data.push({
-        id: item.id,
+        id: item._id,
         start: item.timestamp.replace(/T|Z/g, " "),
         group: 1,
         className: PHONEITEM,
@@ -77,6 +77,7 @@ class TimeLine extends Component {
     let container = document.getElementById('mytimeline')
     timeline = new vis.Timeline(container, items, TIMELINEGROUPS, TIMELINEOPTIONS)
     timeline.addEventListener('rangechanged', this.onSelectDate)
+    // timeline.addEventListener()
   }
 
   componentDidMount () {
@@ -89,7 +90,6 @@ class TimeLine extends Component {
 
   render () {
     const { geolocations } = this.props
-
     let geoItems = renderGeoItems(geolocations)
     //let phoneItems = renderPhoneItems(itemsP)
     items = [...geoItems]

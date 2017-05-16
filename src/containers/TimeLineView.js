@@ -37,7 +37,7 @@ class TimeLineView extends Component {
         </Row>
         <Row>
           <Col sm={12}>
-            <Timeline geolocations={geolocations} date={date} selectDate={actions.selectDate} mango={mango}/>
+            <Timeline geolocations={geolocations} date={date} selectDate={actions.selectDate} mango={mango} />
           </Col>
         </Row>
       </div>

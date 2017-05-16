@@ -1,8 +1,8 @@
 .vis-item.geoloc{
-	border-color:orange;
+	border-color:#78B2F9;
   }
 .vis-item.phonecall{
-	border-color: #78B2F9;
+	border-color: orange;
 }
 .vis-item.geoloc.vis-dot {
   	 border-width: 6px;

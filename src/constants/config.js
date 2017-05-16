@@ -22,7 +22,7 @@ export const TIMELINEOPTIONS = {
   tooltip: {
     followMouse: true,
     overflowMethod: 'cap'
-}}
+  }}
 export const TIMELINEGROUPS = [
   {id: 0, content: 'GeoLocation', value: 1, order: 1, className: GEOITEM},
   {id: 1, content: 'PhoneCommunication', value: 2, order: 2, className: PHONECALLITEM}

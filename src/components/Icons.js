@@ -4,12 +4,12 @@ import '../../node_modules/drmonty-leaflet-awesome-markers/js/leaflet.awesome-ma
 
 export const geoIcon = L.AwesomeMarkers.icon({
   icon: 'street-view',
-  markerColor: 'orange',
+  markerColor: 'blue',
   prefix: 'fa'
 })
 export const phoneIcon = L.AwesomeMarkers.icon({
   icon: 'phone',
-  markerColor: 'blue',
+  markerColor: 'orange',
   prefix: 'fa'
 })
 export const homeIcon = L.AwesomeMarkers.icon({

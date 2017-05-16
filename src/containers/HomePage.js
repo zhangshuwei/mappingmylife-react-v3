@@ -11,7 +11,7 @@ import '../styles/rowContent.css'
 
 class HomePage extends Component {
   constructor (props) {
-    super (props)
+    super(props)
     const { dispatch } = this.props
     let mangoIndex = dispatch(indexGeolocationsByDate())
     mangoIndex.then((mangoIndexByDate) => dispatch(fetchGeoLastDay(mangoIndexByDate)))
