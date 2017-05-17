@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import vis from 'vis/dist/vis.min'
+import _ from 'lodash'
+import isEmpty from 'lodash/fp'
 import { GEOITEM, PHONEITEM, TIMELINEOPTIONS, TIMELINEGROUPS } from '../constants/config'
 import '../../node_modules/vis/dist/vis.min.css'
 import '../styles/timeLine.css'
 
 let items = []
 let timeline
-const itemsP = [
-  {id: 4, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2016-04-16', group: 0, className: PHONEITEM, partner: '3358469874', typeMessage: 'SMS'},
-  {id: 5, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2016-04-25', group: 0, className: PHONEITEM, partner: '3358469874', typeMessage: 'SMS'},
-  {id: 6, 'longitude': 2.294722, 'latitude': 48.800556, timestamp: '2016-04-27', group: 0, className: PHONEITEM, partner: '3358469874', typeMessage: 'SMS'}
-]
 const renderGeoItems = (items) => {
   let data = []
   if (items.length > 0) {
@@ -62,23 +59,28 @@ const move = (percentage) => {
 class TimeLine extends Component {
   constructor (props) {
     super(props)
-    this.onSelectDate = this.onSelectDate.bind(this)
+    this.state={
+      isFirstFetch: true
+    }
+    this.onSelectDataByDate = this.onSelectDataByDate.bind(this)
     this.initTimeline = this.initTimeline.bind(this)
   }
 
-  onSelectDate (properties) {
+  onSelectDataByDate (properties) {
     if (properties.byUser) {
       let start = formatDate(timeline.getWindow().start)
       let end = formatDate(timeline.getWindow().end)
-      let mangoIndexByDate = this.props.mango.geolocationsIndexByDate
-      this.props.selectDate(start, end, mangoIndexByDate)
+      let geoIndexByDate = this.props.mango.geolocationsIndexByDate
+      let phoneIndexByDate = this.props.mango.phonecallsIndexByDate
+      this.props.selectDataByDate(start, end, geoIndexByDate, phoneIndexByDate)
     }
   }
 
   initTimeline () {
+
     let container = document.getElementById('mytimeline')
     timeline = new vis.Timeline(container, items, TIMELINEGROUPS, TIMELINEOPTIONS)
-    timeline.addEventListener('rangechanged', this.onSelectDate)
+    timeline.addEventListener('rangechanged', this.onSelectDataByDate)
     // timeline.addEventListener()
   }
 
@@ -87,21 +89,24 @@ class TimeLine extends Component {
   }
 
   componentWillUnmount () {
-    timeline.off('rangechanged', this.onSelectDate)
+    timeline.off('rangechanged', this.onSelectDataByDate)
   }
 
   render () {
-    const { geolocations } = this.props
+    const { geolocations, phonecalls } = this.props
     let geoItems = renderGeoItems(geolocations)
-    //let phoneItems = renderPhoneItems(itemsP)
-    items = [...geoItems]
-    if (items.length !== 0) {
-      
+    let phoneItems = renderPhoneItems(phonecalls)
+    items = [...geoItems, ...phoneItems]
+    if (geoItems.length > 0 && phoneItems.length > 0) {
       timeline.setItems(items)
-      if (formatDate(timeline.getWindow().start) !== this.props.date.start) {
-        timeline.setWindow(this.props.date.start + ' ' + '00:00:00', this.props.date.end + ' ' + '23:59:59')
+      console.log(this.props.date)
+      if (_.isEmpty(this.props.date)) {
+        let startDay = (geoItems[geoItems.length-1].start > phoneItems[phoneItems.length-1].start) ? phoneItems[phoneItems.length-1].start : geoItems[geoItems.length-1].start
+        let lastDay = (geoItems[0].start > phoneItems[0].start) ? geoItems[0].start : phoneItems[0].start
+        timeline.setWindow(startDay, lastDay)
       }
     }
+
     return (
       <div>
         <div id='mytimeline' />

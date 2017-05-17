@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchGeoLastDay } from '../actions/date'
-import { indexGeolocationsByDate } from '../actions/mango'
+import { bindActionCreators } from 'redux'
+import * as ActionCreators from '../actions'
 import MyMap from '../components/MyMap'
 import TimeLineView from '../containers/TimeLineView'
 import { Grid, Row, Col } from 'react-bootstrap'
@@ -11,26 +11,27 @@ import '../styles/rowContent.css'
 class HomePage extends Component {
   constructor (props) {
     super(props)
-    const { dispatch } = this.props
-    let mangoIndex = dispatch(indexGeolocationsByDate())
-    mangoIndex.then((mangoIndexByDate) => dispatch(fetchGeoLastDay(mangoIndexByDate)))
+    this.props.actions.indexGeolocationsByDate().then((geoIndexByDate) => this.props.actions.fetchGeoLatest(geoIndexByDate))
+    this.props.actions.indexPhonecallsByDate().then((phoneIndexByDate) => this.props.actions.fetchPhonecallsLatest(phoneIndexByDate))
   }
-
+  // componentDidMount() {
+  //   console.log(this.props.date)
+  // }
   render () {
-    const { geolocations } = this.props
+    const { geolocations, phonecalls, date, mango, actions } = this.props
     return (
       <Grid fluid>
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <MyMap geolocations={geolocations} />
+              <MyMap geolocations={geolocations} phonecalls={phonecalls}/>
             </div>
           </Col>
         </Row>
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <TimeLineView geolocations={geolocations} />
+              <TimeLineView geolocations={geolocations} phonecalls={phonecalls} date={date} selectDataByDate={actions.selectDataByDate} mango={mango}/>
             </div>
           </Col>
         </Row>
@@ -41,10 +42,18 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    geolocations: state.geolocations.geolocations
+    geolocations: state.geolocations.geolocations,
+    phonecalls: state.phonecalls.phonecalls,
+    date: state.date,
+    mango: state.mango
   }
 }
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(ActionCreators, dispatch)
+  }
+}
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(HomePage)

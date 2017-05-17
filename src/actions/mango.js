@@ -5,25 +5,43 @@
 
 import {
   INDEX_GEOLOCATIONS_BY_DATE,
-  INDEX_GEOLOCATIONS_BY_DATE_SUCCESS
+  INDEX_GEOLOCATIONS_BY_DATE_SUCCESS,
+  INDEX_PHONECALLS_BY_DATE,
+  INDEX_PHONECALLS_BY_DATE_SUCCESS
 } from '../constants/actionTypes'
 
 import {
-  GEOLOCATION_DOCTYPE
+  GEOLOCATION_DOCTYPE,
+  PHONECALL_DOCTYPE
 } from '../constants/config'
 
 // Mango: Index data by date (create if not existing) and get its informations
 export const indexGeolocationsByDate = () => {
-  return async dispatch => {
+  return dispatch => {
     dispatch({ type: INDEX_GEOLOCATIONS_BY_DATE })
     const fields = [ 'docType', 'timestamp' ]
     return cozy.client.data.defineIndex(GEOLOCATION_DOCTYPE, fields)
-      .then((mangoIndexByDate) => {
+      .then((mangoGeoIndexByDate) => {
         dispatch({
           type: INDEX_GEOLOCATIONS_BY_DATE_SUCCESS,
-          mangoIndexByDate
+          geoIndex: mangoGeoIndexByDate
         })
-        return mangoIndexByDate
+        return mangoGeoIndexByDate
+      })
+  }
+}
+
+export const indexPhonecallsByDate = () => {
+  return async dispatch => {
+    dispatch({ type: INDEX_PHONECALLS_BY_DATE })
+    const fields = [ 'docType', 'timestamp' ]
+    return cozy.client.data.defineIndex(PHONECALL_DOCTYPE, fields)
+      .then((mangoPhoneIndexByDate) => {
+        dispatch({
+          type: INDEX_PHONECALLS_BY_DATE_SUCCESS,
+          phoneIndex: mangoPhoneIndexByDate
+        })
+        return mangoPhoneIndexByDate
       })
   }
 }

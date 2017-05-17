@@ -7,10 +7,8 @@ import TimeLine, { zoomInTimeLine, zoomOutTimeLine, moveLeftTimeLine, moveRightT
 
 class TimeLineView extends Component {
   render () {
-    const { date } = this.props
-    const { actions } = this.props
-    const { geolocations } = this.props
-    const { mango } = this.props
+    const { date, selectDataByDate, geolocations, mango, phonecalls } = this.props
+
     return (
       <div>
         <Row>
@@ -33,7 +31,7 @@ class TimeLineView extends Component {
         </Row>
         <Row>
           <Col sm={12}>
-            <TimeLine geolocations={geolocations} date={date} selectDate={actions.selectDate} mango={mango} />
+            <TimeLine geolocations={geolocations} phonecalls={phonecalls} date={date} selectDataByDate={selectDataByDate} mango={mango} />
           </Col>
         </Row>
       </div>
@@ -41,17 +39,19 @@ class TimeLineView extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    geolocations: state.geolocations.geolocations,
-    date: state.date,
-    mango: state.mango
-  }
-}
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(ActionCreators, dispatch)
-})
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TimeLineView)
+// const mapStateToProps = (state) => {
+//   return {
+//     geolocations: state.geolocations.geolocations,
+//     phonecalls: state.phonecalls.phonecalls,
+//     date: state.date,
+//     mango: state.mango
+//   }
+// }
+// const mapDispatchToProps = (dispatch) => ({
+//   actions: bindActionCreators(ActionCreators, dispatch)
+// })
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(TimeLineView)
+export default TimeLineView

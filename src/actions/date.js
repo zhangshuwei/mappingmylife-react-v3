@@ -6,8 +6,9 @@ import {
 } from '../constants/actionTypes'
 import { GEOLOCATION_DOCTYPE } from '../constants/config'
 import { fetchGeolocations } from './geolocations'
+import { fetchPhonecalls } from './phonecalls'
 
-export const fetchGeoLastDay = (mangoIndexByDate) => {
+export const fetchGeoLastDay = (geoIndexByDate) => {
   return async dispatch => {
     const options = {
       'selector': {
@@ -17,14 +18,13 @@ export const fetchGeoLastDay = (mangoIndexByDate) => {
       'descending': true,
       'limit': 1
     }
-    return cozy.client.data.query(mangoIndexByDate, options)
+    return cozy.client.data.query(geoIndexByDate, options)
     .then((date) => {
       dispatch({
         type: FETCH_GEO_LAST_DAY,
         date: date[0].timestamp.slice(0, 10)
       })
-      dispatch(fetchGeolocations(mangoIndexByDate, date[0].timestamp.slice(0, 10), date[0].timestamp.slice(0, 10)))
-      // return date[0].timestamp.slice(0,10)
+      return date
     })
     .catch((error) => {
       dispatch({
@@ -35,7 +35,7 @@ export const fetchGeoLastDay = (mangoIndexByDate) => {
   }
 }
 
-export const selectDate = (start, end, mangoIndexByDate) => {
+export const selectDataByDate = (start, end, geoIndexByDate, phoneIndexByDate) => {
   return async dispatch => {
     dispatch({
       type: 'SELECT_DATE',
@@ -44,6 +44,7 @@ export const selectDate = (start, end, mangoIndexByDate) => {
         end: end
       }
     })
-    dispatch(fetchGeolocations(mangoIndexByDate, start, end))
+    dispatch(fetchGeolocations(geoIndexByDate, start, end))
+    dispatch(fetchPhonecalls(phoneIndexByDate, start, end))
   }
 }

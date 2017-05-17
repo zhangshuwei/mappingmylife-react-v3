@@ -3,9 +3,10 @@ import { combineReducers } from 'redux'
 import geolocations from './geolocations'
 import mango from './mango'
 import date from './date'
-
+import phonecalls from './phonecalls'
 const rootReducer = combineReducers({
   geolocations,
+  phonecalls,
   mango,
   date
 })
