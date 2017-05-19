@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ActionCreators from '../actions'
-import MyMap from '../components/MyMap'
+import HomeMap from '../components/HomeMap'
 import TimeLineView from '../containers/TimeLineView'
 import { Grid, Row, Col } from 'react-bootstrap'
 import '../../node_modules/moment/min/moment-with-locales'
@@ -24,7 +24,7 @@ class HomePage extends Component {
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <MyMap geolocations={geolocations} phonecalls={phonecalls}/>
+              <HomeMap geolocations={geolocations} phonecalls={phonecalls}/>
             </div>
           </Col>
         </Row>

@@ -51,7 +51,15 @@ export const fetchPhonecallsLatest = (phoneIndexByDate) => {
   return async dispatch => {
     const options = {
       'selector': {
-        'docType': PHONECALL_DOCTYPE
+        'docType': PHONECALL_DOCTYPE,
+        '$and': [
+          {
+            'latitude': {'$ne': 'NULL'}
+          },
+          {
+            'longitude': {'$ne': 'NULL'}
+          }
+        ]
       },
       'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner'],
       'descending': true,
