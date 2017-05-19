@@ -4,11 +4,13 @@ import geolocations from './geolocations'
 import mango from './mango'
 import date from './date'
 import phonecalls from './phonecalls'
+import mostpoints from './mostpoints'
 const rootReducer = combineReducers({
   geolocations,
   phonecalls,
   mango,
-  date
+  date,
+  mostpoints
 })
 
 // export const mustShowSelectionBar = state => state.ui.showSelectionBar || state.ui.selected.length !== 0

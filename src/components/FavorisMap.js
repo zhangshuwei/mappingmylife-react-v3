@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Map, Marker, TileLayer, Popup } from 'react-leaflet'
 import L from 'leaflet'
-import {MAPBOXURL} from '../constants/config'
+import { MAPBOXURL } from '../constants/config'
 import { geoIcon, phoneIcon } from './Icons'
 import _ from 'lodash'
 import reduce from 'lodash/fp'
@@ -16,7 +16,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 })
 
-class HomeMap extends Component {
+class FavorisMap extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -143,4 +143,4 @@ class HomeMap extends Component {
   }
 }
 
-export default HomeMap
+export default FavorisMap
