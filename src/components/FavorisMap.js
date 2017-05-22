@@ -32,26 +32,7 @@ class FavorisMap extends Component {
       showPopup: !this.state.showPopup
     })
   }
-  renderGeoMarkers (geolocations) {
-    let result = _.reduce(geolocations, function (result, value) {
-      ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
-        {
-          start: value.timestamp.replace(/T|Z/g, ' '),
-          msisdn: value.msisdn,
-          _id: value._id
-        })
-      return result
-    }, [])
-    let geoLog = []
-    for (let key in result) {
-      if (result.hasOwnProperty(key)) {
-        let item = {}
-        item.latitude = Number(key.split(',')[0])
-        item.longitude = Number(key.split(',')[1])
-        item.geoInfo = result[key]
-        geoLog.push(item)
-      }
-    }
+  renderGeoMarkers (geoLog) {
     if (geoLog.length > 0) {
       return geoLog.map((item, i) =>
         <Marker key={i} position={[item.latitude, item.longitude]} icon={geoIcon}>
@@ -74,28 +55,7 @@ class FavorisMap extends Component {
       return <p>error</p>
     }
   }
-  renderPhoneMarkers (phonecalls) {
-    let result = _.reduce(phonecalls, function (result, value) {
-      ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
-        {
-          start: value.timestamp.replace(/T|Z/g, ' '),
-          msisdn: value.msisdn,
-          partner: value.partner,
-          typeMessage: value.type,
-          _id: value._id
-        })
-      return result
-    }, [])
-    let phoneLog = []
-    for (let key in result) {
-      if (result.hasOwnProperty(key)) {
-        let item = {}
-        item.latitude = Number(key.split(',')[0])
-        item.longitude = Number(key.split(',')[1])
-        item.phoneInfo = result[key]
-        phoneLog.push(item)
-      }
-    }
+  renderPhoneMarkers (phoneLog) {
     if (phoneLog.length > 0) {
       return phoneLog.map((item, i) =>
         <Marker key={i} position={[item.latitude, item.longitude]} icon={phoneIcon}>

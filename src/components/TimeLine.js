@@ -99,7 +99,6 @@ class TimeLine extends Component {
     items = [...geoItems, ...phoneItems]
     if (geoItems.length > 0 && phoneItems.length > 0) {
       timeline.setItems(items)
-      console.log(this.props.date)
       if (_.isEmpty(this.props.date)) {
         let startDay = (geoItems[geoItems.length-1].start > phoneItems[phoneItems.length-1].start) ? phoneItems[phoneItems.length-1].start : geoItems[geoItems.length-1].start
         let lastDay = (geoItems[0].start > phoneItems[0].start) ? geoItems[0].start : phoneItems[0].start

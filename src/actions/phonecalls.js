@@ -28,6 +28,12 @@ export const fetchPhonecalls = (phoneIndexByDate, start, end) => {
           },
           {
             'longitude': {'$ne': 'NULL'}
+          },
+          {
+            'latitude': {'$ne': ''}
+          },
+          {
+            'longitude': {'$ne': ''}
           }
         ]},
       'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner'],
@@ -36,6 +42,8 @@ export const fetchPhonecalls = (phoneIndexByDate, start, end) => {
     }
     return cozy.client.data.query(phoneIndexByDate, options)
     .then((phonecalls) => {
+      console.log('hahahaa')
+      console.log(phonecalls)
       dispatch(receivePhonecalls(phonecalls))
       return phonecalls
     })
@@ -58,6 +66,12 @@ export const fetchPhonecallsLatest = (phoneIndexByDate) => {
           },
           {
             'longitude': {'$ne': 'NULL'}
+          },
+          {
+            'latitude': {'$ne': ''}
+          },
+          {
+            'longitude': {'$ne': ''}
           }
         ]
       },

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ActionCreators from '../actions'
-import HomeMap from '../components/HomeMap'
+import FavorisMap from '../components/FavorisMap'
 import { Grid, Row, Col } from 'react-bootstrap'
 import '../styles/rowContent.css'
 
@@ -19,7 +19,7 @@ class FavorisPage extends Component {
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <HomeMap geolocations={topGeolocations} phonecalls={topPhonecalls}/>
+              <FavorisMap geolocations={topGeolocations} phonecalls={topPhonecalls}/>
             </div>
           </Col>
         </Row>

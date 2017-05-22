@@ -99,16 +99,26 @@ export const fetchTopPhonecalls = (phoneIndexByDate) => {
           },
           {
             'longitude': {'$ne': 'NULL'}
+          },
+          {
+            'latitude': {'$ne': ''}
+          },
+          {
+            'longitude': {'$ne': ''}
           }
         ]
         },
+      'limit': 10000,
       'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner'],
       'descending': true,
-      'limit': 10000
+
     }
     return cozy.client.data.query(phoneIndexByDate, options)
     .then((topPhone) => {
+      // console.log('allphone')
+      // console.log(topPhone)
       let topPhonecalls = getTopPhoneValue(topPhone)
+      // console.log(topPhonecalls)
       dispatch(receiveTopPhonecalls(topPhonecalls))
       return topPhonecalls
     })

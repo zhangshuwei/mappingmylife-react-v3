@@ -31,7 +31,7 @@ export const fetchGeolocations = (mangoIndexByDate, start, end) => {
     return cozy.client.data.query(mangoIndexByDate, options)
     .then((geolocations) => {
       dispatch(receiveGeolocations(geolocations))
-      return geolocations
+      //return geolocations
     })
     .catch((error) => {
       dispatch({
@@ -54,7 +54,7 @@ export const fetchGeoLatest = (geoIndexByDate) => {
     return cozy.client.data.query(geoIndexByDate, options)
     .then((geolocations) => {
       dispatch(receiveGeolocations(geolocations))
-      return geolocations
+      //return geolocations
     })
     .catch((error) => {
       dispatch({
