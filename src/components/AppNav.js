@@ -16,7 +16,7 @@ export const AppNav = () => (
         <NavItem eventKey={1} href='/'>Home</NavItem>
       </LinkContainer>
       <LinkContainer to='/map'>
-        <NavItem eventKey={2} href='/map'>Map</NavItem>
+        <NavItem eventKey={2} href='/map'>Aggregate</NavItem>
       </LinkContainer>
     </Nav>
   </Navbar>

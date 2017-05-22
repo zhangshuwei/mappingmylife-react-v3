@@ -1,6 +1,10 @@
+
 .leaflet-container {
     height: 600px;
     width: 100%;
+}
+.popupContent{
+  overflow: auto; max-height :150px; position: relative;
 }
 .phonePopup p{
   margin: 3px 0 0 0

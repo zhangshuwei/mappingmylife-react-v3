@@ -58,7 +58,7 @@ class HomeMap extends Component {
           <Popup>
             <div>
               <h5>Nombre de geolocation = {item.geoInfo.length}</h5>
-              <div style={{ display: this.state.showPopup ? 'block' : 'none' }}>
+              <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
                 {item.geoInfo.map((item, i) =>
                   <div key={i} className='geoPopup'>
                     <p >Timestamp: {item.start}</p>
@@ -102,7 +102,7 @@ class HomeMap extends Component {
           <Popup>
             <div>
               <h5>Nombre de communications = {item.phoneInfo.length}</h5>
-              <div style={{ display: this.state.showPopup ? 'block' : 'none' }}>
+              <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
                 {item.phoneInfo.map((item, i) =>
                   <div key={i} className='phonePopup'>
                       <p>Timestamp: {item.start}</p>

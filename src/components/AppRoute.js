@@ -12,8 +12,8 @@ const AppRoute = ({store}) => (
     <Router history={history}>
       <div>
         <AppNav />
-        <Route exact path='/' component={HomePage} />
-        <Route path='/map' component={FavorisPage} />
+        <Route exact path='/' component={FavorisPage} />
+        <Route path='/map' component={HomePage} />
       </div>
     </ Router>
   </Provider>

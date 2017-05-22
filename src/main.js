@@ -10,7 +10,7 @@ import AppRoute from './components/AppRoute'
 import 'bootstrap-css'
 import 'bootstrap-theme-css'
 import 'font-awesome-css'
-import 'ionicons-css'
+
 const middleware = [ thunk ]
 if (process.env.NODE_ENV !== 'production') {
   middleware.push(createLogger())

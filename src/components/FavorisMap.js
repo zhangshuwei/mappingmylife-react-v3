@@ -3,8 +3,8 @@ import { Map, Marker, TileLayer, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import { MAPBOXURL } from '../constants/config'
 import { geoIcon, phoneIcon } from './Icons'
-import _ from 'lodash'
-import reduce from 'lodash/fp'
+// import _ from 'lodash'
+// import reduce from 'lodash/fp'
 import { Button } from 'react-bootstrap'
 import 'leaflet-css'
 import '../styles/map.css'
@@ -35,16 +35,16 @@ class FavorisMap extends Component {
   renderGeoMarkers (geoLog) {
     if (geoLog.length > 0) {
       return geoLog.map((item, i) =>
-        <Marker key={i} position={[item.latitude, item.longitude]} icon={geoIcon}>
+        <Marker key={i} position={[item.latitude, item.longitude]} icon={geoIcon} onClick={(e)=> console.log(e)}>
           <Popup>
             <div>
               <h5>Nombre de geolocation = {item.geoInfo.length}</h5>
-              <div style={{ display: this.state.showPopup ? 'block' : 'none' }}>
+              <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
                 {item.geoInfo.map((item, i) =>
                   <div key={i} className='geoPopup'>
                     <p >Timestamp: {item.start}</p>
                   </div>
-              )}
+                )}
               </div>
               <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
             </div>
@@ -62,7 +62,7 @@ class FavorisMap extends Component {
           <Popup>
             <div>
               <h5>Nombre de communications = {item.phoneInfo.length}</h5>
-              <div style={{ display: this.state.showPopup ? 'block' : 'none' }}>
+              <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
                 {item.phoneInfo.map((item, i) =>
                   <div key={i} className='phonePopup'>
                       <p>Timestamp: {item.start}</p>

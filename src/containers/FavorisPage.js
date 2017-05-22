@@ -3,14 +3,17 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ActionCreators from '../actions'
 import FavorisMap from '../components/FavorisMap'
+import FavorisForm from '../components/FavorisForm'
 import { Grid, Row, Col } from 'react-bootstrap'
 import '../styles/rowContent.css'
 
 class FavorisPage extends Component {
   constructor (props) {
     super(props)
-    this.props.actions.fetchTopGeolocations(this.props.mango.geolocationsIndexByDate)
-    this.props.actions.fetchTopPhonecalls(this.props.mango.phonecallsIndexByDate)
+    this.props.actions.indexGeolocationsByDate().then((geoIndexByDate) => this.props.actions.fetchTopGeolocations(geoIndexByDate))
+    this.props.actions.indexPhonecallsByDate().then((phoneIndexByDate) => this.props.actions.fetchTopPhonecalls(phoneIndexByDate))
+    // this.props.actions.fetchTopGeolocations(this.props.mango.geolocationsIndexByDate)
+    // this.props.actions.fetchTopPhonecalls(this.props.mango.phonecallsIndexByDate)
   }
   render () {
     const { topGeolocations, topPhonecalls } = this.props
@@ -20,6 +23,13 @@ class FavorisPage extends Component {
           <Col sm={12}>
             <div className='rowContent'>
               <FavorisMap geolocations={topGeolocations} phonecalls={topPhonecalls}/>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <div className='rowContent'>
+              <FavorisForm />
             </div>
           </Col>
         </Row>
