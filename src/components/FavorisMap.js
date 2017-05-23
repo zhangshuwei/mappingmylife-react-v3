@@ -35,7 +35,7 @@ class FavorisMap extends Component {
   renderGeoMarkers (geoLog) {
     if (geoLog.length > 0) {
       return geoLog.map((item, i) =>
-        <Marker key={i} position={[item.latitude, item.longitude]} icon={geoIcon} onClick={(e)=> console.log(e)}>
+        <Marker key={i} position={[item.latitude, item.longitude]} icon={geoIcon} onClick={this.props.changeLatLng}>
           <Popup>
             <div>
               <h5>Nombre de geolocation = {item.geoInfo.length}</h5>
@@ -58,7 +58,7 @@ class FavorisMap extends Component {
   renderPhoneMarkers (phoneLog) {
     if (phoneLog.length > 0) {
       return phoneLog.map((item, i) =>
-        <Marker key={i} position={[item.latitude, item.longitude]} icon={phoneIcon}>
+        <Marker key={i} position={[item.latitude, item.longitude]} icon={phoneIcon} onClick={this.props.changeLatLng}>
           <Popup>
             <div>
               <h5>Nombre de communications = {item.phoneInfo.length}</h5>
