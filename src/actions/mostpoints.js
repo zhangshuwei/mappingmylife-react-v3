@@ -1,23 +1,27 @@
 /* global cozy */
 
-import {
-  RECEIVE_TOP_GEOLOCATIONS,
-  RECEIVE_TOP_PHONECALLS,
-  FETCH_TOP_GEOLOCATIONS_FAILURE,
-  FETCH_TOP_PHONECALLS_FAILURE
-} from '../constants/actionTypes'
-import { GEOLOCATION_DOCTYPE, PHONECALL_DOCTYPE } from '../constants/config'
+import { RECEIVE_TOP_GEOLOCATIONS, RECEIVE_TOP_PHONECALLS, FETCH_TOP_GEOLOCATIONS_FAILURE, FETCH_TOP_PHONECALLS_FAILURE,
+  FETCH_FAVORISPOINT_FAILURE, RECEIVE_FAVORISPOINT } from '../constants/actionTypes'
+import { GEOLOCATION_DOCTYPE, PHONECALL_DOCTYPE, FAVORISPOINT_DOCTYPE } from '../constants/config'
 import _ from 'lodash'
 import reduce from 'lodash/fp'
 import orderBy from 'lodash/fp'
+
 export const receiveTopGeolocations = (topGeolocations) => ({
   type: RECEIVE_TOP_GEOLOCATIONS,
   topGeolocations: topGeolocations
 })
+
 export const receiveTopPhonecalls = (topPhonecalls) => ({
   type: RECEIVE_TOP_PHONECALLS,
   topPhonecalls: topPhonecalls
 })
+
+export const receiveFavorisPoint = (favorispoint) => ({
+  type: RECEIVE_FAVORISPOINT,
+  favorisPoint: favorispoint
+})
+
 const getTopGeoValue = (values) => {
   let result = _.reduce(values, function (result, value) {
     ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
@@ -110,14 +114,15 @@ export const fetchTopPhonecalls = (phoneIndexByDate) => {
           }
         ]
         },
+      'limit': 10000,
       'descending': true,
       'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner']
 
     }
     return cozy.client.data.query(phoneIndexByDate, options)
     .then((topPhone) => {
-      console.log('allphone')
-      console.log(topPhone.length)
+      // console.log('allphone')
+      // console.log(topPhone.length)
       let topPhonecalls = getTopPhoneValue(topPhone)
       // console.log(topPhonecalls)
       dispatch(receiveTopPhonecalls(topPhonecalls))
@@ -126,6 +131,28 @@ export const fetchTopPhonecalls = (phoneIndexByDate) => {
     .catch((error) => {
       dispatch({
         type: FETCH_TOP_PHONECALLS_FAILURE,
+        error
+      })
+    })
+  }
+}
+export const fetchFavorisPoint = (favorisPointIndex) => {
+  return async dispatch => {
+    const options = {
+      'selector': {
+        'docType': FAVORISPOINT_DOCTYPE,
+        },
+      'fields': ['_id', 'category', 'latitude', 'longitude'],
+      'limit': 10000
+    }
+    return cozy.client.data.query(favorisPointIndex, options)
+    .then((favorisPoint) => {
+      dispatch(receiveFavorisPoint(favorisPoint))
+      return favorisPoint
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_FAVORISPOINT_FAILURE,
         error
       })
     })

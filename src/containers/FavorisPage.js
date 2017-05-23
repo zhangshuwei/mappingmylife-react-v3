@@ -5,6 +5,7 @@ import * as ActionCreators from '../actions'
 import FavorisMap from '../components/FavorisMap'
 import FavorisForm from '../components/FavorisForm'
 import { Grid, Row, Col } from 'react-bootstrap'
+import { homeIcon }from '../components/Icons'
 import '../styles/rowContent.css'
 
 class FavorisPage extends Component {
@@ -19,6 +20,7 @@ class FavorisPage extends Component {
     this.changeLatLng = this.changeLatLng.bind(this)
     this.props.actions.indexGeolocationsByDate().then((geoIndexByDate) => this.props.actions.fetchTopGeolocations(geoIndexByDate))
     this.props.actions.indexPhonecallsByDate().then((phoneIndexByDate) => this.props.actions.fetchTopPhonecalls(phoneIndexByDate))
+    this.props.actions.indexFavorisPoint().then((favorisIndex) => this.props.actions.fetchFavorisPoint(favorisIndex))
     // this.props.actions.fetchTopGeolocations(this.props.mango.geolocationsIndexByDate)
     // this.props.actions.fetchTopPhonecalls(this.props.mango.phonecallsIndexByDate)
   }
@@ -57,7 +59,8 @@ const mapStateToProps = (state) => {
   return {
     topGeolocations: state.mostpoints.topGeolocations,
     topPhonecalls: state.mostpoints.topPhonecalls,
-    mango: state.mango
+    mango: state.mango,
+    favorisPoint: state.mostpoints.favorisPoint
   }
 }
 const mapDispatchToProps = (dispatch) => {

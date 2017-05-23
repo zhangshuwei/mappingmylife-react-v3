@@ -19,11 +19,6 @@
       "folder": "/",
       "index": "index.html",
       "public": false
-    },
-    "/favoris": {
-      "folder" : "/",
-      "index" :"favoris.html",
-      "public": false
     }
   },
   "version": "3.0.0",

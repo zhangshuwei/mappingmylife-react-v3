@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 
 import {
    INDEX_GEOLOCATIONS_BY_DATE_SUCCESS,
-   INDEX_PHONECALLS_BY_DATE_SUCCESS
+   INDEX_PHONECALLS_BY_DATE_SUCCESS,
+   INDEX_FAVORISPOINT_SUCCESS
 } from '../constants/actionTypes'
 
 // indexing using cozy-stack mango
@@ -22,7 +23,17 @@ export const phonecallsIndexByDate = (state = null, action) => {
       return state
   }
 }
+export const favorispointIndex = (state = null, action) => {
+  switch (action.type) {
+    case INDEX_FAVORISPOINT_SUCCESS:
+      return action.favorisIndex
+    default:
+      return state
+
+  }
+}
 export default combineReducers({
   geolocationsIndexByDate,
-  phonecallsIndexByDate
+  phonecallsIndexByDate,
+  favorispointIndex
 })
