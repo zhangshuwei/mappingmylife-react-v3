@@ -52,9 +52,8 @@ export const indexPhonecallsByDate = () => {
 export const indexFavorisPoint = () => {
   return async dispatch => {
     dispatch({type: INDEX_FAVORISPOINT})
-    const fields = ['docType', 'category']
-    return cozy.client.data.create(FAVORISPOINT_DOCTYPE, {})
-    .then(cozy.client.data.defineIndex(FAVORISPOINT_DOCTYPE, fields)
+    const fields = ['category', 'latitude', 'longitude']
+    return cozy.client.data.defineIndex(FAVORISPOINT_DOCTYPE, fields)
       .then((favorisIndex) => {
         dispatch({
           type: INDEX_FAVORISPOINT_SUCCESS,
@@ -62,6 +61,5 @@ export const indexFavorisPoint = () => {
         })
         return favorisIndex
       })
-    )
   }
 }

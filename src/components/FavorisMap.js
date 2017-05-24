@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Map, Marker, TileLayer, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import { MAPBOXURL } from '../constants/config'
-import { geoIcon, phoneIcon } from './Icons'
-// import _ from 'lodash'
-// import reduce from 'lodash/fp'
+import { geoIcon, phoneIcon, homeIcon, workIcon, sportIcon, shopIcon, otherIcon   } from './Icons'
+import _ from 'lodash'
+import isEmpty from 'lodash/fp'
 import { Button } from 'react-bootstrap'
 import 'leaflet-css'
 import '../styles/map.css'
@@ -26,30 +26,60 @@ class FavorisMap extends Component {
     this.showInfo = this.showInfo.bind(this)
     this.renderGeoMarkers = this.renderGeoMarkers.bind(this)
     this.renderPhoneMarkers = this.renderPhoneMarkers.bind(this)
+    this.getIconType = this.getIconType.bind(this)
   }
   showInfo () {
     this.setState({
       showPopup: !this.state.showPopup
     })
   }
+  getIconType (latitude, longitude, defaultIcon) {
+    let key = latitude.toString() + longitude.toString()
+    let typeIcon = defaultIcon
+    if (!(_.isEmpty(this.props.favorisPoint.favorisTypeMap)) ) {
+      if (this.props.favorisPoint.favorisTypeMap[key] !== undefined){
+      let category = this.props.favorisPoint.favorisTypeMap[key]
+      switch(category) {
+            case "maison":
+                typeIcon = homeIcon;
+            break;
+            case "travail":
+                typeIcon = workIcon;
+            break;
+            case "sport":
+                typeIcon = sportIcon;
+            break;
+            case "marche":
+                typeIcon = shopIcon;
+            break;
+            default:
+                typeIcon = otherIcon;
+        }
+    }
+  }
+    return typeIcon
+  }
   renderGeoMarkers (geoLog) {
     if (geoLog.length > 0) {
       return geoLog.map((item, i) =>
-        <Marker key={i} position={[item.latitude, item.longitude]} icon={geoIcon} onClick={this.props.changeLatLng}>
-          <Popup>
-            <div>
-              <h5>Nombre de geolocation = {item.geoInfo.length}</h5>
-              <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
-                {item.geoInfo.map((item, i) =>
-                  <div key={i} className='geoPopup'>
-                    <p >Timestamp: {item.start}</p>
-                  </div>
-                )}
+        { let typeIcon = this.getIconType(item.latitude, item.longitude, geoIcon)
+          return(
+          <Marker key={i} position={[item.latitude, item.longitude]} icon={typeIcon} onClick={this.props.changeLatLng}>
+            <Popup>
+              <div>
+                <h5>Nombre de geolocation = {item.geoInfo.length}</h5>
+                <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
+                  {item.geoInfo.map((item, i) =>
+                    <div key={i} className='geoPopup'>
+                      <p >Timestamp: {item.start}</p>
+                    </div>
+                  )}
+                </div>
+                <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
               </div>
-              <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
-            </div>
-          </Popup>
-        </Marker>
+            </Popup>
+          </Marker>
+        )}
     )
     } else {
       return <p>error</p>
@@ -58,24 +88,27 @@ class FavorisMap extends Component {
   renderPhoneMarkers (phoneLog) {
     if (phoneLog.length > 0) {
       return phoneLog.map((item, i) =>
-        <Marker key={i} position={[item.latitude, item.longitude]} icon={phoneIcon} onClick={this.props.changeLatLng}>
-          <Popup>
-            <div>
-              <h5>Nombre de communications = {item.phoneInfo.length}</h5>
-              <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
-                {item.phoneInfo.map((item, i) =>
-                  <div key={i} className='phonePopup'>
-                      <p>Timestamp: {item.start}</p>
-                      <p>Numéro de contact: {item.partner}</p>
-                      <p>Type d'appel: {item.typeMessage}</p>
+        { let typeIcon = this.getIconType(item.latitude, item.longitude, phoneIcon)
+          return (
+            <Marker key={i} position={[item.latitude, item.longitude]} icon={typeIcon} onClick={this.props.changeLatLng}>
+              <Popup>
+                <div>
+                  <h5>Nombre de communications = {item.phoneInfo.length}</h5>
+                  <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
+                    {item.phoneInfo.map((item, i) =>
+                      <div key={i} className='phonePopup'>
+                          <p>Timestamp: {item.start}</p>
+                          <p>Numéro de contact: {item.partner}</p>
+                          <p>Type d'appel: {item.typeMessage}</p>
+                      </div>
+                  )}
                   </div>
-              )}
-              </div>
-              <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
-            </div>
-          </Popup>
-        </Marker>
-    )
+                  <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
+                </div>
+              </Popup>
+            </Marker>
+          )}
+        )
     } else {
       return <p>error</p>
     }

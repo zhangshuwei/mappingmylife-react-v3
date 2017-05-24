@@ -10,7 +10,8 @@ class FavorisForm extends Component {
       favorisType: '',
       showCustomerInput: false,
       customerType: '',
-      errorMessage:''
+      errorMessage:'',
+      successMessage: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleCustomerType = this.handleCustomerType.bind(this)
@@ -30,10 +31,19 @@ class FavorisForm extends Component {
     this.setState({ customerType: e.target.value})
   }
 
+  checkIfFieldValid (lat, lng, type, customerType) {
+    return  (lat === '' || lng === ''|| type === '' || (type === 'others' && customerType === '')) ? false : true
+  }
+
   addFavoris () {
-    if ( this.props.point.latitude === '' || this.props.point.longitude === ''
-    || this.state.favorisType === '' || (this.state.favorisType === 'others' && this.state.customerType === '') ) {
+    let isFieldValid = this.checkIfFieldValid(this.props.point.latitude, this.props.point.longitude, this.state.favorisType, this.state.customerType)
+    let key = this.props.point.latitude.toString() + this.props.point.longitude.toString()
+    if (!isFieldValid) {
       this.setState({ errorMessage: 'invalid champs'})
+      this.setState({ successMessage: ''})
+    } else if (this.props.favorisPoint.favorisTypeMap[key] !== undefined || this.props.favorisPoint.favorisTypeMap[key]) {
+      this.setState({errorMessage: 'Ce point est déjà un point favoris'})
+      this.setState({ successMessage: ''})
     } else {
       this.setState({ errorMessage: ''})
       let favorisPoint = {}
@@ -42,23 +52,32 @@ class FavorisForm extends Component {
       favorisPoint.category = (this.state.favorisType === 'others' ? this.state.customerType : this.state.favorisType)
       cozy.client.data.create(FAVORISPOINT_DOCTYPE, favorisPoint)
       .then( function (result) {
-        console.log(result)
-      })
-      //console.log(favorisPoint)
+        let key = result.latitude.toString() + result.longitude.toString()
+        this.props.updateFavorisTypeMap(key, result.category)
+        this.props.updateFavorisIdMap(key, result._id)
+        this.setState({successMessage: 'OK'})
+      }.bind(this))
     }
-    // console.log(this.props.point)
-    // console.log(this.state.favorisType)
-    // console.log(this.state.customerType)
   }
 
+  modifyFavoris () {
+    let isFieldValid = this.checkIfFieldValid(this.props.point.latitude, this.props.point.longitude, this.state.favorisType, this.state.customerType)
+    let key = lat.toString() + lng.toString()
+    if ( lat === '' || lng === ''|| favorisType === '' || (favorisType === 'others' && this.state.customerType === '') ) {
+      this.setState({ errorMessage: 'invalid champs'})
+      this.setState({ successMessage: ''})
+    }
+  }
   render () {
     const { point } = this.props
     return (
       <div>
         <div className='rowContent'>
-          <p style={{ display: (this.state.errorMessage === null) ? 'none' : 'null', color: 'red' }}>{this.state.errorMessage}</p>
+          <p style={{ display: (this.state.errorMessage.length === 0) ? 'none' : 'block', color: 'red' }}>{this.state.errorMessage}</p>
         </div>
-
+        <div className='rowContent'>
+          <p style={{ display: (this.state.successMessage.length === 0) ? 'none' : 'block', color: 'green' }}>{this.state.successMessage}</p>
+        </div>
         <div className='rowContent'>
         <Form inline>
           <FormGroup controlId="formInlineLat">

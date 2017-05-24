@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { RECEIVE_TOP_GEOLOCATIONS, RECEIVE_TOP_PHONECALLS, RECEIVE_FAVORISPOINT } from '../constants/actionTypes'
+import { RECEIVE_TOP_GEOLOCATIONS, RECEIVE_TOP_PHONECALLS } from '../constants/actionTypes'
 
 // reducer for top geopoints
 const topGeolocations = (state = [], action) => {
@@ -19,17 +19,8 @@ const topPhonecalls = (state = [], action) => {
       return state
   }
 }
-//reducer for favoris point
-const favorisPoint = (state =[], action) => {
-  switch (action.type) {
-    case RECEIVE_FAVORISPOINT:
-      return action.favorisPoint
-    default:
-      return state
-  }
-}
+
 export default combineReducers({
   topGeolocations,
-  topPhonecalls,
-  favorisPoint
+  topPhonecalls
 })

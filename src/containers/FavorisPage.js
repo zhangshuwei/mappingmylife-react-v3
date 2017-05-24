@@ -18,9 +18,9 @@ class FavorisPage extends Component {
       }
     }
     this.changeLatLng = this.changeLatLng.bind(this)
+    this.props.actions.indexFavorisPoint().then((favorisIndex) => this.props.actions.fetchFavorisPoint(favorisIndex))
     this.props.actions.indexGeolocationsByDate().then((geoIndexByDate) => this.props.actions.fetchTopGeolocations(geoIndexByDate))
     this.props.actions.indexPhonecallsByDate().then((phoneIndexByDate) => this.props.actions.fetchTopPhonecalls(phoneIndexByDate))
-    this.props.actions.indexFavorisPoint().then((favorisIndex) => this.props.actions.fetchFavorisPoint(favorisIndex))
     // this.props.actions.fetchTopGeolocations(this.props.mango.geolocationsIndexByDate)
     // this.props.actions.fetchTopPhonecalls(this.props.mango.phonecallsIndexByDate)
   }
@@ -33,20 +33,20 @@ class FavorisPage extends Component {
     })
   }
   render () {
-    const { topGeolocations, topPhonecalls } = this.props
+    const { topGeolocations, topPhonecalls, favorisPoint, actions } = this.props
     return (
       <Grid fluid>
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <FavorisMap geolocations={topGeolocations} phonecalls={topPhonecalls} changeLatLng={this.changeLatLng}/>
+              <FavorisMap geolocations={topGeolocations} phonecalls={topPhonecalls} changeLatLng={this.changeLatLng} favorisPoint={favorisPoint}/>
             </div>
           </Col>
         </Row>
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <FavorisForm point={this.state.point}/>
+              <FavorisForm  favorisPoint={favorisPoint} point={this.state.point} updateFavorisTypeMap={actions.updateFavorisTypeMap} updateFavorisIdMap={actions.updateFavorisIdMap}/>
             </div>
           </Col>
         </Row>
@@ -60,7 +60,7 @@ const mapStateToProps = (state) => {
     topGeolocations: state.mostpoints.topGeolocations,
     topPhonecalls: state.mostpoints.topPhonecalls,
     mango: state.mango,
-    favorisPoint: state.mostpoints.favorisPoint
+    favorisPoint: state.favoris
   }
 }
 const mapDispatchToProps = (dispatch) => {

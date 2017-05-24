@@ -1,8 +1,7 @@
 /* global cozy */
 
-import { RECEIVE_TOP_GEOLOCATIONS, RECEIVE_TOP_PHONECALLS, FETCH_TOP_GEOLOCATIONS_FAILURE, FETCH_TOP_PHONECALLS_FAILURE,
-  FETCH_FAVORISPOINT_FAILURE, RECEIVE_FAVORISPOINT } from '../constants/actionTypes'
-import { GEOLOCATION_DOCTYPE, PHONECALL_DOCTYPE, FAVORISPOINT_DOCTYPE } from '../constants/config'
+import { RECEIVE_TOP_GEOLOCATIONS, RECEIVE_TOP_PHONECALLS, FETCH_TOP_GEOLOCATIONS_FAILURE, FETCH_TOP_PHONECALLS_FAILURE } from '../constants/actionTypes'
+import { GEOLOCATION_DOCTYPE, PHONECALL_DOCTYPE } from '../constants/config'
 import _ from 'lodash'
 import reduce from 'lodash/fp'
 import orderBy from 'lodash/fp'
@@ -17,10 +16,6 @@ export const receiveTopPhonecalls = (topPhonecalls) => ({
   topPhonecalls: topPhonecalls
 })
 
-export const receiveFavorisPoint = (favorispoint) => ({
-  type: RECEIVE_FAVORISPOINT,
-  favorisPoint: favorispoint
-})
 
 const getTopGeoValue = (values) => {
   let result = _.reduce(values, function (result, value) {
@@ -70,6 +65,7 @@ const getTopPhoneValue = (values) => {
   phoneLog = _.orderBy(phoneLog, ['phoneInfo'], ['desc'])
   return phoneLog.slice(0,5)
 }
+
 export const fetchTopGeolocations = (geoIndexByDate) => {
   return async dispatch => {
     const options = {
@@ -131,28 +127,6 @@ export const fetchTopPhonecalls = (phoneIndexByDate) => {
     .catch((error) => {
       dispatch({
         type: FETCH_TOP_PHONECALLS_FAILURE,
-        error
-      })
-    })
-  }
-}
-export const fetchFavorisPoint = (favorisPointIndex) => {
-  return async dispatch => {
-    const options = {
-      'selector': {
-        'docType': FAVORISPOINT_DOCTYPE,
-        },
-      'fields': ['_id', 'category', 'latitude', 'longitude'],
-      'limit': 10000
-    }
-    return cozy.client.data.query(favorisPointIndex, options)
-    .then((favorisPoint) => {
-      dispatch(receiveFavorisPoint(favorisPoint))
-      return favorisPoint
-    })
-    .catch((error) => {
-      dispatch({
-        type: FETCH_FAVORISPOINT_FAILURE,
         error
       })
     })
