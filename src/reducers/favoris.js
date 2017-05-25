@@ -1,24 +1,34 @@
 import { combineReducers } from 'redux'
-import { RECEIVE_FAVORISPOINT, UPDATE_FAVORIS_TYPE_MAP, UPDATE_FAVORIS_ID_MAP } from '../constants/actionTypes'
+import { RECEIVE_FAVORISPOINT, ADD_FAVORIS_TYPE_MAP, ADD_FAVORIS_ID_MAP, UPDATE_FAVORIS_ID_MAP, UPDATE_FAVORIS_TYPE_MAP } from '../constants/actionTypes'
 
 //reducer for favoris point
-const favorisIdMap = (state = {}, action) => {
+const favorisIdMap = (state = [], action) => {
   switch (action.type) {
     case RECEIVE_FAVORISPOINT:
       return action.favorisIdMap
-      case UPDATE_FAVORIS_ID_MAP:
-        return {
+    case ADD_FAVORIS_ID_MAP:
+      return {
           ...state,
           [action.key]: action.value
-        }
+      }
+    case UPDATE_FAVORIS_ID_MAP:
+      return {
+          ...state,
+          [action.key]: action.value
+      }
     default:
       return state
   }
 }
-const favorisTypeMap = (state = {}, action) => {
+const favorisTypeMap = (state = [], action) => {
   switch (action.type) {
     case RECEIVE_FAVORISPOINT:
       return action.favorisTypeMap
+    case ADD_FAVORIS_TYPE_MAP:
+      return {
+        ...state,
+        [action.key]: action.value
+      }
     case UPDATE_FAVORIS_TYPE_MAP:
       return {
         ...state,

@@ -16,6 +16,7 @@ class FavorisForm extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleCustomerType = this.handleCustomerType.bind(this)
     this.addFavoris = this.addFavoris.bind(this)
+    this.modifyFavoris = this.modifyFavoris.bind(this)
   }
 
   handleChange (e) {
@@ -39,33 +40,47 @@ class FavorisForm extends Component {
     let isFieldValid = this.checkIfFieldValid(this.props.point.latitude, this.props.point.longitude, this.state.favorisType, this.state.customerType)
     let key = this.props.point.latitude.toString() + this.props.point.longitude.toString()
     if (!isFieldValid) {
-      this.setState({ errorMessage: 'invalid champs'})
-      this.setState({ successMessage: ''})
+      this.setState({ errorMessage: 'invalid champs' })
+      this.setState({ successMessage: '' })
     } else if (this.props.favorisPoint.favorisTypeMap[key] !== undefined || this.props.favorisPoint.favorisTypeMap[key]) {
-      this.setState({errorMessage: 'Ce point est déjà un point favoris'})
-      this.setState({ successMessage: ''})
+      this.setState({errorMessage: 'Ce point est déjà un point favoris' })
+      this.setState({ successMessage: '' })
     } else {
-      this.setState({ errorMessage: ''})
+      this.setState({ errorMessage: '' })
       let favorisPoint = {}
       favorisPoint.latitude = this.props.point.latitude
       favorisPoint.longitude = this.props.point.longitude
       favorisPoint.category = (this.state.favorisType === 'others' ? this.state.customerType : this.state.favorisType)
       cozy.client.data.create(FAVORISPOINT_DOCTYPE, favorisPoint)
       .then( function (result) {
-        let key = result.latitude.toString() + result.longitude.toString()
-        this.props.updateFavorisTypeMap(key, result.category)
-        this.props.updateFavorisIdMap(key, result._id)
-        this.setState({successMessage: 'OK'})
+        let pointKey = result.latitude.toString() + result.longitude.toString()
+        this.props.actions.addFavorisTypeMap(pointKey, result.category)
+        this.props.actions.addFavorisIdMap(pointKey, result._id)
+        this.setState({ successMessage: 'OK' })
       }.bind(this))
     }
   }
 
   modifyFavoris () {
     let isFieldValid = this.checkIfFieldValid(this.props.point.latitude, this.props.point.longitude, this.state.favorisType, this.state.customerType)
-    let key = lat.toString() + lng.toString()
-    if ( lat === '' || lng === ''|| favorisType === '' || (favorisType === 'others' && this.state.customerType === '') ) {
-      this.setState({ errorMessage: 'invalid champs'})
-      this.setState({ successMessage: ''})
+    let key = this.props.point.latitude.toString() + this.props.point.longitude.toString()
+    if (!isFieldValid) {
+      this.setState({ errorMessage: 'invalid champs' })
+      this.setState({ successMessage: '' })
+    } else if (this.props.favorisPoint.favorisIdMap[key] === undefined || !this.props.favorisPoint.favorisIdMap[key]) {
+      this.setState({ errorMessage: 'Veuillez d\'abord ajouter ce point, puis le modifier' })
+      this.setState({ successMessage: '' })
+    } else {
+      let modifyId = this.props.favorisPoint.favorisIdMap[key]
+      let modifyField = {category: this.state.favorisType === 'others' ? this.state.customerType : this.state.favorisType}
+      cozy.client.data.updateAttributes(FAVORISPOINT_DOCTYPE, modifyId, modifyField)
+      .then( function (result) {
+        console.log(result)
+        let pointKey = result.latitude.toString() + result.longitude.toString()
+        this.props.actions.updateFavorisTypeMap(pointKey, result.category)
+        this.props.actions.updateFavorisIdMap(pointKey, modifyId)
+        this.setState({ successMessage: 'OK' })
+      }.bind(this))
     }
   }
   render () {
@@ -109,7 +124,7 @@ class FavorisForm extends Component {
       </div>
         <div className='rowContent'>
         <Button type="button" bsSize='small' bsStyle='success' onClick={this.addFavoris}><i className='fa fa-plus' aria-hidden='true' /> Ajouter</Button>
-        <Button type="button" bsSize='small' bsStyle='primary'><i className='fa fa-pencil' aria-hidden='true' /> Modifier</Button>
+        <Button type="button" bsSize='small' bsStyle='primary' onClick={this.modifyFavoris}><i className='fa fa-pencil' aria-hidden='true' /> Modifier</Button>
         <Button type="button" bsSize='small' bsStyle='danger'><i className='fa fa-trash' aria-hidden='true' /> Supprimer</Button>
         </div>
       </div>

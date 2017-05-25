@@ -46,7 +46,7 @@ class FavorisPage extends Component {
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <FavorisForm  favorisPoint={favorisPoint} point={this.state.point} updateFavorisTypeMap={actions.updateFavorisTypeMap} updateFavorisIdMap={actions.updateFavorisIdMap}/>
+              <FavorisForm  favorisPoint={favorisPoint} point={this.state.point} actions={actions}/>
             </div>
           </Col>
         </Row>

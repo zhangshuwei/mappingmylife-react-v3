@@ -1,4 +1,4 @@
-import { FETCH_FAVORISPOINT_FAILURE, RECEIVE_FAVORISPOINT, UPDATE_FAVORIS_TYPE_MAP, UPDATE_FAVORIS_ID_MAP } from '../constants/actionTypes'
+import { FETCH_FAVORISPOINT_FAILURE, RECEIVE_FAVORISPOINT, ADD_FAVORIS_TYPE_MAP, ADD_FAVORIS_ID_MAP, UPDATE_FAVORIS_ID_MAP, UPDATE_FAVORIS_TYPE_MAP } from '../constants/actionTypes'
 import { FAVORISPOINT_DOCTYPE } from '../constants/config'
 
 export const receiveFavorisPoint = (favorisIdMap, favorisTypeMap) => ({
@@ -10,7 +10,7 @@ export const receiveFavorisPoint = (favorisIdMap, favorisTypeMap) => ({
 const createMapLatlngToId = (favorisPoint) => {
   let favorisIdMap = {}
   favorisPoint.map((item) =>
-  favorisIdMap[item.latitude.toString() + item.longitude.toString()] = item._id
+    favorisIdMap[item.latitude.toString() + item.longitude.toString()] = item._id
   )
   return favorisIdMap
 }
@@ -44,12 +44,21 @@ export const fetchFavorisPoint = (favorisPointIndex) => {
     })
   }
 }
+export const addFavorisTypeMap = (key, value) => ({
+    type: 'ADD_FAVORIS_TYPE_MAP',
+    key: key,
+    value: value
+  })
 export const updateFavorisTypeMap = (key, value) => ({
     type: 'UPDATE_FAVORIS_TYPE_MAP',
     key: key,
     value: value
   })
-
+export const addFavorisIdMap = (key, value) => ({
+    type: 'ADD_FAVORIS_ID_MAP',
+    key: key,
+    value: value
+  })
 export const updateFavorisIdMap = (key, value) => ({
     type: 'UPDATE_FAVORIS_ID_MAP',
     key: key,
