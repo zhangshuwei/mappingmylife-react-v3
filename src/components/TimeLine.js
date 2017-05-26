@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import vis from 'vis/dist/vis.min'
 import _ from 'lodash'
-import isEmpty from 'lodash/fp'
 import { GEOITEM, PHONEITEM, TIMELINEOPTIONS, TIMELINEGROUPS } from '../constants/config'
 import '../../node_modules/vis/dist/vis.min.css'
 import '../styles/timeLine.css'
@@ -59,7 +58,7 @@ const move = (percentage) => {
 class TimeLine extends Component {
   constructor (props) {
     super(props)
-    this.state={
+    this.state = {
       isFirstFetch: true
     }
     this.onSelectDataByDate = this.onSelectDataByDate.bind(this)
@@ -77,7 +76,6 @@ class TimeLine extends Component {
   }
 
   initTimeline () {
-
     let container = document.getElementById('mytimeline')
     timeline = new vis.Timeline(container, items, TIMELINEGROUPS, TIMELINEOPTIONS)
     timeline.addEventListener('rangechanged', this.onSelectDataByDate)
@@ -100,7 +98,7 @@ class TimeLine extends Component {
     if (geoItems.length > 0 && phoneItems.length > 0) {
       timeline.setItems(items)
       if (_.isEmpty(this.props.date)) {
-        let startDay = (geoItems[geoItems.length-1].start > phoneItems[phoneItems.length-1].start) ? phoneItems[phoneItems.length-1].start : geoItems[geoItems.length-1].start
+        let startDay = (geoItems[geoItems.length - 1].start > phoneItems[phoneItems.length - 1].start) ? phoneItems[phoneItems.length - 1].start : geoItems[geoItems.length - 1].start
         let lastDay = (geoItems[0].start > phoneItems[0].start) ? geoItems[0].start : phoneItems[0].start
         timeline.setWindow(startDay, lastDay)
       }

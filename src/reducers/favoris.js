@@ -1,44 +1,33 @@
-import { combineReducers } from 'redux'
-import { RECEIVE_FAVORISPOINT, ADD_FAVORIS_TYPE_MAP, ADD_FAVORIS_ID_MAP, UPDATE_FAVORIS_ID_MAP, UPDATE_FAVORIS_TYPE_MAP } from '../constants/actionTypes'
+import { RECEIVE_FAVORISPOINT, ADD_FAVORIS_MAP,
+  UPDATE_FAVORIS_MAP, DELETE_FAVORIS_MAP } from '../constants/actionTypes'
+import omit from 'lodash/fp/omit'
 
-//reducer for favoris point
-const favorisIdMap = (state = [], action) => {
+// reducer for favoris point
+const favorisMap = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_FAVORISPOINT:
-      return action.favorisIdMap
-    case ADD_FAVORIS_ID_MAP:
+      return action.favorisMap
+    case ADD_FAVORIS_MAP:
       return {
-          ...state,
-          [action.key]: action.value
+        ...state,
+        [action.key]: {
+          category: action.category,
+          id: action.id
+        }
       }
-    case UPDATE_FAVORIS_ID_MAP:
+    case UPDATE_FAVORIS_MAP:
       return {
-          ...state,
-          [action.key]: action.value
+        ...state,
+        [action.key]: {
+          category: action.category,
+          id: action.id
+        }
       }
+    case DELETE_FAVORIS_MAP:
+      let newState = omit(state, [action.key])
+      return newState
     default:
       return state
   }
 }
-const favorisTypeMap = (state = [], action) => {
-  switch (action.type) {
-    case RECEIVE_FAVORISPOINT:
-      return action.favorisTypeMap
-    case ADD_FAVORIS_TYPE_MAP:
-      return {
-        ...state,
-        [action.key]: action.value
-      }
-    case UPDATE_FAVORIS_TYPE_MAP:
-      return {
-        ...state,
-        [action.key]: action.value
-      }
-    default:
-      return state
-  }
-}
-export default combineReducers({
-  favorisIdMap,
-  favorisTypeMap
-})
+export default favorisMap

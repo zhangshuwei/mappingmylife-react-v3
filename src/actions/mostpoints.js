@@ -3,8 +3,6 @@
 import { RECEIVE_TOP_GEOLOCATIONS, RECEIVE_TOP_PHONECALLS, FETCH_TOP_GEOLOCATIONS_FAILURE, FETCH_TOP_PHONECALLS_FAILURE } from '../constants/actionTypes'
 import { GEOLOCATION_DOCTYPE, PHONECALL_DOCTYPE } from '../constants/config'
 import _ from 'lodash'
-import reduce from 'lodash/fp'
-import orderBy from 'lodash/fp'
 
 export const receiveTopGeolocations = (topGeolocations) => ({
   type: RECEIVE_TOP_GEOLOCATIONS,
@@ -15,7 +13,6 @@ export const receiveTopPhonecalls = (topPhonecalls) => ({
   type: RECEIVE_TOP_PHONECALLS,
   topPhonecalls: topPhonecalls
 })
-
 
 const getTopGeoValue = (values) => {
   let result = _.reduce(values, function (result, value) {
@@ -38,7 +35,7 @@ const getTopGeoValue = (values) => {
     }
   }
   geoLog = _.orderBy(geoLog, ['geoInfo'], ['desc'])
-  return geoLog.slice(0,5)
+  return geoLog.slice(0, 5)
 }
 const getTopPhoneValue = (values) => {
   let result = _.reduce(values, function (result, value) {
@@ -63,18 +60,18 @@ const getTopPhoneValue = (values) => {
     }
   }
   phoneLog = _.orderBy(phoneLog, ['phoneInfo'], ['desc'])
-  return phoneLog.slice(0,5)
+  return phoneLog.slice(0, 5)
 }
 
 export const fetchTopGeolocations = (geoIndexByDate) => {
   return async dispatch => {
     const options = {
-      'selector': {
-        'docType': GEOLOCATION_DOCTYPE,
-        },
-      'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
-      'descending': true,
-      'limit': 10000
+      selector: {
+        docType: GEOLOCATION_DOCTYPE
+      },
+      fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
+      descending: true,
+      limit: 10000
     }
     return cozy.client.data.query(geoIndexByDate, options)
     .then((topGeo) => {
@@ -93,8 +90,8 @@ export const fetchTopGeolocations = (geoIndexByDate) => {
 export const fetchTopPhonecalls = (phoneIndexByDate) => {
   return async dispatch => {
     const options = {
-      'selector': {
-        'docType': PHONECALL_DOCTYPE,
+      selector: {
+        docType: PHONECALL_DOCTYPE,
         '$and': [
           {
             'latitude': {'$ne': 'NULL'}
@@ -109,18 +106,15 @@ export const fetchTopPhonecalls = (phoneIndexByDate) => {
             'longitude': {'$ne': ''}
           }
         ]
-        },
-      'limit': 10000,
-      'descending': true,
-      'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner']
+      },
+      limit: 10000,
+      descending: true,
+      fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner']
 
     }
     return cozy.client.data.query(phoneIndexByDate, options)
     .then((topPhone) => {
-      // console.log('allphone')
-      // console.log(topPhone.length)
       let topPhonecalls = getTopPhoneValue(topPhone)
-      // console.log(topPhonecalls)
       dispatch(receiveTopPhonecalls(topPhonecalls))
       return topPhonecalls
     })

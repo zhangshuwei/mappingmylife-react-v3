@@ -29,7 +29,6 @@ export const favorispointIndex = (state = null, action) => {
       return action.favorisIndex
     default:
       return state
-
   }
 }
 export default combineReducers({

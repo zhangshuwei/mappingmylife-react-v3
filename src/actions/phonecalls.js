@@ -14,8 +14,8 @@ export const receivePhonecalls = (phonecalls) => ({
 export const fetchPhonecalls = (phoneIndexByDate, start, end) => {
   return async dispatch => {
     const options = {
-      'selector': {
-        'docType': PHONECALL_DOCTYPE,
+      selector: {
+        docType: PHONECALL_DOCTYPE,
         '$and': [
           {
             'timestamp': {'$gt': start}
@@ -36,14 +36,12 @@ export const fetchPhonecalls = (phoneIndexByDate, start, end) => {
             'longitude': {'$ne': ''}
           }
         ]},
-      'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner'],
-      'descending': true,
-      'limit': 10000
+      fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner'],
+      descending: true,
+      limit: 10000
     }
     return cozy.client.data.query(phoneIndexByDate, options)
     .then((phonecalls) => {
-      console.log('hahahaa')
-      console.log(phonecalls)
       dispatch(receivePhonecalls(phonecalls))
       return phonecalls
     })
@@ -58,8 +56,8 @@ export const fetchPhonecalls = (phoneIndexByDate, start, end) => {
 export const fetchPhonecallsLatest = (phoneIndexByDate) => {
   return async dispatch => {
     const options = {
-      'selector': {
-        'docType': PHONECALL_DOCTYPE,
+      selector: {
+        docType: PHONECALL_DOCTYPE,
         '$and': [
           {
             'latitude': {'$ne': 'NULL'}
@@ -75,9 +73,9 @@ export const fetchPhonecallsLatest = (phoneIndexByDate) => {
           }
         ]
       },
-      'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner'],
-      'descending': true,
-      'limit': 30
+      fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner'],
+      descending: true,
+      limit: 30
     }
     return cozy.client.data.query(phoneIndexByDate, options)
     .then((phonecalls) => {

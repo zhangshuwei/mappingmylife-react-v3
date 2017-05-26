@@ -25,14 +25,14 @@ class HomePage extends Component {
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <HomeMap geolocations={geolocations} phonecalls={phonecalls}/>
+              <HomeMap geolocations={geolocations} phonecalls={phonecalls} />
             </div>
           </Col>
         </Row>
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <TimeLineView geolocations={geolocations} phonecalls={phonecalls} date={date} selectDataByDate={actions.selectDataByDate} mango={mango}/>
+              <TimeLineView geolocations={geolocations} phonecalls={phonecalls} date={date} selectDataByDate={actions.selectDataByDate} mango={mango} />
             </div>
           </Col>
         </Row>

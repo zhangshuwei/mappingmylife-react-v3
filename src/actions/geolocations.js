@@ -14,8 +14,8 @@ export const receiveGeolocations = (geolocations) => ({
 export const fetchGeolocations = (mangoIndexByDate, start, end) => {
   return async dispatch => {
     const options = {
-      'selector': {
-        'docType': GEOLOCATION_DOCTYPE,
+      selector: {
+        docType: GEOLOCATION_DOCTYPE,
         '$and': [
           {
             'timestamp': {'$gt': start}
@@ -24,14 +24,13 @@ export const fetchGeolocations = (mangoIndexByDate, start, end) => {
             'timestamp': {'$lte': end + 'T23:59:59Z'}
           }
         ]},
-      'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
-      'descending': true,
-      'limit': 10000
+      fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
+      descending: true,
+      limit: 10000
     }
     return cozy.client.data.query(mangoIndexByDate, options)
     .then((geolocations) => {
       dispatch(receiveGeolocations(geolocations))
-      //return geolocations
     })
     .catch((error) => {
       dispatch({
@@ -44,17 +43,16 @@ export const fetchGeolocations = (mangoIndexByDate, start, end) => {
 export const fetchGeoLatest = (geoIndexByDate) => {
   return async dispatch => {
     const options = {
-      'selector': {
-        'docType': GEOLOCATION_DOCTYPE
+      selector: {
+        docType: GEOLOCATION_DOCTYPE
       },
-      'fields': ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
-      'descending': true,
-      'limit': 30
+      fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
+      descending: true,
+      limit: 30
     }
     return cozy.client.data.query(geoIndexByDate, options)
     .then((geolocations) => {
       dispatch(receiveGeolocations(geolocations))
-      //return geolocations
     })
     .catch((error) => {
       dispatch({

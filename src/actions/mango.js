@@ -9,7 +9,8 @@ import {
   INDEX_PHONECALLS_BY_DATE,
   INDEX_PHONECALLS_BY_DATE_SUCCESS,
   INDEX_FAVORISPOINT,
-  INDEX_FAVORISPOINT_SUCCESS
+  INDEX_FAVORISPOINT_SUCCESS,
+  CREATE_INDEX_FAILURE
 } from '../constants/actionTypes'
 
 import {
@@ -31,6 +32,12 @@ export const indexGeolocationsByDate = () => {
         })
         return mangoGeoIndexByDate
       })
+      .catch((error) => {
+        dispatch({
+          type: CREATE_INDEX_FAILURE,
+          error
+        })
+      })
   }
 }
 
@@ -46,13 +53,19 @@ export const indexPhonecallsByDate = () => {
         })
         return mangoPhoneIndexByDate
       })
+      .catch((error) => {
+        dispatch({
+          type: CREATE_INDEX_FAILURE,
+          error
+        })
+      })
   }
 }
 
 export const indexFavorisPoint = () => {
   return async dispatch => {
     dispatch({type: INDEX_FAVORISPOINT})
-    const fields = ['category', 'latitude', 'longitude']
+    const fields = ['category']
     return cozy.client.data.defineIndex(FAVORISPOINT_DOCTYPE, fields)
       .then((favorisIndex) => {
         dispatch({
@@ -60,6 +73,12 @@ export const indexFavorisPoint = () => {
           favorisIndex: favorisIndex
         })
         return favorisIndex
+      })
+      .catch((error) => {
+        dispatch({
+          type: CREATE_INDEX_FAILURE,
+          error
+        })
       })
   }
 }

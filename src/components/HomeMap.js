@@ -4,7 +4,6 @@ import L from 'leaflet'
 import {MAPBOXURL} from '../constants/config'
 import { geoIcon, phoneIcon } from './Icons'
 import _ from 'lodash'
-import reduce from 'lodash/fp'
 import { Button } from 'react-bootstrap'
 import 'leaflet-css'
 import '../styles/map.css'
@@ -23,7 +22,6 @@ class HomeMap extends Component {
       showPopup: false,
       center: [48.866667, 2.333333]
     }
-    this.showInfo = this.showInfo.bind(this)
     this.renderGeoMarkers = this.renderGeoMarkers.bind(this)
     this.renderPhoneMarkers = this.renderPhoneMarkers.bind(this)
   }
@@ -52,6 +50,7 @@ class HomeMap extends Component {
         geoLog.push(item)
       }
     }
+    console.log(geoLog)
     if (geoLog.length > 0) {
       return geoLog.map((item, i) =>
         <Marker key={i} position={[item.latitude, item.longitude]} icon={geoIcon}>
@@ -65,7 +64,7 @@ class HomeMap extends Component {
                   </div>
               )}
               </div>
-              <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
+              <Button bsSize='small' bsStyle='success' onClick={this.showInfo.bind(this)}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
             </div>
           </Popup>
         </Marker>
@@ -105,9 +104,9 @@ class HomeMap extends Component {
               <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
                 {item.phoneInfo.map((item, i) =>
                   <div key={i} className='phonePopup'>
-                      <p>Timestamp: {item.start}</p>
-                      <p>Numéro de contact: {item.partner}</p>
-                      <p>Type d'appel: {item.typeMessage}</p>
+                    <p>Timestamp: {item.start}</p>
+                    <p>Numéro de contact: {item.partner}</p>
+                    <p>Type d'appel: {item.typeMessage}</p>
                   </div>
               )}
               </div>

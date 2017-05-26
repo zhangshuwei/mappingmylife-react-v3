@@ -5,7 +5,6 @@ import * as ActionCreators from '../actions'
 import FavorisMap from '../components/FavorisMap'
 import FavorisForm from '../components/FavorisForm'
 import { Grid, Row, Col } from 'react-bootstrap'
-import { homeIcon }from '../components/Icons'
 import '../styles/rowContent.css'
 
 class FavorisPage extends Component {
@@ -39,14 +38,14 @@ class FavorisPage extends Component {
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <FavorisMap geolocations={topGeolocations} phonecalls={topPhonecalls} changeLatLng={this.changeLatLng} favorisPoint={favorisPoint}/>
+              <FavorisMap geolocations={topGeolocations} phonecalls={topPhonecalls} changeLatLng={this.changeLatLng} favorisPoint={favorisPoint} />
             </div>
           </Col>
         </Row>
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <FavorisForm  favorisPoint={favorisPoint} point={this.state.point} actions={actions}/>
+              <FavorisForm favorisPoint={favorisPoint} point={this.state.point} actions={actions} />
             </div>
           </Col>
         </Row>

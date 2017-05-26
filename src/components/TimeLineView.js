@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import { Row, Col, Button, ButtonGroup } from 'react-bootstrap'
-import * as ActionCreators from '../actions'
 import TimeLine, { zoomInTimeLine, zoomOutTimeLine, moveLeftTimeLine, moveRightTimeLine } from '../components/TimeLine'
 
 class TimeLineView extends Component {
