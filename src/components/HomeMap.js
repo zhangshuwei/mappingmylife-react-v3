@@ -141,7 +141,7 @@ class HomeMap extends Component {
                     </div>
                 )}
                 </div>
-                <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
+                <Button bsSize='small' bsStyle='success' onClick={this.showInfo.bind(this)}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
               </div>
             </Popup>
           </Marker>
