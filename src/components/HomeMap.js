@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Map, Marker, TileLayer, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import {MAPBOXURL} from '../constants/config'
-import { geoIcon, phoneIcon } from './Icons'
+import { geoIcon, phoneIcon, homeIcon, workIcon, sportIcon, shopIcon, otherIcon } from './Icons'
 import _ from 'lodash'
 import { Button } from 'react-bootstrap'
 import 'leaflet-css'
@@ -24,11 +24,38 @@ class HomeMap extends Component {
     }
     this.renderGeoMarkers = this.renderGeoMarkers.bind(this)
     this.renderPhoneMarkers = this.renderPhoneMarkers.bind(this)
+    this.getIconType = this.getIconType.bind(this)
   }
   showInfo () {
     this.setState({
       showPopup: !this.state.showPopup
     })
+  }
+  getIconType (latitude, longitude, defaultIcon) {
+    let key = latitude.toString() + longitude.toString()
+    let typeIcon = defaultIcon
+    if (!(_.isEmpty(this.props.favorisPoint))) {
+      if (this.props.favorisPoint[key] !== undefined && this.props.favorisPoint[key]['category'] !== undefined) {
+        let category = this.props.favorisPoint[key]['category']
+        switch (category) {
+          case 'maison':
+            typeIcon = homeIcon
+            break
+          case 'travail':
+            typeIcon = workIcon
+            break
+          case 'sport':
+            typeIcon = sportIcon
+            break
+          case 'marche':
+            typeIcon = shopIcon
+            break
+          default:
+            typeIcon = otherIcon
+        }
+      }
+    }
+    return typeIcon
   }
   renderGeoMarkers (geolocations) {
     let result = _.reduce(geolocations, function (result, value) {
@@ -50,25 +77,27 @@ class HomeMap extends Component {
         geoLog.push(item)
       }
     }
-    console.log(geoLog)
     if (geoLog.length > 0) {
-      return geoLog.map((item, i) =>
-        <Marker key={i} position={[item.latitude, item.longitude]} icon={geoIcon}>
-          <Popup>
-            <div>
-              <h5>Nombre de geolocation = {item.geoInfo.length}</h5>
-              <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
-                {item.geoInfo.map((item, i) =>
-                  <div key={i} className='geoPopup'>
-                    <p >Timestamp: {item.start}</p>
-                  </div>
-              )}
+      return geoLog.map((item, i) => {
+        let typeIcon = this.getIconType(item.latitude, item.longitude, geoIcon)
+        return (
+          <Marker key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
+            <Popup>
+              <div>
+                <h5>Nombre de geolocation = {item.geoInfo.length}</h5>
+                <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
+                  {item.geoInfo.map((item, i) =>
+                    <div key={i} className='geoPopup'>
+                      <p >Timestamp: {item.start}</p>
+                    </div>
+                )}
+                </div>
+                <Button bsSize='small' bsStyle='success' onClick={this.showInfo.bind(this)}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
               </div>
-              <Button bsSize='small' bsStyle='success' onClick={this.showInfo.bind(this)}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
-            </div>
-          </Popup>
-        </Marker>
-    )
+            </Popup>
+          </Marker>
+        )}
+      )
     } else {
       return <p>error</p>
     }
@@ -96,24 +125,27 @@ class HomeMap extends Component {
       }
     }
     if (phoneLog.length > 0) {
-      return phoneLog.map((item, i) =>
-        <Marker key={i} position={[item.latitude, item.longitude]} icon={phoneIcon}>
-          <Popup>
-            <div>
-              <h5>Nombre de communications = {item.phoneInfo.length}</h5>
-              <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
-                {item.phoneInfo.map((item, i) =>
-                  <div key={i} className='phonePopup'>
-                    <p>Timestamp: {item.start}</p>
-                    <p>Numéro de contact: {item.partner}</p>
-                    <p>Type d'appel: {item.typeMessage}</p>
-                  </div>
-              )}
+      return phoneLog.map((item, i) => {
+        let typeIcon = this.getIconType(item.latitude, item.longitude, phoneIcon)
+        return (
+          <Marker key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
+            <Popup>
+              <div>
+                <h5>Nombre de communications = {item.phoneInfo.length}</h5>
+                <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
+                  {item.phoneInfo.map((item, i) =>
+                    <div key={i} className='phonePopup'>
+                      <p>Timestamp: {item.start}</p>
+                      <p>Numéro de contact: {item.partner}</p>
+                      <p>Type d'appel: {item.typeMessage}</p>
+                    </div>
+                )}
+                </div>
+                <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
               </div>
-              <Button bsSize='small' bsStyle='success' onClick={this.showInfo}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
-            </div>
-          </Popup>
-        </Marker>
+            </Popup>
+          </Marker>
+        )}
     )
     } else {
       return <p>error</p>

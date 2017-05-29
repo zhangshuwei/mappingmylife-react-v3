@@ -19,13 +19,13 @@ class HomePage extends Component {
   //   console.log(this.props.date)
   // }
   render () {
-    const { geolocations, phonecalls, date, mango, actions } = this.props
+    const { geolocations, phonecalls, date, mango, actions, favorisPoint } = this.props
     return (
       <Grid fluid>
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <HomeMap geolocations={geolocations} phonecalls={phonecalls} />
+              <HomeMap geolocations={geolocations} phonecalls={phonecalls} favorisPoint={favorisPoint}/>
             </div>
           </Col>
         </Row>
@@ -46,7 +46,8 @@ const mapStateToProps = (state) => {
     geolocations: state.geolocations.geolocations,
     phonecalls: state.phonecalls.phonecalls,
     date: state.date,
-    mango: state.mango
+    mango: state.mango,
+    favorisPoint: state.favoris
   }
 }
 const mapDispatchToProps = (dispatch) => {
