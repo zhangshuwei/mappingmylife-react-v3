@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   cozy.client.init(cozyOptions)
   render(
-
     <Provider store={store}>
       <BrowserRouter history={history}>
         <div>

@@ -1,6 +1,6 @@
 import { RECEIVE_FAVORISPOINT, ADD_FAVORIS_MAP,
   UPDATE_FAVORIS_MAP, DELETE_FAVORIS_MAP } from '../constants/actionTypes'
-import omit from 'lodash/fp/omit'
+import _ from 'lodash'
 
 // reducer for favoris point
 const favorisMap = (state = {}, action) => {
@@ -24,7 +24,7 @@ const favorisMap = (state = {}, action) => {
         }
       }
     case DELETE_FAVORIS_MAP:
-      let newState = omit(state, [action.key])
+      let newState = _.omit(state, [action.key])
       return newState
     default:
       return state

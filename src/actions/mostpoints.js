@@ -4,6 +4,15 @@ import { RECEIVE_TOP_GEOLOCATIONS, RECEIVE_TOP_PHONECALLS, FETCH_TOP_GEOLOCATION
 import { GEOLOCATION_DOCTYPE, PHONECALL_DOCTYPE } from '../constants/config'
 import _ from 'lodash'
 
+
+const applicationElement = document.querySelector('[role=application]')
+const cozyOptions = {
+  cozyURL: `//${applicationElement.dataset.cozyDomain}`,
+  token: applicationElement.dataset.cozyToken
+}
+const getPhoneCommunicationLogURL = 'http:' + cozyOptions.cozyURL + '/data/' + PHONECALL_DOCTYPE + '/_all_docs?include_docs=true'
+const getGeoPointURL = 'http:' + cozyOptions.cozyURL + '/data/' + GEOLOCATION_DOCTYPE + '/_all_docs?include_docs=true'
+
 export const receiveTopGeolocations = (topGeolocations) => ({
   type: RECEIVE_TOP_GEOLOCATIONS,
   topGeolocations: topGeolocations
@@ -16,11 +25,11 @@ export const receiveTopPhonecalls = (topPhonecalls) => ({
 
 const getTopGeoValue = (values) => {
   let result = _.reduce(values, function (result, value) {
-    ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
+    ((result[(value.doc.latitude).toString() + ',' + (value.doc.longitude).toString()]) || (result[(value.doc.latitude).toString() + ',' + (value.doc.longitude).toString()] = [])).push(
       {
-        start: value.timestamp.replace(/T|Z/g, ' '),
-        msisdn: value.msisdn,
-        _id: value._id
+        start: value.doc.timestamp.replace(/T|Z/g, ' '),
+        msisdn: value.doc.msisdn,
+        _id: value.doc._id
       })
     return result
   }, [])
@@ -35,17 +44,18 @@ const getTopGeoValue = (values) => {
     }
   }
   geoLog = _.orderBy(geoLog, ['geoInfo'], ['desc'])
+  console.log(geoLog)
   return geoLog.slice(0, 5)
 }
 const getTopPhoneValue = (values) => {
   let result = _.reduce(values, function (result, value) {
-    ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
+    ((result[(value.doc.latitude).toString() + ',' + (value.doc.longitude).toString()]) || (result[(value.doc.latitude).toString() + ',' + (value.doc.longitude).toString()] = [])).push(
       {
-        start: value.timestamp.replace(/T|Z/g, ' '),
-        msisdn: value.msisdn,
-        partner: value.partner,
-        typeMessage: value.type,
-        _id: value._id
+        start: value.doc.timestamp.replace(/T|Z/g, ' '),
+        msisdn: value.doc.msisdn,
+        partner: value.doc.partner,
+        typeMessage: value.doc.type,
+        _id: value.doc._id
       })
     return result
   }, [])
@@ -62,67 +72,124 @@ const getTopPhoneValue = (values) => {
   phoneLog = _.orderBy(phoneLog, ['phoneInfo'], ['desc'])
   return phoneLog.slice(0, 5)
 }
-
-export const fetchTopGeolocations = (geoIndexByDate) => {
-  return async dispatch => {
-    const options = {
-      selector: {
-        docType: GEOLOCATION_DOCTYPE
+export const fetchTopGeolocations = () => {
+  return dispatch => {
+    $.ajax(getGeoPointURL, {
+      type: "GET",
+      beforeSend: function(request) {
+        request.setRequestHeader("Authorization", "Bearer " + cozyOptions.token);
       },
-      fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
-      descending: true,
-      limit: 10000
-    }
-    return cozy.client.data.query(geoIndexByDate, options)
-    .then((topGeo) => {
-      let topGeolocations = getTopGeoValue(topGeo)
-      dispatch(receiveTopGeolocations(topGeolocations))
-      return topGeolocations
-    })
-    .catch((error) => {
-      dispatch({
-        type: FETCH_TOP_GEOLOCATIONS_FAILURE,
-        error
-      })
+      dataType: "json",
+      success: (data) => {
+        let result = []
+        if (data && data.rows) {
+          result = data.rows.filter( function(obj) {
+            return obj.doc.latitude !== 'NULL' && obj.doc.latitude !== ''
+            && obj.doc.longitude !== 'NULL' && obj.doc.longitude !== ''&& obj.doc.latitude !== undefined
+            && obj.doc.longitude !== undefined
+          })
+        }
+        let topGeolocations = getTopGeoValue(result)
+        dispatch(receiveTopGeolocations(topGeolocations))
+      },
+      error: (error) => {
+        dispatch({
+          type: FETCH_TOP_GEOLOCATIONS_FAILURE,
+          error
+        })
+      }
     })
   }
 }
-export const fetchTopPhonecalls = (phoneIndexByDate) => {
-  return async dispatch => {
-    const options = {
-      selector: {
-        docType: PHONECALL_DOCTYPE,
-        '$and': [
-          {
-            'latitude': {'$ne': 'NULL'}
-          },
-          {
-            'longitude': {'$ne': 'NULL'}
-          },
-          {
-            'latitude': {'$ne': ''}
-          },
-          {
-            'longitude': {'$ne': ''}
-          }
-        ]
+export const fetchTopPhonecalls = () => {
+  return dispatch => {
+    $.ajax(getPhoneCommunicationLogURL, {
+      type: "GET",
+      beforeSend: function(request) {
+        request.setRequestHeader("Authorization", "Bearer " + cozyOptions.token);
       },
-      limit: 10000,
-      descending: true,
-      fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner']
-
-    }
-    return cozy.client.data.query(phoneIndexByDate, options)
-    .then((topPhone) => {
-      let topPhonecalls = getTopPhoneValue(topPhone)
-      dispatch(receiveTopPhonecalls(topPhonecalls))
-      return topPhonecalls
-    })
-    .catch((error) => {
-      dispatch({
-        type: FETCH_TOP_PHONECALLS_FAILURE,
-        error
-      })
+      dataType: "json",
+      success: (data) => {
+        let result = []
+        if (data && data.rows) {
+          result = data.rows.filter( function(obj) {
+            return obj.doc.latitude !== 'NULL' && obj.doc.latitude !== ''
+            && obj.doc.longitude !== 'NULL' && obj.doc.longitude !== ''&& obj.doc.latitude !== undefined
+            && obj.doc.longitude !== undefined
+          })
+        }
+        let topPhonecalls = getTopPhoneValue(result)
+        dispatch(receiveTopPhonecalls(topPhonecalls))
+      },
+      error: (error) => {
+        dispatch({
+          type: FETCH_TOP_GEOLOCATIONS_FAILURE,
+          error
+        })
+      }
     })
   }
 }
+// export const fetchTopGeolocations = (geoIndexByDate) => {
+//   return async dispatch => {
+//     const options = {
+//       selector: {
+//         docType: GEOLOCATION_DOCTYPE
+//       },
+//       fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
+//       descending: true,
+//       limit: 10000
+//     }
+//     return cozy.client.data.query(geoIndexByDate, options)
+//     .then((topGeo) => {
+//       let topGeolocations = getTopGeoValue(topGeo)
+//       dispatch(receiveTopGeolocations(topGeolocations))
+//       return topGeolocations
+//     })
+//     .catch((error) => {
+//       dispatch({
+//         type: FETCH_TOP_GEOLOCATIONS_FAILURE,
+//         error
+//       })
+//     })
+//   }
+// }
+// export const fetchTopPhonecalls_old = (phoneIndexByDate) => {
+//   return async dispatch => {
+//     const options = {
+//       selector: {
+//         docType: PHONECALL_DOCTYPE,
+//         '$and': [
+//           {
+//             'latitude': {'$ne': 'NULL'}
+//           },
+//           {
+//             'longitude': {'$ne': 'NULL'}
+//           },
+//           {
+//             'latitude': {'$ne': ''}
+//           },
+//           {
+//             'longitude': {'$ne': ''}
+//           }
+//         ]
+//       },
+//       limit: 10000,
+//       descending: true,
+//       fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner']
+//
+//     }
+//     return cozy.client.data.query(phoneIndexByDate, options)
+//     .then((topPhone) => {
+//       let topPhonecalls = getTopPhoneValue(topPhone)
+//       dispatch(receiveTopPhonecalls(topPhonecalls))
+//       return topPhonecalls
+//     })
+//     .catch((error) => {
+//       dispatch({
+//         type: FETCH_TOP_PHONECALLS_FAILURE,
+//         error
+//       })
+//     })
+//   }
+// }

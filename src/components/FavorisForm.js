@@ -91,6 +91,7 @@ class FavorisForm extends Component {
       this.setState({ successMessage: '' })
     } else {
       let deleteId = this.props.favorisPoint[key]['id']
+      console.log(deleteId)
       cozy.client.data.find(FAVORISPOINT_DOCTYPE, deleteId)
       .then(function (result) {
         cozy.client.data.delete(FAVORISPOINT_DOCTYPE, result)

@@ -6,6 +6,7 @@ import '../../node_modules/vis/dist/vis.min.css'
 import '../styles/timeLine.css'
 
 let timeline = {}
+let items = []
 const renderGeoItems = (items) => {
   let data = []
   if (items.length > 0) {
@@ -88,7 +89,7 @@ class TimeLine extends Component {
 
   initTimeline () {
     let container = document.getElementById('mytimeline')
-    timeline = new vis.Timeline(container, [], TIMELINEGROUPS, TIMELINEOPTIONS)
+    timeline = new vis.Timeline(container, items, TIMELINEGROUPS, TIMELINEOPTIONS)
     timeline.addEventListener('rangechanged', this.onSelectDataByDate)
   }
 
@@ -96,7 +97,7 @@ class TimeLine extends Component {
     const { geolocations, phonecalls } = this.props
     let geoItems = renderGeoItems(geolocations)
     let phoneItems = renderPhoneItems(phonecalls)
-    let items = [...geoItems, ...phoneItems]
+    items = [...geoItems, ...phoneItems]
     if (geoItems.length > 0 && phoneItems.length > 0) {
         timeline.setItems(items)
         if (_.isEmpty(this.props.date)) {
