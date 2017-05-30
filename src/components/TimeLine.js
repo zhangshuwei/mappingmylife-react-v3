@@ -98,6 +98,8 @@ class TimeLine extends Component {
     let geoItems = renderGeoItems(geolocations)
     let phoneItems = renderPhoneItems(phonecalls)
     items = [...geoItems, ...phoneItems]
+    console.log('*********************************************')
+    console.log(items)
     if (geoItems.length > 0 && phoneItems.length > 0) {
         timeline.setItems(items)
         if (_.isEmpty(this.props.date)) {

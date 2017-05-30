@@ -18,6 +18,12 @@ class HomePage extends Component {
   // componentDidMount() {
   //   console.log(this.props.date)
   // }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if((_.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state))) {
+  //     console.log('************************** is equal')
+  //   }
+  //    return !(_.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state))
+  // }
   render () {
     const { geolocations, phonecalls, date, mango, actions, favorisPoint } = this.props
     return (

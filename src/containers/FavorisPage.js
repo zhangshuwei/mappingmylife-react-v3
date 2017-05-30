@@ -14,21 +14,29 @@ class FavorisPage extends Component {
       point: {
         latitude: '',
         longitude: ''
-      }
+      },
+      errorMessage: '',
+      successMessage: ''
     }
-    this.changeLatLng = this.changeLatLng.bind(this)
+
     this.props.actions.indexFavorisPoint().then((favorisIndex) => this.props.actions.fetchFavorisPoint(favorisIndex))
-    this.props.actions.indexGeolocationsByDate().then((geoIndexByDate) => this.props.actions.fetchTopGeolocations(geoIndexByDate))
-    this.props.actions.indexPhonecallsByDate().then((phoneIndexByDate) => this.props.actions.fetchTopPhonecalls(phoneIndexByDate))
-    // this.props.actions.fetchTopGeolocations(this.props.mango.geolocationsIndexByDate)
-    // this.props.actions.fetchTopPhonecalls(this.props.mango.phonecallsIndexByDate)
+    this.props.actions.fetchTopGeolocations()
+    this.props.actions.fetchTopPhonecalls()
   }
   changeLatLng (e) {
     this.setState({
       point: {
         latitude: e.latlng.lat,
         longitude: e.latlng.lng
-      }
+      },
+      errorMessage: '',
+      successMessage: ''
+    })
+  }
+  showMessage (errorMessage, successMessage) {
+    this.setState({
+      errorMessage: errorMessage,
+      successMessage: successMessage
     })
   }
   render () {
@@ -38,14 +46,20 @@ class FavorisPage extends Component {
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <FavorisMap geolocations={topGeolocations} phonecalls={topPhonecalls} changeLatLng={this.changeLatLng} favorisPoint={favorisPoint} />
+              <FavorisMap geolocations={topGeolocations} phonecalls={topPhonecalls} changeLatLng={this.changeLatLng.bind(this)} favorisPoint={favorisPoint} />
             </div>
           </Col>
         </Row>
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <FavorisForm favorisPoint={favorisPoint} point={this.state.point} actions={actions} />
+              <p style={{ display: (this.state.errorMessage.length === 0) ? 'none' : 'block', color: 'red' }}>{this.state.errorMessage}</p>
+            </div>
+            <div className='rowContent'>
+              <p style={{ display: (this.state.successMessage.length === 0) ? 'none' : 'block', color: 'green' }}>{this.state.successMessage}</p>
+            </div>
+            <div className='rowContent'>
+              <FavorisForm favorisPoint={favorisPoint} point={this.state.point} showMessage={this.showMessage.bind(this)}actions={actions} />
             </div>
           </Col>
         </Row>

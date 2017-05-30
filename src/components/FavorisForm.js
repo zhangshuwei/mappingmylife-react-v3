@@ -10,9 +10,9 @@ class FavorisForm extends Component {
     this.state = {
       favorisType: '',
       showCustomerInput: false,
-      customerType: '',
-      errorMessage: '',
-      successMessage: ''
+      customerType: ''
+      // errorMessage: '',
+      // successMessage: ''
     }
   }
 
@@ -37,13 +37,10 @@ class FavorisForm extends Component {
     let isFieldValid = this.checkIfFieldValid(this.props.point.latitude, this.props.point.longitude, this.state.favorisType, this.state.customerType)
     let key = this.props.point.latitude.toString() + this.props.point.longitude.toString()
     if (!isFieldValid) {
-      this.setState({ errorMessage: 'invalid champs' })
-      this.setState({ successMessage: '' })
+      this.props.showMessage('invalid champs', '')
     } else if (this.props.favorisPoint[key] !== undefined || this.props.favorisPoint[key]) {
-      this.setState({ errorMessage: 'Ce point est déjà un point favoris' })
-      this.setState({ successMessage: '' })
+      this.props.showMessage('Ce point est déjà un point favoris', '')
     } else {
-      this.setState({ errorMessage: '' })
       let favorisPoint = {}
       favorisPoint.latitude = this.props.point.latitude
       favorisPoint.longitude = this.props.point.longitude
@@ -52,10 +49,10 @@ class FavorisForm extends Component {
       .then(function (result) {
         let pointKey = result.latitude.toString() + result.longitude.toString()
         this.props.actions.addFavorisMap(pointKey, result.category, result._id)
-        this.setState({ successMessage: 'OK' })
+        this.props.showMessage('', 'OK')
       }.bind(this))
       .catch(function (error) {
-        this.setState({ errorMessage: 'Internal Error'})
+        this.props.showMessage('Internal Error', '')
       }.bind(this))
     }
   }
@@ -64,11 +61,9 @@ class FavorisForm extends Component {
     let isFieldValid = this.checkIfFieldValid(this.props.point.latitude, this.props.point.longitude, this.state.favorisType, this.state.customerType)
     let key = this.props.point.latitude.toString() + this.props.point.longitude.toString()
     if (!isFieldValid) {
-      this.setState({ errorMessage: 'invalid champs' })
-      this.setState({ successMessage: '' })
+      this.props.showMessage('invalid champs', '')
     } else if (this.props.favorisPoint[key] === undefined || !this.props.favorisPoint[key]) {
-      this.setState({ errorMessage: 'Veuillez d\'abord ajouter ce point, puis le modifier' })
-      this.setState({ successMessage: '' })
+      this.props.showMessage('Veuillez d\'abord ajouter ce point, puis le modifier', '')
     } else {
       let modifyId = this.props.favorisPoint[key]['id']
       let modifyField = {category: this.state.favorisType === 'others' ? this.state.customerType : this.state.favorisType}
@@ -76,30 +71,34 @@ class FavorisForm extends Component {
       .then(function (result) {
         let pointKey = result.latitude.toString() + result.longitude.toString()
         this.props.actions.updateFavorisMap(pointKey, result.category, modifyId)
-        this.setState({ errorMessage: '' })
-        this.setState({ successMessage: 'OK' })
+        this.props.showMessage('', 'OK')
+      }.bind(this))
+      .catch(function (error) {
+        this.props.showMessage('Internal Error', '')
       }.bind(this))
     }
   }
   deleteFavoris () {
     let key = this.props.point.latitude.toString() + this.props.point.longitude.toString()
     if (this.props.point.latitude === '' || this.props.point.longitude === '') {
-      this.setState({ errorMessage: 'invalid champs' })
-      this.setState({ successMessage: '' })
+      this.props.showMessage('invalid champs', '')
     } else if (this.props.favorisPoint[key] === undefined || !this.props.favorisPoint[key]) {
-      this.setState({ errorMessage: 'Le point que vous avez sélectionné n\'est pas votre lieu préféré' })
-      this.setState({ successMessage: '' })
+      this.props.showMessage('Le point que vous avez sélectionné n\'est pas votre lieu préféré', '')
     } else {
       let deleteId = this.props.favorisPoint[key]['id']
-      console.log(deleteId)
       cozy.client.data.find(FAVORISPOINT_DOCTYPE, deleteId)
       .then(function (result) {
         cozy.client.data.delete(FAVORISPOINT_DOCTYPE, result)
         .then(function (result) {
           this.props.actions.deleteFavorisMap(key)
-          this.setState({ errorMessage: '' })
-          this.setState({ successMessage: 'OK' })
+            this.props.showMessage('', 'OK')
         }.bind(this))
+        .catch(function (error) {
+          this.props.showMessage('Internal Error', '')
+        }.bind(this))
+      }.bind(this))
+      .catch(function (error) {
+        this.props.showMessage('Internal Error', '')
       }.bind(this))
     }
   }
@@ -107,12 +106,6 @@ class FavorisForm extends Component {
     const { point } = this.props
     return (
       <div>
-        <div className='rowContent'>
-          <p style={{ display: (this.state.errorMessage.length === 0) ? 'none' : 'block', color: 'red' }}>{this.state.errorMessage}</p>
-        </div>
-        <div className='rowContent'>
-          <p style={{ display: (this.state.successMessage.length === 0) ? 'none' : 'block', color: 'green' }}>{this.state.successMessage}</p>
-        </div>
         <div className='rowContent'>
           <Form inline>
             <FormGroup controlId='formInlineLat'>
@@ -127,7 +120,7 @@ class FavorisForm extends Component {
 
             <FormGroup controlId='formControlsType'>
               <ControlLabel>Choisir le type:</ControlLabel>{' '}
-              <FormControl componentClass='select' placeholder='select' onChange={this.handleChange.bind(this)}>
+              <FormControl componentClass='select' placeholder='select' onChange={this.handleChange.bind(this)} value={this.state.favorisType}>
                 <option value='' />
                 <option value='maison'>Maison</option>
                 <option value='travail'>Travail</option>
