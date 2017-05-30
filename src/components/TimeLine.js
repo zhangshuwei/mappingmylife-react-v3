@@ -5,7 +5,6 @@ import { GEOITEM, PHONEITEM, TIMELINEOPTIONS, TIMELINEGROUPS } from '../constant
 import '../../node_modules/vis/dist/vis.min.css'
 import '../styles/timeLine.css'
 
-let items = []
 let timeline = {}
 const renderGeoItems = (items) => {
   let data = []
@@ -67,12 +66,13 @@ class TimeLine extends Component {
   componentDidMount () {
     let idname = document.getElementById('mytimeline')
     this.initTimeline()
-    console.log('DidMount *******************************************')
-    console.log(timeline)
   }
-  shouldComponentUpdate(nextProps, nextState) {
-     return !(_.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state))
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if((_.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state))) {
+  //     console.log('************************** is equal')
+  //   }
+  //    return !(_.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state))
+  // }
   componentWillUnmount () {
     timeline.off('rangechanged', this.onSelectDataByDate)
   }
@@ -88,29 +88,22 @@ class TimeLine extends Component {
 
   initTimeline () {
     let container = document.getElementById('mytimeline')
-    timeline = new vis.Timeline(container, items, TIMELINEGROUPS, TIMELINEOPTIONS)
-    console.log('this istimeline after defined *-*************************')
-    console.log(timeline)
+    timeline = new vis.Timeline(container, [], TIMELINEGROUPS, TIMELINEOPTIONS)
     timeline.addEventListener('rangechanged', this.onSelectDataByDate)
-  // timeline.addEventListener()
   }
 
   render () {
     const { geolocations, phonecalls } = this.props
     let geoItems = renderGeoItems(geolocations)
     let phoneItems = renderPhoneItems(phonecalls)
-    items = [...geoItems, ...phoneItems]
-    console.log('here is render****************************************')
-    console.log(timeline)
-    if(!_.isEmpty(timeline)){
-      if (geoItems.length > 0 && phoneItems.length > 0) {
+    let items = [...geoItems, ...phoneItems]
+    if (geoItems.length > 0 && phoneItems.length > 0) {
         timeline.setItems(items)
         if (_.isEmpty(this.props.date)) {
           let startDay = (geoItems[geoItems.length - 1].start > phoneItems[phoneItems.length - 1].start) ? phoneItems[phoneItems.length - 1].start : geoItems[geoItems.length - 1].start
           let lastDay = (geoItems[0].start > phoneItems[0].start) ? geoItems[0].start : phoneItems[0].start
           timeline.setWindow(startDay, lastDay)
         }
-      }
     }
     return (
       <div>

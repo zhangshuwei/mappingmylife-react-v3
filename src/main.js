@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
   render(
 
     <Provider store={store}>
-      <HashRouter history={history}>
+      <BrowserRouter history={history}>
         <div>
           <AppNav />
           <Route exact path='/' component={HomePage} />
           <Route path='/map' component={FavorisPage} />
         </div>
-      </ HashRouter>
+      </BrowserRouter>
     </Provider>
   , applicationElement)
 })
