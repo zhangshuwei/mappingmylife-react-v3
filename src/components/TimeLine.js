@@ -65,7 +65,6 @@ class TimeLine extends Component {
     this.initTimeline = this.initTimeline.bind(this)
   }
   componentDidMount () {
-    let idname = document.getElementById('mytimeline')
     this.initTimeline()
   }
   // shouldComponentUpdate(nextProps, nextState) {
@@ -84,6 +83,7 @@ class TimeLine extends Component {
       let geoIndexByDate = this.props.mango.geolocationsIndexByDate
       let phoneIndexByDate = this.props.mango.phonecallsIndexByDate
       this.props.selectDataByDate(start, end, geoIndexByDate, phoneIndexByDate)
+      this.setState({isFirstFetch: false})
     }
   }
 
@@ -98,15 +98,13 @@ class TimeLine extends Component {
     let geoItems = renderGeoItems(geolocations)
     let phoneItems = renderPhoneItems(phonecalls)
     items = [...geoItems, ...phoneItems]
-    console.log('*********************************************')
-    console.log(items)
     if (geoItems.length > 0 && phoneItems.length > 0) {
-        timeline.setItems(items)
-        if (_.isEmpty(this.props.date)) {
-          let startDay = (geoItems[geoItems.length - 1].start > phoneItems[phoneItems.length - 1].start) ? phoneItems[phoneItems.length - 1].start : geoItems[geoItems.length - 1].start
-          let lastDay = (geoItems[0].start > phoneItems[0].start) ? geoItems[0].start : phoneItems[0].start
-          timeline.setWindow(startDay, lastDay)
-        }
+      timeline.setItems(items)
+      if (this.state.isFirstFetch) {
+        let startDay = (geoItems[geoItems.length - 1].start > phoneItems[phoneItems.length - 1].start) ? phoneItems[phoneItems.length - 1].start : geoItems[geoItems.length - 1].start
+        let lastDay = (geoItems[0].start > phoneItems[0].start) ? geoItems[0].start : phoneItems[0].start
+        timeline.setWindow(startDay, lastDay)
+      }
     }
     return (
       <div>

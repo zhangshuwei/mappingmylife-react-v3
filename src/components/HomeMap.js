@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Map, Marker, TileLayer, Popup } from 'react-leaflet'
+import { Map, Marker, TileLayer, Popup, Polyline } from 'react-leaflet'
 import L from 'leaflet'
+import MyPolyline from './MyPolyline'
 import {MAPBOXURL} from '../constants/config'
 import { geoIcon, phoneIcon, homeIcon, workIcon, sportIcon, shopIcon, otherIcon } from './Icons'
 import _ from 'lodash'
@@ -96,7 +97,8 @@ class HomeMap extends Component {
               </div>
             </Popup>
           </Marker>
-        )}
+        )
+      }
       )
     } else {
       return <p>error</p>
@@ -145,7 +147,8 @@ class HomeMap extends Component {
               </div>
             </Popup>
           </Marker>
-        )}
+        )
+      }
     )
     } else {
       return <p>error</p>
@@ -156,7 +159,9 @@ class HomeMap extends Component {
     const {geolocations, phonecalls} = this.props
     const geomarkers = this.renderGeoMarkers(geolocations)
     const phonemarkers = this.renderPhoneMarkers(phonecalls)
-
+    let latlngs = this.props.geolocations.map((item) => {
+      return [item.latitude, item.longitude]
+    })
     return (
       <div>
         <Map center={this.state.center} zoom={13} maxZoom={18}>
@@ -167,8 +172,8 @@ class HomeMap extends Component {
           />
           {geomarkers}
           {phonemarkers}
+          <Polyline positions={latlngs} color={'#808080'} weight={2} opacity={1} smoothFactor={1} />
         </Map>
-
       </div>
     )
   }

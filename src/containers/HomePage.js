@@ -16,7 +16,7 @@ class HomePage extends Component {
     this.props.actions.indexFavorisPoint()
   }
   // componentDidMount() {
-  //   console.log(this.props.date)
+  //   console.log("did mount")
   // }
   // shouldComponentUpdate(nextProps, nextState) {
   //   if((_.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state))) {
@@ -31,7 +31,7 @@ class HomePage extends Component {
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <HomeMap geolocations={geolocations} phonecalls={phonecalls} favorisPoint={favorisPoint}/>
+              <HomeMap geolocations={geolocations} phonecalls={phonecalls} favorisPoint={favorisPoint} />
             </div>
           </Col>
         </Row>

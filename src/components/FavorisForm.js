@@ -51,9 +51,9 @@ class FavorisForm extends Component {
         this.props.actions.addFavorisMap(pointKey, result.category, result._id)
         this.props.showMessage('', 'OK')
       }.bind(this))
-      .catch(function (error) {
-        this.props.showMessage('Internal Error', '')
-      }.bind(this))
+      // .catch(function (error) {
+      //   this.props.showMessage('Internal Error', '')
+      // }.bind(this))
     }
   }
 
@@ -73,9 +73,9 @@ class FavorisForm extends Component {
         this.props.actions.updateFavorisMap(pointKey, result.category, modifyId)
         this.props.showMessage('', 'OK')
       }.bind(this))
-      .catch(function (error) {
-        this.props.showMessage('Internal Error', '')
-      }.bind(this))
+      // .catch(function (error) {
+      //   this.props.showMessage('Internal Error', '')
+      // }.bind(this))
     }
   }
   deleteFavoris () {
@@ -91,15 +91,15 @@ class FavorisForm extends Component {
         cozy.client.data.delete(FAVORISPOINT_DOCTYPE, result)
         .then(function (result) {
           this.props.actions.deleteFavorisMap(key)
-            this.props.showMessage('', 'OK')
+          this.props.showMessage('', 'OK')
         }.bind(this))
-        .catch(function (error) {
-          this.props.showMessage('Internal Error', '')
-        }.bind(this))
+        // .catch(function (error) {
+        //   this.props.showMessage('Internal Error', '')
+        // }.bind(this))
       }.bind(this))
-      .catch(function (error) {
-        this.props.showMessage('Internal Error', '')
-      }.bind(this))
+      // .catch(function (error) {
+      //   this.props.showMessage('Internal Error', '')
+      // }.bind(this))
     }
   }
   render () {

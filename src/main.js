@@ -7,15 +7,17 @@ import rootReducer from './reducers'
 import { createStore, applyMiddleware } from 'redux'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { BrowserRouter, Route, HashRouter } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
 import HomePage from './containers/HomePage'
 import FavorisPage from './containers/FavorisPage'
 import AppNav from './components/AppNav'
+// import * as moment from 'moment'
+import ItineraryPage from './containers/ItineraryPage'
 import 'bootstrap-css'
 import 'bootstrap-theme-css'
 import 'font-awesome-css'
-
+// moment.locale('fr')
 const middleware = [ thunk ]
 if (process.env.NODE_ENV !== 'production') {
   middleware.push(createLogger())
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     token: applicationElement.dataset.cozyToken
   }
   cozy.client.init(cozyOptions)
+  // console.log(moment.locale())
   render(
     <Provider store={store}>
       <BrowserRouter history={history}>
@@ -40,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <AppNav />
           <Route exact path='/' component={HomePage} />
           <Route path='/map' component={FavorisPage} />
+          <Route path='/trace' component={ItineraryPage} />
         </div>
       </BrowserRouter>
     </Provider>

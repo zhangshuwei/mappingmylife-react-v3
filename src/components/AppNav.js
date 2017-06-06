@@ -18,6 +18,9 @@ export const AppNav = () => (
       <LinkContainer to='/map'>
         <NavItem eventKey={2} href='/map'>Aggregate</NavItem>
       </LinkContainer>
+      <LinkContainer to='/trace'>
+        <NavItem eventKey={3} href='/trace'>Itinerary</NavItem>
+      </LinkContainer>
     </Nav>
   </Navbar>
 )

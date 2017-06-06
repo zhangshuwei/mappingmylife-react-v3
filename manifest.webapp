@@ -24,6 +24,11 @@
       "folder": "/",
       "index": "index.html",
       "public": false
+    },
+    "/trace": {
+      "folder": "/",
+      "index": "index.html",
+      "public": false
     }
   },
   "version": "3.0.0",

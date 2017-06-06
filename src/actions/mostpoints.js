@@ -1,9 +1,7 @@
-/* global cozy */
-
+/* global $ */
 import { RECEIVE_TOP_GEOLOCATIONS, RECEIVE_TOP_PHONECALLS, FETCH_TOP_GEOLOCATIONS_FAILURE, FETCH_TOP_PHONECALLS_FAILURE } from '../constants/actionTypes'
 import { GEOLOCATION_DOCTYPE, PHONECALL_DOCTYPE } from '../constants/config'
 import _ from 'lodash'
-
 
 const applicationElement = document.querySelector('[role=application]')
 const cozyOptions = {
@@ -75,18 +73,18 @@ const getTopPhoneValue = (values) => {
 export const fetchTopGeolocations = () => {
   return dispatch => {
     $.ajax(getGeoPointURL, {
-      type: "GET",
-      beforeSend: function(request) {
-        request.setRequestHeader("Authorization", "Bearer " + cozyOptions.token);
+      type: 'GET',
+      beforeSend: function (request) {
+        request.setRequestHeader('Authorization', 'Bearer ' + cozyOptions.token)
       },
-      dataType: "json",
+      dataType: 'json',
       success: (data) => {
         let result = []
         if (data && data.rows) {
-          result = data.rows.filter( function(obj) {
-            return obj.doc.latitude !== 'NULL' && obj.doc.latitude !== ''
-            && obj.doc.longitude !== 'NULL' && obj.doc.longitude !== ''&& obj.doc.latitude !== undefined
-            && obj.doc.longitude !== undefined
+          result = data.rows.filter(function (obj) {
+            return obj.doc.latitude !== 'NULL' && obj.doc.latitude !== '' &&
+            obj.doc.longitude !== 'NULL' && obj.doc.longitude !== '' && obj.doc.latitude !== undefined &&
+            obj.doc.longitude !== undefined
           })
         }
         let topGeolocations = getTopGeoValue(result)
@@ -104,18 +102,18 @@ export const fetchTopGeolocations = () => {
 export const fetchTopPhonecalls = () => {
   return dispatch => {
     $.ajax(getPhoneCommunicationLogURL, {
-      type: "GET",
-      beforeSend: function(request) {
-        request.setRequestHeader("Authorization", "Bearer " + cozyOptions.token);
+      type: 'GET',
+      beforeSend: function (request) {
+        request.setRequestHeader('Authorization', 'Bearer ' + cozyOptions.token)
       },
-      dataType: "json",
+      dataType: 'json',
       success: (data) => {
         let result = []
         if (data && data.rows) {
-          result = data.rows.filter( function(obj) {
-            return obj.doc.latitude !== 'NULL' && obj.doc.latitude !== ''
-            && obj.doc.longitude !== 'NULL' && obj.doc.longitude !== ''&& obj.doc.latitude !== undefined
-            && obj.doc.longitude !== undefined
+          result = data.rows.filter(function (obj) {
+            return obj.doc.latitude !== 'NULL' && obj.doc.latitude !== '' &&
+            obj.doc.longitude !== 'NULL' && obj.doc.longitude !== '' && obj.doc.latitude !== undefined &&
+            obj.doc.longitude !== undefined
           })
         }
         let topPhonecalls = getTopPhoneValue(result)
@@ -123,7 +121,7 @@ export const fetchTopPhonecalls = () => {
       },
       error: (error) => {
         dispatch({
-          type: FETCH_TOP_GEOLOCATIONS_FAILURE,
+          type: FETCH_TOP_PHONECALLS_FAILURE,
           error
         })
       }
