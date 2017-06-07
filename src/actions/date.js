@@ -1,9 +1,6 @@
 /* global cozy */
 
-import {
-  FETCH_GEO_LAST_DAY,
-  FETCH_GEOLOCATIONS_FAILURE
-} from '../constants/actionTypes'
+import { FETCH_GEO_LAST_DAY, FETCH_GEOLOCATIONS_FAILURE, SELECT_DATE } from '../constants/actionTypes'
 import { GEOLOCATION_DOCTYPE } from '../constants/config'
 import { fetchGeolocations } from './geolocations'
 import { fetchPhonecalls } from './phonecalls'
@@ -38,7 +35,7 @@ export const fetchGeoLastDay = (geoIndexByDate) => {
 export const selectDataByDate = (start, end, geoIndexByDate, phoneIndexByDate) => {
   return async dispatch => {
     dispatch({
-      type: 'SELECT_DATE',
+      type: SELECT_DATE,
       date: {
         start: start,
         end: end
