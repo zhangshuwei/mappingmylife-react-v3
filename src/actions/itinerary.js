@@ -2,8 +2,8 @@
 
 import {FETCH_ITINERARY} from '../constants/actionTypes'
 import { GEOLOCATION_DOCTYPE } from '../constants/config'
-
-export const getItinerary = (mangoIndexByDate, startDate) => {
+import _ from 'lodash'
+const getPathData = (mangoIndexByDate, startDate) => {
   return async dispatch => {
     const options = {
       selector: {
@@ -21,7 +21,9 @@ export const getItinerary = (mangoIndexByDate, startDate) => {
     }
     return cozy.client.data.query(mangoIndexByDate, options)
     .then((data) => {
-      dispatch(receiveData(data))
+      if(data) {
+        dispatch(receiveData(data))
+      }
     })
     .catch((error) => {
       dispatch({
@@ -35,3 +37,21 @@ const receiveData = (data) => ({
   type: FETCH_ITINERARY,
   path: data
 })
+const indexByDate = async () => {
+  const fields = [ 'docType', 'timestamp' ]
+  return cozy.client.data.defineIndex(GEOLOCATION_DOCTYPE, fields)
+}
+export const fetchPath = (mangoIndexByDate, startDate) => {
+  if(_.isEmpty(mangoIndexByDate)) {
+    return async dispatch => {
+        return indexByDate()
+        .then(indexByDate => {
+          dispatch(getPathData(indexByDate, startDate))
+        })
+      }
+  } else {
+    return async dispatch => {
+      dispatch(getPathData(mangoIndexByDate, startDate))
+    }
+  }
+}

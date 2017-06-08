@@ -32,12 +32,9 @@ class Calendar extends Component {
     })
   }
   selectDate () {
-    // console.log(this.state.startDate)
-    // console.log(this.state.startDate._d)
     if(!(_.isEmpty(this.state.startDate))) {
       let startDate = moment(this.state.startDate._d).format("YYYY-MM-DD")
-      console.log(startDate)
-      this.props.selectDate(this.props.indexByDate, startDate)
+      this.props.fetchPath(this.props.indexByDate, startDate)
     }
   }
 

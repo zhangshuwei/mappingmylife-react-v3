@@ -8,20 +8,25 @@ import Calendar from '../components/Calendar'
 import '../styles/rowContent.css'
 
 class ItineraryPage extends Component {
+  constructor (props) {
+    super (props)
+
+  }
   render () {
+    console.log(this.props.data)
     return (
       <Grid fluid>
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <TraceMap data={this.props.data.path}/>
+              <TraceMap data={this.props.data.path} />
             </div>
           </Col>
         </Row>
         <Row>
           <Col sm={12}>
             <div className='rowContent'>
-              <Calendar indexByDate={this.props.indexByDate} selectDate={this.props.actions.getItinerary}/>
+              <Calendar indexByDate={this.props.indexByDate} fetchPath={this.props.actions.fetchPath} />
             </div>
           </Col>
         </Row>

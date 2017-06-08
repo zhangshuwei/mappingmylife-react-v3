@@ -37,3 +37,13 @@ export const otherIcon = L.AwesomeMarkers.icon({
   markerColor: 'darkpurple',
   prefix: 'fa'
 })
+export const startIcon = L.AwesomeMarkers.icon({
+  icon: 'fa-sun-o',
+  markerColor: 'black',
+  prefix: 'fa'
+})
+export const endIcon = L.AwesomeMarkers.icon({
+  icon: 'fa-moon-o',
+  markerColor: 'black',
+  prefix: 'fa'
+})
