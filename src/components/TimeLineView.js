@@ -3,21 +3,17 @@ import { Row, Col, Button, ButtonGroup } from 'react-bootstrap'
 import TimeLine, { zoomInTimeLine, zoomOutTimeLine, moveLeftTimeLine, moveRightTimeLine } from '../components/TimeLine'
 
 class TimeLineView extends Component {
-  constructor (props) {
-    super (props)
-  }
-
   render () {
     const { date, selectDataByDate, geolocations, mango, phonecalls } = this.props
     return (
       <div>
         <Row>
           <Col sm={4}>
-            <h5>Date de début: <span>{date.start}</span> <Button bsStyle='success' bsSize='xsmall' onClick={this.displayPolyline}><i className='fa fa-play' aria-hidden='true' /></Button>
+            <h5>Date de début: <span>{date.start}</span>
             </h5>
           </Col>
           <Col sm={4}>
-            <h5>Date de fin: <span>{date.end}</span> <Button bsStyle='success' bsSize='xsmall'><i className='fa fa-play' aria-hidden='true' /></Button>
+            <h5>Date de fin: <span>{date.end}</span>
             </h5>
           </Col>
           <Col sm={4}>

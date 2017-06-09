@@ -21,7 +21,7 @@ const getPathData = (mangoIndexByDate, startDate) => {
     }
     return cozy.client.data.query(mangoIndexByDate, options)
     .then((data) => {
-      if(data) {
+      if (data) {
         dispatch(receiveData(data))
       }
     })
@@ -42,13 +42,13 @@ const indexByDate = async () => {
   return cozy.client.data.defineIndex(GEOLOCATION_DOCTYPE, fields)
 }
 export const fetchPath = (mangoIndexByDate, startDate) => {
-  if(_.isEmpty(mangoIndexByDate)) {
+  if (_.isEmpty(mangoIndexByDate)) {
     return async dispatch => {
-        return indexByDate()
+      return indexByDate()
         .then(indexByDate => {
           dispatch(getPathData(indexByDate, startDate))
         })
-      }
+    }
   } else {
     return async dispatch => {
       dispatch(getPathData(mangoIndexByDate, startDate))

@@ -12,12 +12,11 @@ import createBrowserHistory from 'history/createBrowserHistory'
 import HomePage from './containers/HomePage'
 import FavorisPage from './containers/FavorisPage'
 import AppNav from './components/AppNav'
-// import * as moment from 'moment'
 import ItineraryPage from './containers/ItineraryPage'
 import 'bootstrap-css'
 import 'bootstrap-theme-css'
 import 'font-awesome-css'
-// moment.locale('fr')
+
 const middleware = [ thunk ]
 if (process.env.NODE_ENV !== 'production') {
   middleware.push(createLogger())

@@ -9,8 +9,7 @@ import '../styles/rowContent.css'
 
 class ItineraryPage extends Component {
   constructor (props) {
-    super (props)
-
+    super(props)
   }
   render () {
     console.log(this.props.data)

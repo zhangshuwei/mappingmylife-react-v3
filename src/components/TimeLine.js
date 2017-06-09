@@ -1,6 +1,6 @@
+
 import React, { Component } from 'react'
 import vis from 'vis/dist/vis.min'
-import _ from 'lodash'
 import { GEOITEM, PHONEITEM, TIMELINEOPTIONS, TIMELINEGROUPS } from '../constants/config'
 import '../../node_modules/vis/dist/vis.min.css'
 import '../styles/timeLine.css'

@@ -2,15 +2,19 @@
 
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const pkg = require(path.resolve(__dirname, '../package.json'))
 const { extractor } = require('./webpack.vars')
 const webpack = require('webpack')
 
 module.exports = {
-  entry: path.resolve(__dirname, '../src/main'),
+  entry: {
+    main: path.resolve(__dirname, '../src/main'),
+    vendor: 'moment'
+  },
   output: {
     path: path.resolve(__dirname, '../build'),
-    filename: 'app.js'
+    filename: "[name].js"
   },
   resolve: {
     extensions: ['.js', '.json'],
@@ -53,6 +57,9 @@ module.exports = {
   },
   plugins: [
     extractor,
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor'
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
       title: pkg.name
@@ -62,6 +69,8 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    })
+    }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|fr/),
+    new BundleAnalyzerPlugin()
   ]
 }

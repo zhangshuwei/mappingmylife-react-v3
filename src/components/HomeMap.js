@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Map, Marker, TileLayer, Popup, Polyline } from 'react-leaflet'
 import L from 'leaflet'
-import MyPolyline from './MyPolyline'
 import {MAPBOXURL} from '../constants/config'
 import { geoIcon, phoneIcon, homeIcon, workIcon, sportIcon, shopIcon, otherIcon } from './Icons'
 import _ from 'lodash'

@@ -7,7 +7,7 @@ const build = /:production$/.test(process.env.NODE_ENV)
 module.exports = {
   plugins: [
     new CopyPlugin([
-      // { from: 'vendor/assets', ignore: ['.gitkeep'] },
+      { from: 'src/vendor/assets'},
       { from: 'manifest.webapp', transform: transformManifest }
     ])
   ]

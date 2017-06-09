@@ -6,7 +6,7 @@
 <% _.forEach(htmlWebpackPlugin.files.css, function(file) { %>
   <link rel="stylesheet" href="<%- file %>">
 <% }); %>
-  <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.js"></script>
+<script src='moment-with-locales.min.js'></script>
 <% _.forEach(htmlWebpackPlugin.files.js, function(file) { %>
   <script src="<%- file %>" defer></script>
 <% }); %>

@@ -5,7 +5,6 @@ import * as ActionCreators from '../actions'
 import HomeMap from '../components/HomeMap'
 import TimeLineView from '../components/TimeLineView'
 import { Grid, Row, Col } from 'react-bootstrap'
-import '../../node_modules/moment/min/moment-with-locales'
 import '../styles/rowContent.css'
 
 class HomePage extends Component {
