@@ -7,7 +7,9 @@ export const GEOLOCATION_DOCTYPE = 'fr.orange.geopoint'
 export const PHONECALL_DOCTYPE = 'fr.orange.phonecommunicationlog'
 export const FAVORISPOINT_DOCTYPE = 'fr.orange.pointfavoris'
 export const MAPBOXTOKEN = 'pk.eyJ1IjoibGlzYTI5NiIsImEiOiJjajFka2w2Y2EwMDB6Mnl0am1ka280aGZ0In0.XFblnQ25U42unrYlRrf5Fg'
-export const MAPBOXURL = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=' + MAPBOXTOKEN
+export const MAPBOXURL = 'https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=' + MAPBOXTOKEN
+// export const MAPBOXURL = 'https://api.mapbox.com/styles/v1/lisa296/cj3u5dzx1000b2rms5lxb37s3/tiles/256/{z}/{x}/{y}?access_token=' + MAPBOXTOKEN
+
 export const GEOITEM = 'geoloc'
 export const PHONECALLITEM = 'phonecall'
 export const PHONEITEM = 'phonecall'

@@ -2,15 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ActionCreators from '../actions'
-import { Grid, Row, Col, Button } from 'react-bootstrap'
-import TraceMap, {showAgain} from '../components/TraceMap'
+import { Grid, Row, Col } from 'react-bootstrap'
+import TraceMap from '../components/TraceMap'
 import Calendar from '../components/Calendar'
 import '../styles/rowContent.css'
 
 class ItineraryPage extends Component {
-  constructor (props) {
-    super(props)
-  }
+
   render () {
     console.log(this.props.data)
     return (

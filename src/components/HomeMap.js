@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Map, Marker, TileLayer, Popup, Polyline } from 'react-leaflet'
+import { Map, Marker, TileLayer, Popup } from 'react-leaflet'
 import L from 'leaflet'
+import MarkerClusterGroup from 'react-leaflet-markercluster'
 import {MAPBOXURL} from '../constants/config'
 import { geoIcon, phoneIcon, homeIcon, workIcon, sportIcon, shopIcon, otherIcon } from './Icons'
 import _ from 'lodash'
@@ -103,6 +104,7 @@ class HomeMap extends Component {
       return <p>error</p>
     }
   }
+
   renderPhoneMarkers (phonecalls) {
     let result = _.reduce(phonecalls, function (result, value) {
       ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
@@ -156,25 +158,39 @@ class HomeMap extends Component {
 
   render () {
     const {geolocations, phonecalls} = this.props
-    const geomarkers = this.renderGeoMarkers(geolocations)
-    const phonemarkers = this.renderPhoneMarkers(phonecalls)
-    let latlngs = this.props.geolocations.map((item) => {
-      return [item.latitude, item.longitude]
-    })
-    return (
-      <div>
-        <Map center={this.state.center} zoom={13} maxZoom={18}>
-          <TileLayer
-            url={MAPBOXURL}
-            maxZoom={18}
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
-          {geomarkers}
-          {phonemarkers}
-          <Polyline positions={latlngs} color={'#808080'} weight={2} opacity={1} smoothFactor={1} />
-        </Map>
-      </div>
-    )
+    console.log(geolocations)
+    if (!_.isEmpty(geolocations) || !_.isEmpty(phonecalls)) {
+      const geomarkers = this.renderGeoMarkers(geolocations)
+      const phonemarkers = this.renderPhoneMarkers(phonecalls)
+      console.log(geomarkers)
+      return (
+        <div>
+          <Map center={this.state.center} zoom={13} maxZoom={20}>
+            <TileLayer
+              url={MAPBOXURL}
+              maxZoom={20}
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <MarkerClusterGroup wrapperOptions={{enableDefaultStyle: true}} >
+              {geomarkers}
+              {phonemarkers}
+            </MarkerClusterGroup>
+          </Map>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <Map center={this.state.center} zoom={13} maxZoom={18}>
+            <TileLayer
+              url={MAPBOXURL}
+              maxZoom={18}
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              />
+          </Map>
+        </div>
+      )
+    }
   }
 }
 

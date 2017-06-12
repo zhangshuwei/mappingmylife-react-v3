@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
 import L from 'leaflet'
+import '../../node_modules/leaflet.markercluster/dist/leaflet.markercluster-src'
 import { MAPBOXURL } from '../constants/config'
 import { startIcon, endIcon } from './Icons'
 import _ from 'lodash'
 import 'leaflet-polylinedecorator'
 import 'leaflet-css'
+import '../../node_modules/leaflet.markercluster/dist/MarkerCluster.css'
+import '../../node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css'
 import '../styles/map.css'
 
 let map = {}
-let mapLayers = new L.featureGroup()
+let mapLayers = L.featureGroup()
+let markers = L.markerClusterGroup()
 
 class TraceMap extends Component {
   constructor (props) {
@@ -27,17 +31,18 @@ class TraceMap extends Component {
   renderMap () {
     let layers = L.tileLayer(MAPBOXURL,
       {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19})
+        maxZoom: 20})
     map = L.map('mymap', { layers: [layers], zoom: this.state.zoom, center: this.state.center })
   }
 
   renderPath (data) {
     mapLayers.clearLayers()
+    markers.clearLayers()
     if (!_.isEmpty(data)) {
       let latlngs = data.map((item) => {
         return [item.latitude, item.longitude]
       })
-      let polyline = new L.polyline(latlngs, {color: '#808080', weight: 2, opacity: 1, smoothFactor: 1})
+      let polyline = L.polyline(latlngs, {color: '#808080', weight: 2, opacity: 1, smoothFactor: 1})
       let decorator = L.polylineDecorator(polyline)
       let arrowOffset = 0
       let anim = setInterval(function () {
@@ -51,20 +56,21 @@ class TraceMap extends Component {
           arrowOffset = 0
         }
       }, 200)
-      let startPoint = latlngs[0]
-      let endPoint = latlngs.slice(-1)[0]
-      if(_.isEqual(startPoint, endPoint)) {
-        var newStartPoint = [startPoint[0] + 0.0001, startPoint[1]+0.0001]
-        console.log(newStartPoint)
-
-      }
-      console.log(newStartPoint)
-      let startMarker = new L.marker(latlngs[0], {icon: startIcon})
-      let endMarker = new L.marker(latlngs.slice(-1)[0], {icon: endIcon})
       mapLayers.addLayer(polyline).addTo(map)
       mapLayers.addLayer(decorator).addTo(map)
-      mapLayers.addLayer(startMarker).addTo(map)
-      mapLayers.addLayer(endMarker).addTo(map)
+
+      let startMarker = L.marker(latlngs[0], {icon: startIcon})
+      let endMarker = L.marker(latlngs.slice(-1)[0], {icon: endIcon})
+      let startPoint = latlngs[0]
+      let endPoint = latlngs.slice(-1)[0]
+      if (_.isEqual(startPoint, endPoint)) {
+        markers.addLayer(startMarker)
+        markers.addLayer(endMarker)
+        map.addLayer(markers)
+      } else {
+        mapLayers.addLayer(startMarker).addTo(map)
+        mapLayers.addLayer(endMarker).addTo(map)
+      }
     }
   }
 
