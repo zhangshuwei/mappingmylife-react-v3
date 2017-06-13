@@ -159,12 +159,9 @@ class HomeMap extends Component {
 
   render () {
     const {geolocations, phonecalls} = this.props
-    console.log(geolocations)
-    console.log(isEmpty(geolocations))
     if (!isEmpty(geolocations) || !isEmpty(phonecalls)) {
       const geomarkers = this.renderGeoMarkers(geolocations)
       const phonemarkers = this.renderPhoneMarkers(phonecalls)
-      console.log(geomarkers)
       return (
         <div>
           <Map center={this.state.center} zoom={13} maxZoom={20}>
@@ -183,10 +180,10 @@ class HomeMap extends Component {
     } else {
       return (
         <div>
-          <Map center={this.state.center} zoom={13} maxZoom={18}>
+          <Map center={this.state.center} zoom={13} maxZoom={20}>
             <TileLayer
               url={MAPBOXURL}
-              maxZoom={18}
+              maxZoom={20}
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               />
           </Map>

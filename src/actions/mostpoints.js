@@ -43,7 +43,6 @@ const getTopGeoValue = (values) => {
     }
   }
   geoLog = orderBy(geoLog, ['geoInfo'], ['desc'])
-  console.log(geoLog)
   return geoLog.slice(0, 5)
 }
 const getTopPhoneValue = (values) => {

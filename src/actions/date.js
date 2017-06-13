@@ -45,3 +45,11 @@ export const selectDataByDate = (start, end, geoIndexByDate, phoneIndexByDate) =
     dispatch(fetchPhonecalls(phoneIndexByDate, start, end))
   }
 }
+
+export const initDate = () => ({
+  type: SELECT_DATE,
+  date: {
+    start: '',
+    end: ''
+  }
+})

@@ -1,6 +1,8 @@
 
 import React, { Component } from 'react'
 import vis from 'vis/dist/vis.min'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
 import { GEOITEM, PHONEITEM, TIMELINEOPTIONS, TIMELINEGROUPS } from '../constants/config'
 import '../../node_modules/vis/dist/vis.min.css'
 import '../styles/timeLine.css'
@@ -33,7 +35,7 @@ const renderPhoneItems = (items) => {
         group: 1,
         className: PHONEITEM,
         title: '<div classNme="data-tooltip"><p>Numéro de contact: ' +
-                item.partner + '</p><p>Type d\'appel: ' + item.typeMessage + '</p></div>'
+                item.partner + '</p><p>Type d\'appel: ' + item.type + '</p></div>'
       })
     ))
   }
@@ -68,22 +70,25 @@ class TimeLine extends Component {
     this.initTimeline()
   }
   // shouldComponentUpdate(nextProps, nextState) {
-  //   if((_.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state))) {
-  //     console.log('************************** is equal')
+  //   console.log(nextProps.date)
+  //   console.log(isEqual(nextProps.date, this.props.date))
+  //   if(isEqual(nextProps.date, this.props.date) && (!isEmpty(this.props.date))) {
+  //     return false
   //   }
-  //    return !(_.isEqual(nextProps, this.props) && _.isEqual(nextState, this.state))
+  //    return true
   // }
   componentWillUnmount () {
     timeline.off('rangechanged', this.onSelectDataByDate)
   }
   onSelectDataByDate (properties) {
     if (properties.byUser) {
+      this.setState({isFirstFetch: false})
       let start = formatDate(timeline.getWindow().start)
       let end = formatDate(timeline.getWindow().end)
       let geoIndexByDate = this.props.mango.geolocationsIndexByDate
       let phoneIndexByDate = this.props.mango.phonecallsIndexByDate
       this.props.selectDataByDate(start, end, geoIndexByDate, phoneIndexByDate)
-      this.setState({isFirstFetch: false})
+
     }
   }
 

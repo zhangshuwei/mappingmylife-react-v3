@@ -10,7 +10,7 @@ const webpack = require('webpack')
 module.exports = {
   entry: {
     main: path.resolve(__dirname, '../src/main'),
-    vendor: 'moment'
+    vendor: ['moment', 'vis/dist/vis.min.js']
   },
   output: {
     path: path.resolve(__dirname, '../build'),

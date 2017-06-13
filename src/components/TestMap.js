@@ -17,10 +17,10 @@ class TestMap extends Component {
   render () {
     return (
       <div>
-        <Map center={[48.866667, 2.333333]} zoom={13} maxZoom={19}>
+        <Map center={[48.866667, 2.333333]} zoom={13} maxZoom={20}>
           <TileLayer
             url={MAPBOXURL}
-            maxZoom={19}
+            maxZoom={20}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           <Marker position={[48.866667, 2.333333]} icon={geoIcon} />

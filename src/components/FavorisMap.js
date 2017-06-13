@@ -122,10 +122,10 @@ class FavorisMap extends Component {
 
     return (
       <div>
-        <Map center={this.state.center} zoom={13} maxZoom={18}>
+        <Map center={this.state.center} zoom={13} maxZoom={20}>
           <TileLayer
             url={MAPBOXURL}
-            maxZoom={18}
+            maxZoom={20}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           {geomarkers}

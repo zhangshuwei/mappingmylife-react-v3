@@ -13,6 +13,7 @@ class HomePage extends Component {
     this.props.actions.indexGeolocationsByDate().then((geoIndexByDate) => this.props.actions.fetchGeoLatest(geoIndexByDate))
     this.props.actions.indexPhonecallsByDate().then((phoneIndexByDate) => this.props.actions.fetchPhonecallsLatest(phoneIndexByDate))
     this.props.actions.indexFavorisPoint()
+    this.props.actions.initDate()
   }
   // componentDidMount() {
   //   console.log("did mount")
