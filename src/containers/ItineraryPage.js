@@ -8,7 +8,6 @@ import Calendar from '../components/Calendar'
 import '../styles/rowContent.css'
 
 class ItineraryPage extends Component {
-
   render () {
     console.log(this.props.data)
     return (

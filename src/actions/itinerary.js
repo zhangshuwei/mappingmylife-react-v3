@@ -2,7 +2,7 @@
 
 import {FETCH_ITINERARY} from '../constants/actionTypes'
 import { GEOLOCATION_DOCTYPE } from '../constants/config'
-import _ from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 const getPathData = (mangoIndexByDate, startDate) => {
   return async dispatch => {
     const options = {
@@ -42,7 +42,7 @@ const indexByDate = async () => {
   return cozy.client.data.defineIndex(GEOLOCATION_DOCTYPE, fields)
 }
 export const fetchPath = (mangoIndexByDate, startDate) => {
-  if (_.isEmpty(mangoIndexByDate)) {
+  if (isEmpty(mangoIndexByDate)) {
     return async dispatch => {
       return indexByDate()
         .then(indexByDate => {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
-import _ from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import { Button, FormControl, FormGroup, ControlLabel } from 'react-bootstrap'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../styles/calendar.css'
@@ -31,7 +31,7 @@ class Calendar extends Component {
     })
   }
   selectDate () {
-    if (!(_.isEmpty(this.state.startDate))) {
+    if (!(isEmpty(this.state.startDate))) {
       let startDate = moment(this.state.startDate._d).format('YYYY-MM-DD')
       this.props.fetchPath(this.props.indexByDate, startDate)
     }

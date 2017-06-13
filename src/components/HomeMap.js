@@ -4,7 +4,8 @@ import L from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import {MAPBOXURL} from '../constants/config'
 import { geoIcon, phoneIcon, homeIcon, workIcon, sportIcon, shopIcon, otherIcon } from './Icons'
-import _ from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import reduce from 'lodash/reduce'
 import { Button } from 'react-bootstrap'
 import 'leaflet-css'
 import '../styles/map.css'
@@ -35,7 +36,7 @@ class HomeMap extends Component {
   getIconType (latitude, longitude, defaultIcon) {
     let key = latitude.toString() + longitude.toString()
     let typeIcon = defaultIcon
-    if (!(_.isEmpty(this.props.favorisPoint))) {
+    if (!(isEmpty(this.props.favorisPoint))) {
       if (this.props.favorisPoint[key] !== undefined && this.props.favorisPoint[key]['category'] !== undefined) {
         let category = this.props.favorisPoint[key]['category']
         switch (category) {
@@ -59,7 +60,7 @@ class HomeMap extends Component {
     return typeIcon
   }
   renderGeoMarkers (geolocations) {
-    let result = _.reduce(geolocations, function (result, value) {
+    let result = reduce(geolocations, function (result, value) {
       ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
         {
           start: value.timestamp.replace(/T|Z/g, ' '),
@@ -106,7 +107,7 @@ class HomeMap extends Component {
   }
 
   renderPhoneMarkers (phonecalls) {
-    let result = _.reduce(phonecalls, function (result, value) {
+    let result = reduce(phonecalls, function (result, value) {
       ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
         {
           start: value.timestamp.replace(/T|Z/g, ' '),
@@ -159,7 +160,8 @@ class HomeMap extends Component {
   render () {
     const {geolocations, phonecalls} = this.props
     console.log(geolocations)
-    if (!_.isEmpty(geolocations) || !_.isEmpty(phonecalls)) {
+    console.log(isEmpty(geolocations))
+    if (!isEmpty(geolocations) || !isEmpty(phonecalls)) {
       const geomarkers = this.renderGeoMarkers(geolocations)
       const phonemarkers = this.renderPhoneMarkers(phonecalls)
       console.log(geomarkers)

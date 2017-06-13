@@ -3,7 +3,8 @@ import L from 'leaflet'
 import '../../node_modules/leaflet.markercluster/dist/leaflet.markercluster-src'
 import { MAPBOXURL } from '../constants/config'
 import { startIcon, endIcon } from './Icons'
-import _ from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 import 'leaflet-polylinedecorator'
 import 'leaflet-css'
 import '../../node_modules/leaflet.markercluster/dist/MarkerCluster.css'
@@ -38,14 +39,14 @@ class TraceMap extends Component {
   renderPath (data) {
     mapLayers.clearLayers()
     markers.clearLayers()
-    if (!_.isEmpty(data)) {
+    if (!isEmpty(data)) {
       let latlngs = data.map((item) => {
         return [item.latitude, item.longitude]
       })
       let polyline = L.polyline(latlngs, {color: '#808080', weight: 2, opacity: 1, smoothFactor: 1})
       let decorator = L.polylineDecorator(polyline)
       let arrowOffset = 0
-      let anim = setInterval(function () {
+      setInterval(function () {
         decorator.setPatterns(
           [{
             offset: arrowOffset + '%',
@@ -63,7 +64,7 @@ class TraceMap extends Component {
       let endMarker = L.marker(latlngs.slice(-1)[0], {icon: endIcon})
       let startPoint = latlngs[0]
       let endPoint = latlngs.slice(-1)[0]
-      if (_.isEqual(startPoint, endPoint)) {
+      if (isEqual(startPoint, endPoint)) {
         markers.addLayer(startMarker)
         markers.addLayer(endMarker)
         map.addLayer(markers)

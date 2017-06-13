@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Map, Marker, TileLayer, Popup } from 'react-leaflet'
 import L from 'leaflet'
-import _ from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import { MAPBOXURL } from '../constants/config'
 import { geoIcon, phoneIcon, homeIcon, workIcon, sportIcon, shopIcon, otherIcon } from './Icons'
 import { Button } from 'react-bootstrap'
@@ -35,7 +35,7 @@ class FavorisMap extends Component {
   getIconType (latitude, longitude, defaultIcon) {
     let key = latitude.toString() + longitude.toString()
     let typeIcon = defaultIcon
-    if (!(_.isEmpty(this.props.favorisPoint))) {
+    if (!(isEmpty(this.props.favorisPoint))) {
       if (this.props.favorisPoint[key] !== undefined && this.props.favorisPoint[key]['category'] !== undefined) {
         let category = this.props.favorisPoint[key]['category']
         switch (category) {

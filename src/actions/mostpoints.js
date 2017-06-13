@@ -1,7 +1,8 @@
 /* global $ */
 import { RECEIVE_TOP_GEOLOCATIONS, RECEIVE_TOP_PHONECALLS, FETCH_TOP_GEOLOCATIONS_FAILURE, FETCH_TOP_PHONECALLS_FAILURE } from '../constants/actionTypes'
 import { GEOLOCATION_DOCTYPE, PHONECALL_DOCTYPE } from '../constants/config'
-import _ from 'lodash'
+import orderBy from 'lodash/orderBy'
+import reduce from 'lodash/reduce'
 
 const applicationElement = document.querySelector('[role=application]')
 const cozyOptions = {
@@ -22,7 +23,7 @@ export const receiveTopPhonecalls = (topPhonecalls) => ({
 })
 
 const getTopGeoValue = (values) => {
-  let result = _.reduce(values, function (result, value) {
+  let result = reduce(values, function (result, value) {
     ((result[(value.doc.latitude).toString() + ',' + (value.doc.longitude).toString()]) || (result[(value.doc.latitude).toString() + ',' + (value.doc.longitude).toString()] = [])).push(
       {
         start: value.doc.timestamp.replace(/T|Z/g, ' '),
@@ -41,12 +42,12 @@ const getTopGeoValue = (values) => {
       geoLog.push(item)
     }
   }
-  geoLog = _.orderBy(geoLog, ['geoInfo'], ['desc'])
+  geoLog = orderBy(geoLog, ['geoInfo'], ['desc'])
   console.log(geoLog)
   return geoLog.slice(0, 5)
 }
 const getTopPhoneValue = (values) => {
-  let result = _.reduce(values, function (result, value) {
+  let result = reduce(values, function (result, value) {
     ((result[(value.doc.latitude).toString() + ',' + (value.doc.longitude).toString()]) || (result[(value.doc.latitude).toString() + ',' + (value.doc.longitude).toString()] = [])).push(
       {
         start: value.doc.timestamp.replace(/T|Z/g, ' '),
@@ -67,7 +68,7 @@ const getTopPhoneValue = (values) => {
       phoneLog.push(item)
     }
   }
-  phoneLog = _.orderBy(phoneLog, ['phoneInfo'], ['desc'])
+  phoneLog = orderBy(phoneLog, ['phoneInfo'], ['desc'])
   return phoneLog.slice(0, 5)
 }
 export const fetchTopGeolocations = () => {
