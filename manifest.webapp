@@ -1,8 +1,8 @@
 {
-  "name": "Hello-World",
-  "slug": "cozy-hello",
+  "name": "MappingMyLife",
+  "slug": "mapping-my-life",
   "icon": "app-icon.svg",
-  "description": "Hello world for Cozy v3",
+  "description": "",
   "source": "https://github.com/",
   "developer": {
     "name": "TOTO",
@@ -11,7 +11,7 @@
   "default_locale": "en",
   "locales": {
     "fr": {
-      "description": "Bonjour le monde pour Cozy v3"
+      "description": ""
     }
   },
   "routes": {
@@ -31,33 +31,23 @@
       "public": false
     }
   },
-  "version": "3.0.0",
-  "licence": "AGPL-3.0",
+  "version": "1.0.0",
+  "licence": "",
   "permissions": {
-    "files": {
-      "description": "Required to access the files",
-      "type": "io.cozy.files",
-      "verbs": ["GET", "POST", "PUT", "PATCH", "DELETE"]
-    },
-    "apps": {
-      "description": "Required by the cozy-bar to display the icons of the apps",
-      "type": "io.cozy.apps",
-      "verbs": ["GET", "POST", "PUT", "PATCH", "DELETE"]
-    },
     "pointfavoris":{
-      "description": "Required by the cozy-bar to display the icons of the apps",
+      "description": "Required for favorite place",
       "type": "fr.orange.pointfavoris",
-      "verbs": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+      "verbs": ["GET", "POST", "PUT", "DELETE"]
     },
     "geopoint":{
-      "description": "Required by the cozy-bar to display the icons of the apps",
+      "description": "required to manage geolocation information",
       "type": "fr.orange.geopoint",
-      "verbs": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+      "verbs": ["GET", "POST", "PUT"]
     },
     "phonecommunication":{
-      "description": "Required by the cozy-bar to display the icons of the apps",
+      "description": "Required to manage communications information",
       "type": "fr.orange.phonecommunicationlog",
-      "verbs": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+      "verbs": ["GET", "POST", "PUT"]
     }
   }
 }
