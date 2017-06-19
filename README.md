@@ -26,10 +26,10 @@ $ yarn install
 ## Running the app
 
 #### Run it inside the VM
-ou can easily view your current running app, you can use the [cozy-stack docker image](https://github.com/cozy/cozy-stack/blob/master/docs/client-app-dev.md#with-docker):
+You can easily run this application by using [cozy-stack docker image](https://github.com/cozy/cozy-stack/blob/master/docs/client-app-dev.md#with-docker):
 
 ```sh
-# in a terminal, run your app in watch mode
+# in a terminal, run the app in watch mode
 $ yarn run watch
 ```
 

@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
     token: applicationElement.dataset.cozyToken
   }
   cozy.client.init(cozyOptions)
-  // console.log(moment.locale())
   render(
     <Provider store={store}>
       <BrowserRouter history={history}>

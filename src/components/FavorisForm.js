@@ -114,7 +114,7 @@ class FavorisForm extends Component {
             </FormGroup>
 
             <FormGroup controlId='formInlineLng'>
-              <ControlLabel>Longtitude:</ControlLabel>{' '}
+              <ControlLabel>Longitude:</ControlLabel>{' '}
               <FormControl type='text' placeholder='Longtitude' value={point.longitude} readOnly />
             </FormGroup>
 
