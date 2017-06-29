@@ -15,7 +15,7 @@ const renderGeoItems = (items) => {
     items.map((item) => (
       data.push({
         id: item._id,
-        start: item.timestamp.replace(/T|Z/g, ' '),
+        start: item.timestamp.replace(/T/g, ' ').replace(/Z/g, ''),
         group: 0,
         className: GEOITEM,
         title: '<div classNme="data-tooltip"><p>Position: (' + item.latitude + ', ' +
@@ -31,7 +31,7 @@ const renderPhoneItems = (items) => {
     items.map((item) => (
       data.push({
         id: item._id,
-        start: item.timestamp.replace(/T|Z/g, ' '),
+        start: item.timestamp.replace(/T/g, ' ').replace(/Z/g, ''),
         group: 1,
         className: PHONEITEM,
         title: '<div classNme="data-tooltip"><p>Numéro de contact: ' +

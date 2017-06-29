@@ -1,12 +1,12 @@
 {
   "name": "MappingMyLife",
-  "slug": "mapping-my-life",
-  "icon": "app-icon.svg",
+  "slug": "mappingmylifev3",
+  "icon": "",
   "description": "",
   "source": "https://github.com/",
   "developer": {
-    "name": "TOTO",
-    "url": "https:toto.com"
+    "name": "Shuwei ZHANG",
+    "url": "https:zhangshuwei.github.io"
   },
   "default_locale": "en",
   "locales": {
