@@ -9,8 +9,11 @@ import '../styles/rowContent.css'
 
 const InputCustomer = (props) => {
   return (
+
     <FormControl
-      onClick={props.onClick} value={props.value} onChange={props.onChange}
+      onClick={props.onClick}
+      value={props.value}
+      onChange={props.onChange}
       placeholder='Choisir la date' />
   )
 }
