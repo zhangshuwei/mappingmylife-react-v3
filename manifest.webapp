@@ -41,12 +41,12 @@
     },
     "geopoint":{
       "description": "required to manage geolocation information",
-      "type": "fr.orange.geopoint",
+      "type": "org.fing.mesinfos.geopoint",
       "verbs": ["GET", "POST", "PUT"]
     },
     "phonecommunication":{
       "description": "Required to manage communications information",
-      "type": "fr.orange.phonecommunicationlog",
+      "type": "org.fing.mesinfos.phonecommunicationlog",
       "verbs": ["GET", "POST", "PUT"]
     }
   }
