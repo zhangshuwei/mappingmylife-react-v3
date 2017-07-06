@@ -13,13 +13,13 @@ class TimeLineView extends Component {
         </div>
         <Row>
           <Col sm={12}>
-          <ButtonGroup bsSize='small' className='pull-right'>
-            <Button bsStyle='success' onClick={zoomInTimeLine}><i className='fa fa-plus' aria-hidden='true' /></Button>
-            <Button bsStyle='success' onClick={zoomOutTimeLine}><i className='fa fa-minus' aria-hidden='true' /></Button>
-            <Button bsStyle='success' onClick={moveLeftTimeLine}><i className='fa fa-chevron-left' aria-hidden='true' /></Button>
-            <Button bsStyle='success' onClick={moveRightTimeLine}><i className='fa fa-chevron-right' aria-hidden='true' /></Button>
-          </ButtonGroup>
-        </Col>
+            <ButtonGroup bsSize='small' className='pull-right'>
+              <Button bsStyle='success' onClick={zoomInTimeLine}><i className='fa fa-plus' aria-hidden='true' /></Button>
+              <Button bsStyle='success' onClick={zoomOutTimeLine}><i className='fa fa-minus' aria-hidden='true' /></Button>
+              <Button bsStyle='success' onClick={moveLeftTimeLine}><i className='fa fa-chevron-left' aria-hidden='true' /></Button>
+              <Button bsStyle='success' onClick={moveRightTimeLine}><i className='fa fa-chevron-right' aria-hidden='true' /></Button>
+            </ButtonGroup>
+          </Col>
         </Row>
         <Row>
           <Col sm={12}>

@@ -4,7 +4,6 @@ import {
   RECEIVE_GEOLOCATIONS,
   FETCH_GEOLOCATIONS_FAILURE
 } from '../constants/actionTypes'
-import { GEOLOCATION_DOCTYPE } from '../constants/config'
 
 export const receiveGeolocations = (geolocations) => ({
   type: RECEIVE_GEOLOCATIONS,
@@ -15,13 +14,24 @@ export const fetchGeolocations = (mangoIndexByDate, start, end) => {
   return async dispatch => {
     const options = {
       selector: {
-        docType: GEOLOCATION_DOCTYPE,
         '$and': [
           {
             'timestamp': {'$gt': start}
           },
           {
             'timestamp': {'$lte': end + 'T23:59:59Z'}
+          },
+          {
+            'latitude': {'$ne': 'NULL'}
+          },
+          {
+            'longitude': {'$ne': 'NULL'}
+          },
+          {
+            'latitude': {'$ne': ''}
+          },
+          {
+            'longitude': {'$ne': ''}
           }
         ]},
       fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
@@ -44,8 +54,23 @@ export const fetchGeoLatest = (geoIndexByDate) => {
   return async dispatch => {
     const options = {
       selector: {
-        docType: GEOLOCATION_DOCTYPE
-      },
+        '$and': [
+          {
+            'timestamp': {'$gt': null}
+          },
+          {
+            'latitude': {'$ne': 'NULL'}
+          },
+          {
+            'longitude': {'$ne': 'NULL'}
+          },
+          {
+            'latitude': {'$ne': ''}
+          },
+          {
+            'longitude': {'$ne': ''}
+          }
+        ]},
       fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
       descending: true,
       limit: 30

@@ -1,8 +1,6 @@
 
 import React, { Component } from 'react'
 import vis from 'vis/dist/vis.min'
-import isEqual from 'lodash/isEqual'
-import isEmpty from 'lodash/isEmpty'
 import { GEOITEM, PHONEITEM, TIMELINEOPTIONS, TIMELINEGROUPS } from '../constants/config'
 import '../../node_modules/vis/dist/vis.min.css'
 import '../styles/timeLine.css'
@@ -88,7 +86,6 @@ class TimeLine extends Component {
       let geoIndexByDate = this.props.mango.geolocationsIndexByDate
       let phoneIndexByDate = this.props.mango.phonecallsIndexByDate
       this.props.selectDataByDate(start, end, geoIndexByDate, phoneIndexByDate)
-
     }
   }
 

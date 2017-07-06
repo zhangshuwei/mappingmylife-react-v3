@@ -1,6 +1,6 @@
 /* global cozy */
 import React, { Component } from 'react'
-import { Form, FormGroup, FormControl, ControlLabel, Button, ButtonToolbar} from 'react-bootstrap'
+import { Form, FormGroup, FormControl, ControlLabel, Button, ButtonToolbar } from 'react-bootstrap'
 import { FAVORISPOINT_DOCTYPE } from '../constants/config'
 import '../styles/rowContent.css'
 
@@ -137,9 +137,9 @@ class FavorisForm extends Component {
         </div>
         <div className='rowContent'>
           <ButtonToolbar>
-          <Button type='button' bsSize='small' bsStyle='success' onClick={this.addFavoris.bind(this)}><i className='fa fa-plus' aria-hidden='true' /> Ajouter</Button>
-          <Button type='button' bsSize='small' bsStyle='primary' onClick={this.modifyFavoris.bind(this)}><i className='fa fa-pencil' aria-hidden='true' /> Modifier</Button>
-          <Button type='button' bsSize='small' bsStyle='danger' onClick={this.deleteFavoris.bind(this)}><i className='fa fa-trash' aria-hidden='true' /> Supprimer</Button>
+            <Button type='button' bsSize='small' bsStyle='success' onClick={this.addFavoris.bind(this)}><i className='fa fa-plus' aria-hidden='true' /> Ajouter</Button>
+            <Button type='button' bsSize='small' bsStyle='primary' onClick={this.modifyFavoris.bind(this)}><i className='fa fa-pencil' aria-hidden='true' /> Modifier</Button>
+            <Button type='button' bsSize='small' bsStyle='danger' onClick={this.deleteFavoris.bind(this)}><i className='fa fa-trash' aria-hidden='true' /> Supprimer</Button>
           </ButtonToolbar>
         </div>
       </div>

@@ -23,7 +23,7 @@ import {
 export const indexGeolocationsByDate = () => {
   return dispatch => {
     dispatch({ type: INDEX_GEOLOCATIONS_BY_DATE })
-    const fields = [ 'docType', 'timestamp' ]
+    const fields = ['timestamp']
     return cozy.client.data.defineIndex(GEOLOCATION_DOCTYPE, fields)
       .then((mangoGeoIndexByDate) => {
         dispatch({
@@ -44,7 +44,7 @@ export const indexGeolocationsByDate = () => {
 export const indexPhonecallsByDate = () => {
   return async dispatch => {
     dispatch({ type: INDEX_PHONECALLS_BY_DATE })
-    const fields = [ 'docType', 'timestamp' ]
+    const fields = ['timestamp']
     return cozy.client.data.defineIndex(PHONECALL_DOCTYPE, fields)
       .then((mangoPhoneIndexByDate) => {
         dispatch({

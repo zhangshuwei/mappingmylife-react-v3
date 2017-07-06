@@ -58,7 +58,7 @@ module.exports = {
   plugins: [
     extractor,
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', "manifest"]
+      names: ['vendor', 'manifest']
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',

@@ -10,7 +10,7 @@ export const AppNav = () => (
   <Navbar>
     <Navbar.Header>
       <Navbar.Brand>
-        <a href='#'><img src={Logo}/> Mapping My Life</a>
+        <a href='#'><img src={Logo} /> Mapping My Life</a>
       </Navbar.Brand>
       <Navbar.Toggle />
     </Navbar.Header>

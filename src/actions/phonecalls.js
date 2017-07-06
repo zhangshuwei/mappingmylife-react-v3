@@ -4,7 +4,6 @@ import {
   RECEIVE_PHONECALLS,
   FETCH_PHONECALLS_FAILURE
 } from '../constants/actionTypes'
-import { PHONECALL_DOCTYPE } from '../constants/config'
 
 export const receivePhonecalls = (phonecalls) => ({
   type: RECEIVE_PHONECALLS,
@@ -15,7 +14,6 @@ export const fetchPhonecalls = (phoneIndexByDate, start, end) => {
   return async dispatch => {
     const options = {
       selector: {
-        docType: PHONECALL_DOCTYPE,
         '$and': [
           {
             'timestamp': {'$gt': start}
@@ -57,8 +55,10 @@ export const fetchPhonecallsLatest = (phoneIndexByDate) => {
   return async dispatch => {
     const options = {
       selector: {
-        docType: PHONECALL_DOCTYPE,
         '$and': [
+          {
+            'timestamp': {'$gt': null}
+          },
           {
             'latitude': {'$ne': 'NULL'}
           },
