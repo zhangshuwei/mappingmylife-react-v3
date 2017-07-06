@@ -1,13 +1,11 @@
 /* global cozy */
 
 import {FETCH_ITINERARY} from '../constants/actionTypes'
-import { GEOLOCATION_DOCTYPE } from '../constants/config'
 import isEmpty from 'lodash/isEmpty'
 const getPathData = (mangoIndexByDate, startDate) => {
   return async dispatch => {
     const options = {
       selector: {
-        docType: GEOLOCATION_DOCTYPE,
         '$and': [
           {
             'timestamp': {'$gt': startDate}
@@ -38,7 +36,7 @@ const receiveData = (data) => ({
   path: data
 })
 const indexByDate = async () => {
-  const fields = [ 'docType', 'timestamp' ]
+  const fields = ['timestamp']
   return cozy.client.data.defineIndex(GEOLOCATION_DOCTYPE, fields)
 }
 export const fetchPath = (mangoIndexByDate, startDate) => {
