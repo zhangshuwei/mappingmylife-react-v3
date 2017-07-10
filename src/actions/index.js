@@ -1,7 +1,0 @@
-export * from './geolocations'
-export * from './mango'
-export * from './date'
-export * from './phonecalls'
-export * from './mostpoints'
-export * from './favoris'
-export * from './itinerary'
