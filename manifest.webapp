@@ -1,7 +1,7 @@
 {
   "name": "MappingMyLife",
-  "slug": "mappingmylifev3",
-  "icon": "",
+  "slug": "app",
+  "icon": "Logo.png",
   "description": "",
   "source": "https://github.com/",
   "developer": {
@@ -40,7 +40,7 @@
       "verbs": ["GET", "POST", "PUT", "DELETE"]
     },
     "geopoint":{
-      "description": "required to manage geolocation information",
+      "description": "Required to manage geolocation information",
       "type": "fr.orange.geopoint",
       "verbs": ["GET", "POST", "PUT"]
     },
