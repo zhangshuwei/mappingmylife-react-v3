@@ -100,12 +100,22 @@ class TimeLine extends Component {
     let geoItems = renderGeoItems(geolocations)
     let phoneItems = renderPhoneItems(phonecalls)
     items = [...geoItems, ...phoneItems]
-    if (geoItems.length > 0 && phoneItems.length > 0) {
+    if (geoItems.length > 0 || phoneItems.length > 0) {
       timeline.setItems(items)
       if (this.state.isFirstFetch) {
-        let startDay = (geoItems[geoItems.length - 1].start > phoneItems[phoneItems.length - 1].start) ? phoneItems[phoneItems.length - 1].start : geoItems[geoItems.length - 1].start
-        let lastDay = (geoItems[0].start > phoneItems[0].start) ? geoItems[0].start : phoneItems[0].start
-        timeline.setWindow(startDay, lastDay)
+        if (geoItems.length > 0 && phoneItems.length > 0) {
+          let startDay = (geoItems[geoItems.length - 1].start > phoneItems[phoneItems.length - 1].start) ? phoneItems[phoneItems.length - 1].start : geoItems[geoItems.length - 1].start
+          let lastDay = (geoItems[0].start > phoneItems[0].start) ? geoItems[0].start : phoneItems[0].start
+          timeline.setWindow(startDay, lastDay)
+        } else if (geoItems.length > 0) {
+          let startDay = geoItems[geoItems.length - 1].start
+          let lastDay = geoItems[0].start
+          timeline.setWindow(startDay, lastDay)
+        } else if (phoneItems.length > 0) {
+          let startDay = phoneItems[phoneItems.length - 1].start
+          let lastDay = phoneItems[0].start
+          timeline.setWindow(startDay, lastDay)
+        }
       }
     }
     return (
