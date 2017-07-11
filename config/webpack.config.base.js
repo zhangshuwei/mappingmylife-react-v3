@@ -51,7 +51,7 @@ module.exports = {
       },
       {
         test: /\.(woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: 'file-loader'
+        use: 'file-loader?name=images/[name].[ext]'
       }
     ]
   },
