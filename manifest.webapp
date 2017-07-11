@@ -34,6 +34,11 @@
   "version": "1.0.0",
   "licence": "",
   "permissions": {
+    "apps": {
+      "description": "Required by the cozy-bar to display the icons of the apps",
+      "type": "io.cozy.apps",
+      "verbs": ["GET"]
+    },
     "pointfavoris":{
       "description": "Required for favorite place",
       "type": "fr.orange.pointfavoris",

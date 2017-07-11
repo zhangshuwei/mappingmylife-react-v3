@@ -16,11 +16,12 @@ import ItineraryPage from './containers/ItineraryPage'
 import 'bootstrap-css'
 import 'bootstrap-theme-css'
 import 'font-awesome-css'
-
+import './styles/main.css'
 const middleware = [ thunk ]
 if (process.env.NODE_ENV !== 'production') {
   middleware.push(createLogger())
 }
+
 let store = createStore(
   rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
@@ -29,11 +30,19 @@ let store = createStore(
 let history = createBrowserHistory()
 document.addEventListener('DOMContentLoaded', () => {
   const applicationElement = document.querySelector('[role=application]')
+  const data = applicationElement.dataset
   const cozyOptions = {
-    cozyURL: `//${applicationElement.dataset.cozyDomain}`,
-    token: applicationElement.dataset.cozyToken
+    cozyURL: `//${data.cozyDomain}`,
+    token: data.cozyToken
   }
   cozy.client.init(cozyOptions)
+  cozy.bar.init({
+      appName: data.cozyAppName,
+
+      iconPath: data.cozyIconPath,
+      lang: 'fr',
+      replaceTitleOnMobile: true
+  })
   render(
     <Provider store={store}>
       <BrowserRouter history={history}>

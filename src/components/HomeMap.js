@@ -163,7 +163,7 @@ class HomeMap extends Component {
       const geomarkers = this.renderGeoMarkers(geolocations)
       const phonemarkers = this.renderPhoneMarkers(phonecalls)
       return (
-        <div>
+
           <Map center={this.state.center} zoom={13} maxZoom={20}>
             <TileLayer
               url={MAPBOXURL}
@@ -175,7 +175,7 @@ class HomeMap extends Component {
               {phonemarkers}
             </MarkerClusterGroup>
           </Map>
-        </div>
+        
       )
     } else {
       return (

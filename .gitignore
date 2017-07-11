@@ -7,6 +7,7 @@ node_modules
 build
 
 # misc
+yarn-error.log
+yarn.lock
 .DS_Store
 npm-debug.log
-yarn-error.log

@@ -11,6 +11,8 @@
   <script src="<%- file %>" defer></script>
 <% }); %>
 <!-- <script type="text/javascript" src='./node_modules/moment/min/moment-with-locales.min.js'></script> -->
+
+{{.CozyBar}}
 </head>
 <div
   role="application"
@@ -18,5 +20,6 @@
   data-cozy-domain="{{.Domain}}"
   data-cozy-locale="{{.Locale}}"
   data-cozy-app-name="{{.AppName}}"
+  data-cozy-app-editor="{{.AppEditor}}"
   data-cozy-icon-path="{{.IconPath}}"
 >
