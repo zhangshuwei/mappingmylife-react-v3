@@ -2,7 +2,7 @@
 .leaflet-container {
     position: relative;
     height: 600px;
-    width:  100%
+    width:  100%;
     z-index:1
 }
 .popupContent{
