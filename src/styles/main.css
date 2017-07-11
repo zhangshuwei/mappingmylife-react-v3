@@ -1,3 +1,8 @@
+html {
+  font-weight: normal;
+  font-size: 14px;
+  color: #666;
+}
 [role=banner] .coz-nav-pop.coz-nav-pop--apps {
   z-index:2;
   right: 0;
