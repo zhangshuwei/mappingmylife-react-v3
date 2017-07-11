@@ -1,6 +1,5 @@
-/* global cozy */
 
-import { FETCH_GEO_LAST_DAY, FETCH_GEOLOCATIONS_FAILURE, SELECT_DATE } from '../constants/actionTypes'
+import { SELECT_DATE } from '../constants/actionTypes'
 import { fetchGeolocations } from './geolocations'
 import { fetchPhonecalls } from './phonecalls'
 

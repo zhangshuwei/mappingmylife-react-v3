@@ -1,6 +1,7 @@
 /* global cozy */
 
 import {FETCH_ITINERARY} from '../constants/actionTypes'
+import { GEOLOCATION_DOCTYPE } from '../constants/config'
 import isEmpty from 'lodash/isEmpty'
 const getPathData = (mangoIndexByDate, startDate) => {
   return async dispatch => {

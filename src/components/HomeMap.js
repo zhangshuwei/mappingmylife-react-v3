@@ -164,18 +164,18 @@ class HomeMap extends Component {
       const phonemarkers = this.renderPhoneMarkers(phonecalls)
       return (
 
-          <Map center={this.state.center} zoom={13} maxZoom={20}>
-            <TileLayer
-              url={MAPBOXURL}
-              maxZoom={20}
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        <Map center={this.state.center} zoom={13} maxZoom={20}>
+          <TileLayer
+            url={MAPBOXURL}
+            maxZoom={20}
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
-            <MarkerClusterGroup wrapperOptions={{enableDefaultStyle: true}} >
-              {geomarkers}
-              {phonemarkers}
-            </MarkerClusterGroup>
-          </Map>
-        
+          <MarkerClusterGroup wrapperOptions={{enableDefaultStyle: true}} >
+            {geomarkers}
+            {phonemarkers}
+          </MarkerClusterGroup>
+        </Map>
+
       )
     } else {
       return (

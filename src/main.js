@@ -37,11 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   cozy.client.init(cozyOptions)
   cozy.bar.init({
-      appName: data.cozyAppName,
+    appName: data.cozyAppName,
 
-      iconPath: data.cozyIconPath,
-      lang: 'fr',
-      replaceTitleOnMobile: true
+    iconPath: data.cozyIconPath,
+    lang: 'fr',
+    replaceTitleOnMobile: true
   })
   render(
     <Provider store={store}>
