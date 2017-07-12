@@ -49651,7 +49651,7 @@ var cozyOptions = {
   cozyURL: '//' + applicationElement.dataset.cozyDomain,
   token: applicationElement.dataset.cozyToken
 };
-var PROTOCOL = document.location.protocol;
+var PROTOCOL = window.location.protocol;
 
 var getPhoneCommunicationLogURL = PROTOCOL + cozyOptions.cozyURL + '/data/' + _config.PHONECALL_DOCTYPE + '/_all_docs?include_docs=true';
 var getGeoPointURL = PROTOCOL + cozyOptions.cozyURL + '/data/' + _config.GEOLOCATION_DOCTYPE + '/_all_docs?include_docs=true';
@@ -99631,4 +99631,4 @@ exports.default = valueEqual;
 
 /***/ })
 ],[375]);
-//# sourceMappingURL=main.6bee7c464bbbfc12814e.js.map
+//# sourceMappingURL=main.5313ecd7ce6aceb86495.js.map
