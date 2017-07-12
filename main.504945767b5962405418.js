@@ -49651,8 +49651,10 @@ var cozyOptions = {
   cozyURL: '//' + applicationElement.dataset.cozyDomain,
   token: applicationElement.dataset.cozyToken
 };
-var getPhoneCommunicationLogURL = 'http:' + cozyOptions.cozyURL + '/data/' + _config.PHONECALL_DOCTYPE + '/_all_docs?include_docs=true';
-var getGeoPointURL = 'http:' + cozyOptions.cozyURL + '/data/' + _config.GEOLOCATION_DOCTYPE + '/_all_docs?include_docs=true';
+var PROTOCOL = document.location.protocol;
+
+var getPhoneCommunicationLogURL = PROTOCOL + cozyOptions.cozyURL + '/data/' + _config.PHONECALL_DOCTYPE + '/_all_docs?include_docs=true';
+var getGeoPointURL = PROTOCOL + cozyOptions.cozyURL + '/data/' + _config.GEOLOCATION_DOCTYPE + '/_all_docs?include_docs=true';
 
 var receiveTopGeolocations = exports.receiveTopGeolocations = function receiveTopGeolocations(topGeolocations) {
   return {
@@ -99629,4 +99631,4 @@ exports.default = valueEqual;
 
 /***/ })
 ],[375]);
-//# sourceMappingURL=main.3c4e277ef2d8aa32239c.js.map
+//# sourceMappingURL=main.504945767b5962405418.js.map
