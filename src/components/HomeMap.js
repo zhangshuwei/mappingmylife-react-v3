@@ -60,110 +60,118 @@ class HomeMap extends Component {
     return typeIcon
   }
   renderGeoMarkers (geolocations) {
-    let result = reduce(geolocations, function (result, value) {
-      ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
-        {
-          start: value.timestamp.replace(/T|Z/g, ' '),
-          msisdn: value.msisdn,
-          _id: value._id
-        })
-      return result
-    }, [])
-    let geoLog = []
-    for (let key in result) {
-      if (result.hasOwnProperty(key)) {
-        let item = {}
-        item.latitude = Number(key.split(',')[0])
-        item.longitude = Number(key.split(',')[1])
-        item.geoInfo = result[key]
-        geoLog.push(item)
+    if (geolocations.length > 0) {
+      let result = reduce(geolocations, function (result, value) {
+        ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
+          {
+            start: value.timestamp.replace(/T|Z/g, ' '),
+            msisdn: value.msisdn,
+            _id: value._id
+          })
+        return result
+      }, [])
+      let geoLog = []
+      for (let key in result) {
+        if (result.hasOwnProperty(key)) {
+          let item = {}
+          item.latitude = Number(key.split(',')[0])
+          item.longitude = Number(key.split(',')[1])
+          item.geoInfo = result[key]
+          geoLog.push(item)
+        }
       }
-    }
-    if (geoLog.length > 0) {
-      return geoLog.map((item, i) => {
-        let typeIcon = this.getIconType(item.latitude, item.longitude, geoIcon)
-        return (
-          <Marker key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
-            <Popup>
-              <div>
-                <h5>Nombre de geolocation = {item.geoInfo.length}</h5>
-                <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
-                  {item.geoInfo.map((item, i) =>
-                    <div key={i} className='geoPopup'>
-                      <p >Timestamp: {item.start}</p>
-                    </div>
-                )}
+      if (geoLog.length > 0) {
+        return geoLog.map((item, i) => {
+          let typeIcon = this.getIconType(item.latitude, item.longitude, geoIcon)
+          return (
+            <Marker key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
+              <Popup>
+                <div>
+                  <h5>Nombre de geolocation = {item.geoInfo.length}</h5>
+                  <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
+                    {item.geoInfo.map((item, i) =>
+                      <div key={i} className='geoPopup'>
+                        <p >Timestamp: {item.start}</p>
+                      </div>
+                  )}
+                  </div>
+                  <Button bsSize='small' bsStyle='success' onClick={this.showInfo.bind(this)}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
                 </div>
-                <Button bsSize='small' bsStyle='success' onClick={this.showInfo.bind(this)}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
-              </div>
-            </Popup>
-          </Marker>
+              </Popup>
+            </Marker>
+          )
+        }
         )
+      } else {
+        return []
       }
-      )
-    } else {
-      return <p>error</p>
     }
   }
 
   renderPhoneMarkers (phonecalls) {
-    let result = reduce(phonecalls, function (result, value) {
-      ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
-        {
-          start: value.timestamp.replace(/T|Z/g, ' '),
-          msisdn: value.msisdn,
-          partner: value.partner,
-          typeMessage: value.type,
-          _id: value._id
-        })
-      return result
-    }, [])
-    let phoneLog = []
-    for (let key in result) {
-      if (result.hasOwnProperty(key)) {
-        let item = {}
-        item.latitude = Number(key.split(',')[0])
-        item.longitude = Number(key.split(',')[1])
-        item.phoneInfo = result[key]
-        phoneLog.push(item)
+    if (phonecalls.length > 0) {
+      let result = reduce(phonecalls, function (result, value) {
+        ((result[(value.latitude).toString() + ',' + (value.longitude).toString()]) || (result[(value.latitude).toString() + ',' + (value.longitude).toString()] = [])).push(
+          {
+            start: value.timestamp.replace(/T|Z/g, ' '),
+            msisdn: value.msisdn,
+            partner: value.partner,
+            typeMessage: value.type,
+            _id: value._id
+          })
+        return result
+      }, [])
+      let phoneLog = []
+      for (let key in result) {
+        if (result.hasOwnProperty(key)) {
+          let item = {}
+          item.latitude = Number(key.split(',')[0])
+          item.longitude = Number(key.split(',')[1])
+          item.phoneInfo = result[key]
+          phoneLog.push(item)
+        }
       }
-    }
-    if (phoneLog.length > 0) {
-      return phoneLog.map((item, i) => {
-        let typeIcon = this.getIconType(item.latitude, item.longitude, phoneIcon)
-        return (
-          <Marker key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
-            <Popup>
-              <div>
-                <h5>Nombre de communications = {item.phoneInfo.length}</h5>
-                <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
-                  {item.phoneInfo.map((item, i) =>
-                    <div key={i} className='phonePopup'>
-                      <p>Timestamp: {item.start}</p>
-                      <p>Numéro de contact: {item.partner}</p>
-                      <p>Type d'appel: {item.typeMessage}</p>
-                    </div>
-                )}
+      if (phoneLog.length > 0) {
+        return phoneLog.map((item, i) => {
+          let typeIcon = this.getIconType(item.latitude, item.longitude, phoneIcon)
+          return (
+            <Marker key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
+              <Popup>
+                <div>
+                  <h5>Nombre de communications = {item.phoneInfo.length}</h5>
+                  <div style={{ display: this.state.showPopup ? 'block' : 'none' }} className='popupContent'>
+                    {item.phoneInfo.map((item, i) =>
+                      <div key={i} className='phonePopup'>
+                        <p>Timestamp: {item.start}</p>
+                        <p>Numéro de contact: {item.partner}</p>
+                        <p>Type d'appel: {item.typeMessage}</p>
+                      </div>
+                  )}
+                  </div>
+                  <Button bsSize='small' bsStyle='success' onClick={this.showInfo.bind(this)}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
                 </div>
-                <Button bsSize='small' bsStyle='success' onClick={this.showInfo.bind(this)}>{this.state.showPopup ? 'Cache' : 'Afficher'}</Button>
-              </div>
-            </Popup>
-          </Marker>
-        )
+              </Popup>
+            </Marker>
+          )
+        }
+      )
+      } else {
+        return []
       }
-    )
-    } else {
-      return <p>error</p>
     }
   }
 
   render () {
     const {geolocations, phonecalls} = this.props
     if (!isEmpty(geolocations) || !isEmpty(phonecalls)) {
-      const geomarkers = this.renderGeoMarkers(geolocations)
-      const phonemarkers = this.renderPhoneMarkers(phonecalls)
+      let geomarkers = []
+      let phonemarkers = []
+      if (!isEmpty(phonecalls)) {
+        phonemarkers = this.renderPhoneMarkers(phonecalls)
+      } else if (!isEmpty(geolocations)) {
+        geomarkers = this.renderGeoMarkers(geolocations)
+      }
       return (
-
         <Map center={this.state.center} zoom={13} maxZoom={20}>
           <TileLayer
             url={MAPBOXURL}
