@@ -9,7 +9,7 @@ const cozyOptions = {
   cozyURL: `//${applicationElement.dataset.cozyDomain}`,
   token: applicationElement.dataset.cozyToken
 }
-const PROTOCOL = document.location.protocol
+const PROTOCOL = window.location.protocol
 
 const getPhoneCommunicationLogURL = PROTOCOL + cozyOptions.cozyURL + '/data/' + PHONECALL_DOCTYPE + '/_all_docs?include_docs=true'
 const getGeoPointURL = PROTOCOL + cozyOptions.cozyURL + '/data/' + GEOLOCATION_DOCTYPE + '/_all_docs?include_docs=true'
