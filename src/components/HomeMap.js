@@ -168,7 +168,8 @@ class HomeMap extends Component {
       let phonemarkers = []
       if (!isEmpty(phonecalls)) {
         phonemarkers = this.renderPhoneMarkers(phonecalls)
-      } else if (!isEmpty(geolocations)) {
+      }
+      if (!isEmpty(geolocations)) {
         geomarkers = this.renderGeoMarkers(geolocations)
       }
       return (
