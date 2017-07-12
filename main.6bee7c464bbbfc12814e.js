@@ -49897,7 +49897,7 @@ var Calendar = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this, props));
 
     _this.state = {
-      startDate: (0, _moment2.default)('2016-11-15')
+      startDate: ''
     };
     _this.handleChange = _this.handleChange.bind(_this);
     _this.selectDate = _this.selectDate.bind(_this);
@@ -99631,4 +99631,4 @@ exports.default = valueEqual;
 
 /***/ })
 ],[375]);
-//# sourceMappingURL=main.504945767b5962405418.js.map
+//# sourceMappingURL=main.6bee7c464bbbfc12814e.js.map
