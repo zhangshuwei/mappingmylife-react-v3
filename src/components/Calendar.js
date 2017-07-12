@@ -22,7 +22,7 @@ class Calendar extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      startDate: moment('2016-11-15')
+      startDate: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.selectDate = this.selectDate.bind(this)
