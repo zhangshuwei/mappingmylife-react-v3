@@ -50770,7 +50770,8 @@ var HomeMap = function (_Component) {
         var phonemarkers = [];
         if (!(0, _isEmpty2.default)(phonecalls)) {
           phonemarkers = this.renderPhoneMarkers(phonecalls);
-        } else if (!(0, _isEmpty2.default)(geolocations)) {
+        }
+        if (!(0, _isEmpty2.default)(geolocations)) {
           geomarkers = this.renderGeoMarkers(geolocations);
         }
         return _react2.default.createElement(
@@ -99628,4 +99629,4 @@ exports.default = valueEqual;
 
 /***/ })
 ],[375]);
-//# sourceMappingURL=main.51edd98620e24db73102.js.map
+//# sourceMappingURL=main.3c4e277ef2d8aa32239c.js.map
