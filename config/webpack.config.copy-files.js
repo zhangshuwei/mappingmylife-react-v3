@@ -8,7 +8,8 @@ module.exports = {
   plugins: [
     new CopyPlugin([
       {from: 'src/vendor/assets'},
-      {from: 'manifest.webapp', transform: transformManifest}
+      {from: 'manifest.webapp', transform: transformManifest},
+      {from: 'README.md'}
     ])
   ]
 }
