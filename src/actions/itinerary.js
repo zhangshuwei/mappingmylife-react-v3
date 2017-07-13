@@ -15,8 +15,7 @@ const getPathData = (mangoIndexByDate, startDate) => {
             'timestamp': {'$lte': startDate + 'T23:59:59Z'}
           }
         ]},
-      fields: ['_id', 'timestamp', 'latitude', 'longitude'],
-      limit: 10000
+      fields: ['_id', 'timestamp', 'latitude', 'longitude']
     }
     return cozy.client.data.query(mangoIndexByDate, options)
     .then((data) => {

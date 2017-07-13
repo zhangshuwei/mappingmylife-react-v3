@@ -51,6 +51,20 @@ $ npm run build
 # or
 $ yarn build
 ```
+## Deploy the app
 
-You can find all the files needed to be deployed in `build` folder.
+
+You will find all the files needed to be deployed in `build` folder.
+
+In order to deploy the app on Cozy you need to copy all the files in `build` folder to another git branch named 'build'.
+
+First, stay on master branch, copy the files in `build` folder to some place. And then go to build branch with the command below:
+
+``` sh
+$ git branch build #if you don't have 'build' branch
+$ git checkout build
+
+```
+Copy the files here and then push to remote git branch.
+
 ## License
