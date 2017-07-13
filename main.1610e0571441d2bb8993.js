@@ -37910,7 +37910,9 @@ exports.fetchGeoLatest = exports.fetchGeolocations = exports.receiveGeolocations
 
 var _actionTypes = __webpack_require__(25);
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /* global cozy */
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /* global cozy */
 
 var receiveGeolocations = exports.receiveGeolocations = function receiveGeolocations(geolocations) {
   return {
@@ -37918,8 +37920,52 @@ var receiveGeolocations = exports.receiveGeolocations = function receiveGeolocat
     geolocations: geolocations
   };
 };
+var fetchMoreGeolocations = function fetchMoreGeolocations(geoIndexByDate, start, end, skip, previousData) {
+  var options = {
+    selector: {
+      '$and': [{
+        'timestamp': { '$gt': start }
+      }, {
+        'timestamp': { '$lte': end + 'T23:59:59Z' }
+      }, {
+        'latitude': { '$ne': 'NULL' }
+      }, {
+        'longitude': { '$ne': 'NULL' }
+      }, {
+        'latitude': { '$ne': '' }
+      }, {
+        'longitude': { '$ne': '' }
+      }] },
+    fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
+    descending: true,
+    wholeResponse: true,
+    skip: skip
+  };
+  return __webpack_provided_cozy_dot_client.data.query(geoIndexByDate, options).then(function (geolocations) {
+    if (geolocations) {
+      var hasNext = geolocations.next;
+      var data = [].concat(_toConsumableArray(geolocations.docs), _toConsumableArray(previousData));
+      var result = { 'hasNext': hasNext, 'data': data };
+      return result;
+    }
+  }).catch(function (error) {
+    console.log(error);
+  });
+};
 
-var fetchGeolocations = exports.fetchGeolocations = function fetchGeolocations(mangoIndexByDate, start, end) {
+var loop = function loop(geoIndexByDate, start, end, skip, data) {
+  return fetchMoreGeolocations(geoIndexByDate, start, end, skip, data).then(function (result) {
+    if (result.hasNext) {
+      return loop(geoIndexByDate, start, end, result.data.length, result.data);
+    } else {
+      return result;
+    }
+  }).catch(function (error) {
+    console.log(error);
+  });
+};
+
+var fetchGeolocations = exports.fetchGeolocations = function fetchGeolocations(geoIndexByDate, start, end) {
   return function () {
     var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch) {
       var options;
@@ -37944,10 +37990,25 @@ var fetchGeolocations = exports.fetchGeolocations = function fetchGeolocations(m
                   }] },
                 fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'radius'],
                 descending: true,
-                limit: 10000
+                wholeResponse: true
               };
-              return _context.abrupt('return', __webpack_provided_cozy_dot_client.data.query(mangoIndexByDate, options).then(function (geolocations) {
-                dispatch(receiveGeolocations(geolocations));
+              return _context.abrupt('return', __webpack_provided_cozy_dot_client.data.query(geoIndexByDate, options).then(function (geolocations) {
+                var data = geolocations.docs;
+                var hasMore = geolocations.next;
+                if (hasMore) {
+                  var res = loop(geoIndexByDate, start, end, data.length, data);
+                  res.then(function (result) {
+                    dispatch(receiveGeolocations(result.data));
+                  });
+                  res.catch(function (error) {
+                    dispatch({
+                      type: _actionTypes.FETCH_GEOLOCATIONS_FAILURE,
+                      error: error
+                    });
+                  });
+                } else {
+                  dispatch(receiveGeolocations(data));
+                }
               }).catch(function (error) {
                 dispatch({
                   type: _actionTypes.FETCH_GEOLOCATIONS_FAILURE,
@@ -38031,13 +38092,59 @@ exports.fetchPhonecallsLatest = exports.fetchPhonecalls = exports.receivePhoneca
 
 var _actionTypes = __webpack_require__(25);
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /* global cozy */
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /* global cozy */
 
 var receivePhonecalls = exports.receivePhonecalls = function receivePhonecalls(phonecalls) {
   return {
     type: _actionTypes.RECEIVE_PHONECALLS,
     phonecalls: phonecalls
   };
+};
+var fetchMorePhonecalls = function fetchMorePhonecalls(phoneIndexByDate, start, end, skip, previousData) {
+  var options = {
+    selector: {
+      '$and': [{
+        'timestamp': { '$gt': start }
+      }, {
+        'timestamp': { '$lte': end + 'T23:59:59Z' }
+      }, {
+        'latitude': { '$ne': 'NULL' }
+      }, {
+        'longitude': { '$ne': 'NULL' }
+      }, {
+        'latitude': { '$ne': '' }
+      }, {
+        'longitude': { '$ne': '' }
+      }] },
+    fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner'],
+    descending: true,
+    wholeResponse: true,
+    skip: skip
+  };
+  return __webpack_provided_cozy_dot_client.data.query(phoneIndexByDate, options).then(function (phonecalls) {
+    if (phonecalls) {
+      var hasNext = phonecalls.next;
+      var data = [].concat(_toConsumableArray(phonecalls.docs), _toConsumableArray(previousData));
+      var result = { 'hasNext': hasNext, 'data': data };
+      return result;
+    }
+  }).catch(function (error) {
+    console.log(error);
+  });
+};
+
+var loop = function loop(phoneIndexByDate, start, end, skip, data) {
+  return fetchMorePhonecalls(phoneIndexByDate, start, end, skip, data).then(function (result) {
+    if (result.hasNext) {
+      return loop(phoneIndexByDate, start, end, result.data.length, result.data);
+    } else {
+      return result;
+    }
+  }).catch(function (error) {
+    console.log(error);
+  });
 };
 
 var fetchPhonecalls = exports.fetchPhonecalls = function fetchPhonecalls(phoneIndexByDate, start, end) {
@@ -38065,11 +38172,25 @@ var fetchPhonecalls = exports.fetchPhonecalls = function fetchPhonecalls(phoneIn
                   }] },
                 fields: ['_id', 'timestamp', 'latitude', 'longitude', 'msisdn', 'type', 'partner'],
                 descending: true,
-                limit: 10000
+                wholeResponse: true
               };
               return _context.abrupt('return', __webpack_provided_cozy_dot_client.data.query(phoneIndexByDate, options).then(function (phonecalls) {
-                dispatch(receivePhonecalls(phonecalls));
-                return phonecalls;
+                var data = phonecalls.docs;
+                var hasMore = phonecalls.next;
+                if (hasMore) {
+                  var res = loop(phoneIndexByDate, start, end, data.length, data);
+                  res.then(function (result) {
+                    dispatch(receivePhonecalls(result.data));
+                  });
+                  res.catch(function (error) {
+                    dispatch({
+                      type: _actionTypes.FETCH_PHONECALLS_FAILURE,
+                      error: error
+                    });
+                  });
+                } else {
+                  dispatch(receivePhonecalls(data));
+                }
               }).catch(function (error) {
                 dispatch({
                   type: _actionTypes.FETCH_PHONECALLS_FAILURE,
@@ -49277,7 +49398,9 @@ exports.deleteFavorisMap = exports.updateFavorisMap = exports.addFavorisMap = ex
 
 var _actionTypes = __webpack_require__(25);
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /* global cozy */
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /* global cozy */
 
 var receiveFavorisPoint = exports.receiveFavorisPoint = function receiveFavorisPoint(favorisMap) {
   return {
@@ -49297,6 +49420,39 @@ var createFavorisMap = function createFavorisMap(favorisPoint) {
   return favorisMap;
 };
 
+var fetchMoreFavorisPoint = function fetchMoreFavorisPoint(favorisPointIndex, skip, previousData) {
+  var options = {
+    selector: {
+      category: { '$gt': null }
+    },
+    fields: ['_id', 'category', 'latitude', 'longitude'],
+    wholeResponse: true,
+    skip: skip
+  };
+  return __webpack_provided_cozy_dot_client.data.query(favorisPointIndex, options).then(function (favorisPoint) {
+    if (favorisPoint) {
+      var hasNext = favorisPoint.next;
+      var data = [].concat(_toConsumableArray(favorisPoint.docs), _toConsumableArray(previousData));
+      var result = { 'hasNext': hasNext, 'data': data };
+      return result;
+    }
+  }).catch(function (error) {
+    console.log(error);
+  });
+};
+
+var loop = function loop(favorisPointIndex, skip, data) {
+  return fetchMoreFavorisPoint(favorisPointIndex, skip, data).then(function (result) {
+    if (result.hasNext) {
+      return loop(favorisPointIndex, result.data.length, result.data);
+    } else {
+      return result;
+    }
+  }).catch(function (error) {
+    console.log(error);
+  });
+};
+
 var fetchFavorisPoint = exports.fetchFavorisPoint = function fetchFavorisPoint(favorisPointIndex) {
   return function () {
     var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(dispatch) {
@@ -49310,11 +49466,28 @@ var fetchFavorisPoint = exports.fetchFavorisPoint = function fetchFavorisPoint(f
                   category: { '$gt': null }
                 },
                 fields: ['_id', 'category', 'latitude', 'longitude'],
-                limit: 10000
+                wholeResponse: true
               };
               return _context.abrupt('return', __webpack_provided_cozy_dot_client.data.query(favorisPointIndex, options).then(function (favorisPoint) {
-                var favorisMap = createFavorisMap(favorisPoint);
-                dispatch(receiveFavorisPoint(favorisMap));
+                console.log(favorisPoint);
+                var data = favorisPoint.docs;
+                var hasMore = favorisPoint.next;
+                if (hasMore) {
+                  var res = loop(favorisPointIndex, data.length, data);
+                  res.then(function (result) {
+                    var favorisMap = createFavorisMap(result.data);
+                    dispatch(receiveFavorisPoint(favorisMap));
+                  });
+                  res.catch(function (error) {
+                    dispatch({
+                      type: _actionTypes.FETCH_FAVORISPOINT_FAILURE,
+                      error: error
+                    });
+                  });
+                } else {
+                  var favorisMap = createFavorisMap(data);
+                  dispatch(receiveFavorisPoint(favorisMap));
+                }
               }).catch(function (error) {
                 dispatch({
                   type: _actionTypes.FETCH_FAVORISPOINT_FAILURE,
@@ -49399,8 +49572,7 @@ var getPathData = function getPathData(mangoIndexByDate, startDate) {
                   }, {
                     'timestamp': { '$lte': startDate + 'T23:59:59Z' }
                   }] },
-                fields: ['_id', 'timestamp', 'latitude', 'longitude'],
-                limit: 10000
+                fields: ['_id', 'timestamp', 'latitude', 'longitude']
               };
               return _context.abrupt('return', __webpack_provided_cozy_dot_client.data.query(mangoIndexByDate, options).then(function (data) {
                 if (data) {
@@ -99631,4 +99803,4 @@ exports.default = valueEqual;
 
 /***/ })
 ],[375]);
-//# sourceMappingURL=main.5313ecd7ce6aceb86495.js.map
+//# sourceMappingURL=main.1610e0571441d2bb8993.js.map
