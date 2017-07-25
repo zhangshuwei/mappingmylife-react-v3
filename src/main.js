@@ -16,7 +16,8 @@ import ItineraryPage from './containers/ItineraryPage'
 import 'bootstrap-css'
 import 'bootstrap-theme-css'
 import 'font-awesome-css'
-import './styles/main.css'
+// ADD COZY BAR CSS
+// import './styles/main.css'
 const middleware = [ thunk ]
 if (process.env.NODE_ENV !== 'production') {
   middleware.push(createLogger())
@@ -36,13 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
     token: data.cozyToken
   }
   cozy.client.init(cozyOptions)
-  cozy.bar.init({
-    appName: data.cozyAppName,
-
-    iconPath: data.cozyIconPath,
-    lang: 'fr',
-    replaceTitleOnMobile: true
-  })
+  // ADD COZY BAR
+  // cozy.bar.init({
+  //   appName: data.cozyAppName,
+  //
+  //   iconPath: data.cozyIconPath,
+  //   lang: 'fr',
+  //   replaceTitleOnMobile: true
+  // })
   render(
     <Provider store={store}>
       <BrowserRouter history={history}>
