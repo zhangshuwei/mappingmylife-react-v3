@@ -51633,6 +51633,8 @@ __webpack_require__(361);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// ADD COZY BAR CSS
+// import './styles/main.css'
 /* global cozy */
 
 var middleware = [_reduxThunk2.default];
@@ -51650,7 +51652,14 @@ document.addEventListener('DOMContentLoaded', function () {
     token: data.cozyToken
   };
   __webpack_provided_cozy_dot_client.init(cozyOptions);
-
+  // ADD COZY BAR
+  // cozy.bar.init({
+  //   appName: data.cozyAppName,
+  //
+  //   iconPath: data.cozyIconPath,
+  //   lang: 'fr',
+  //   replaceTitleOnMobile: true
+  // })
   (0, _reactDom.render)(_react2.default.createElement(
     _reactRedux.Provider,
     { store: store },
@@ -93172,7 +93181,7 @@ var Map = function (_MapComponent) {
         if (viewport.center) {
           options.center = viewport.center;
         }
-        if (viewport.zoom) {
+        if (typeof viewport.zoom === 'number') {
           options.zoom = viewport.zoom;
         }
       }
@@ -93217,7 +93226,7 @@ var Map = function (_MapComponent) {
         } else {
           this.leafletElement.setView(center, zoom, { animate: animate });
         }
-      } else if (zoom && zoom !== fromProps.zoom) {
+      } else if (typeof zoom === 'number' && zoom !== fromProps.zoom) {
         if (fromProps.zoom) {
           this.leafletElement.setZoom(zoom);
         } else {
@@ -99926,4 +99935,4 @@ exports.default = valueEqual;
 
 /***/ })
 ],[376]);
-//# sourceMappingURL=main.ee487f639bf37f77aad3.js.map
+//# sourceMappingURL=main.0cb40aa78066d5937b87.js.map
