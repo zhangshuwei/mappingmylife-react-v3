@@ -16,6 +16,8 @@ const renderGeoItems = (items) => {
         start: item.timestamp.replace(/T/g, ' ').replace(/Z/g, ''),
         group: 0,
         className: GEOITEM,
+        latitude: item.latitude,
+        longitude: item.longitude,
         title: '<div classNme="data-tooltip"><p>Position: (' + item.latitude + ', ' +
               item.longitude + ')</p><p>Timestamp: ' + item.timestamp.replace(/T|Z/g, ' ') + '</div>'
       })
@@ -32,6 +34,8 @@ const renderPhoneItems = (items) => {
         start: item.timestamp.replace(/T/g, ' ').replace(/Z/g, ''),
         group: 1,
         className: PHONEITEM,
+        latitude: item.latitude,
+        longitude: item.longitude,
         title: '<div classNme="data-tooltip"><p>Numéro de contact: ' +
                 item.partner + '</p><p>Type d\'appel: ' + item.type + '</p></div>'
       })
@@ -62,6 +66,7 @@ class TimeLine extends Component {
       isFirstFetch: true
     }
     this.onSelectDataByDate = this.onSelectDataByDate.bind(this)
+    this.onSelectMarker = this.onSelectMarker.bind(this)
     this.initTimeline = this.initTimeline.bind(this)
   }
   componentDidMount () {
@@ -77,6 +82,7 @@ class TimeLine extends Component {
   // }
   componentWillUnmount () {
     timeline.off('rangechanged', this.onSelectDataByDate)
+    timeline.off('click', this.onSelectMarker)
   }
   onSelectDataByDate (properties) {
     if (properties.byUser) {
@@ -88,11 +94,23 @@ class TimeLine extends Component {
       this.props.selectDataByDate(start, end, geoIndexByDate, phoneIndexByDate)
     }
   }
-
+  onSelectMarker (properties) {
+    let item_id = properties.items
+    console.log(properties)
+    for(let i in items) {
+      if(items[i].id == item_id) {
+        var title = items[i].title
+        var latitude = Number(items[i].latitude)
+        var longitude = Number(items[i].longitude)
+        this.props.onChangeCenter(latitude, longitude)
+      }
+    }    
+  }
   initTimeline () {
     let container = document.getElementById('mytimeline')
     timeline = new vis.Timeline(container, items, TIMELINEGROUPS, TIMELINEOPTIONS)
     timeline.addEventListener('rangechanged', this.onSelectDataByDate)
+    timeline.addEventListener('select', this.onSelectMarker)
   }
 
   render () {

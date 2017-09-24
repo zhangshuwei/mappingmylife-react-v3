@@ -15,7 +15,7 @@ const AppRoute = ({store}) => (
         <Route exact path='/' component={FavorisPage} />
         <Route path='/map' component={HomePage} />
       </div>
-    </ Router>
+    </Router>
   </Provider>
 )
 

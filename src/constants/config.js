@@ -20,6 +20,7 @@ export const TIMELINEOPTIONS = {
   zoomMax: 1000 * 60 * 60 * 24 * 31 * 12 * 10,
   zoomMin: 1000 * 60,
   showCurrentTime: false,
+  selectable: true,
   editable: false,
   orientation: 'top',
   locale: 'fr',
