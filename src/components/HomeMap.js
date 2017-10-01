@@ -35,11 +35,11 @@ class HomeMap extends Component {
     })
   }
   
-  bindMarker = (ref) => {
-    if (ref) {
-      this.props.onSelectMarkers(ref.leafletElement)
-    }
-  }
+  // bindMarker = (ref) => {
+  //   if (ref) {
+  //     this.props.onSelectMarkers(ref.leafletElement)
+  //   }
+  // }
 
   getIconType (latitude, longitude, defaultIcon) {
     let key = latitude.toString() + longitude.toString()
@@ -92,7 +92,8 @@ class HomeMap extends Component {
         return geoLog.map((item, i) => {
           let typeIcon = this.getIconType(item.latitude, item.longitude, geoIcon)
           return (
-            <Marker ref={this.bindMarker} key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
+            //<Marker ref={this.bindMarker} key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
+            <Marker key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
               <Popup>
                 <div>
                   <h5>Nombre de geolocation = {item.geoInfo.length}</h5>
@@ -142,9 +143,10 @@ class HomeMap extends Component {
       if (phoneLog.length > 0) {
         return phoneLog.map((item, i) => {
           let typeIcon = this.getIconType(item.latitude, item.longitude, phoneIcon)
-          let bindMarker = this.bindMarker
+          //let bindMarker = this.bindMarker
           return (
-            <Marker ref={this.bindMarker} key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
+            // <Marker ref={this.bindMarker} key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
+            <Marker key={i} position={[item.latitude, item.longitude]} icon={typeIcon}>
               <Popup >
                 <div>
                   <h5>Nombre de communications = {item.phoneInfo.length}</h5>
@@ -171,7 +173,8 @@ class HomeMap extends Component {
   }
 
   render () {
-    const {geolocations, phonecalls, center, markers, zoom} = this.props
+    // const {geolocations, phonecalls, center, markers, zoom} = this.props
+    const {geolocations, phonecalls, center, zoom} = this.props
     if (!isEmpty(geolocations) || !isEmpty(phonecalls)) {
       let geomarkers = []
       let phonemarkers = []
@@ -182,14 +185,17 @@ class HomeMap extends Component {
         geomarkers = this.renderGeoMarkers(geolocations)
       }
       return (
-        <Map ref='map' center={center} zoom={zoom} maxZoom={20}>
+        // <Map ref='map' center={center} zoom={zoom} maxZoom={20}>
+        <Map center={center} zoom={zoom} maxZoom={20}>
           <TileLayer
             url={MAPBOXURL}
             maxZoom={20}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
+            <MarkerClusterGroup wrapperOptions={{enableDefaultStyle: true}} >
             {geomarkers}
             {phonemarkers}
+            </MarkerClusterGroup>
         </Map>
 
       )

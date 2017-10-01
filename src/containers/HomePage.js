@@ -36,15 +36,15 @@ class HomePage extends Component {
     console.log("onchangcenter")
     this.setState({
       center: [latitude, longitude],
-      zoom: 15
+      zoom: 17
     })
-    let index = findLastIndex(this.state.markers, function (m) { 
-      return m._latlng.lat == latitude && m._latlng.lng == longitude })
-    console.log("index", index)
-    if (index > -1) {
-      console.log("openPopup", this.state.markers[index])
-      this.state.markers[index].openPopup()
-    }
+    // let index = findLastIndex(this.state.markers, function (m) { 
+    //   return m._latlng.lat == latitude && m._latlng.lng == longitude })
+    // console.log("index", index)
+    // if (index > -1) {
+    //   console.log("openPopup", this.state.markers[index])
+    //   this.state.markers[index].openPopup()
+    // }
   }
   onSelectMarkers (newMarker) {
     this.setState((previousState) => {
